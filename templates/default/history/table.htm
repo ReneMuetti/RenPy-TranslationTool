@@ -1,0 +1,75 @@
+<table id="index-info-table">
+    <colgroup>
+        <col style="width: 100px;">
+        <col style="width: 150px;">
+        <col style="width: 125px;">
+        <col style="width: 100px;">
+        <col style="width: 360px;">
+        <col>
+        <col>
+    </colgroup>
+    <thead>
+        <tr>
+            <th><lang history_table_date /></th>
+            <th><lang history_table_username /></th>
+            <th><lang history_table_language /></th>
+            <th><lang history_table_action /></th>
+            <th><lang history_table_filename /> / <lang history_table_uuid /></th>
+            <th><lang history_table_old_string /></th>
+            <th><lang history_table_new_string /></th>
+        </tr>
+        <tr>
+            <th>&nbsp;</th>
+            <th><div class="select-box glass-block-border glass-border"><select name="user" id="user"><var user_options /></select></div></th>
+            <th><div class="select-box glass-block-border glass-border"><select name="language" id="language"><var language_options /></select></div></th>
+            <th><div class="select-box glass-block-border glass-border"><select name="method" id="method"><var method_options /></select></div></th>
+            <th><input type="text" class="glass-block-border glass-border" name="uuid" id="uuid" value="" /></th>
+            <th><input type="text" class="glass-block-border glass-border" name="old-string" id="old-string" value="" /></th>
+            <th><input type="text" class="glass-block-border glass-border" name="new-string" id="new-string" value="" /></th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="7">
+                <div id="table-using">
+                    <div id="table-counter">
+                        <label for="counter"><lang history_table_counter /></label>
+                        <div class="select-box glass-block-border glass-border">
+                            <select name="counter" id="counter">
+                                <option vlaue="10" selected>10</option>
+                                <option vlaue="10">20</option>
+                                <option vlaue="10">50</option>
+                                <option vlaue="10">100</option>
+                            </select>
+                        </div>
+                        <div class="element-block">
+                            <button class="button glass-border" onclick="updateHistoryTable(this);"><lang history_table_apply_filter /></button>
+                        </div>
+                        <div class="element-block">
+                            <button class="button glass-border" onclick="resetFilter();"><lang history_table_reset_filter /></button>
+                        </div>
+                    </div>
+                    <div id="table-pager">
+                        <input type="hidden" name="start-id" id="start-id" value="" />
+                        <input type="hidden" name="end-id" id="end-id" value="" />
+                        <input type="hidden" name="max-count" id="max-count" value="" />
+                        <div id="pager-grid">
+                            <div id="pager-back" class="glass-block-border glass-border no-click">&#9668;</div>
+                            <div class="select-box glass-block-border glass-border">
+                                <select name="pager" id="pager">
+                                </select>
+                            </div>
+                            <div id="pager-forward" class="glass-block-border glass-border">&#9658;</div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<script>
+    let strPleaseSelect = "<lang global_option_actions_select />";
+</script>
+<script src="<var_config baseurl />skin/js/history.js"></script>

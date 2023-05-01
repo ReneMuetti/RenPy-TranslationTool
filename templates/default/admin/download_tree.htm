@@ -1,0 +1,50 @@
+<div class="flex-3">
+    <div class="translation-block glass-block-border glass-border" style="margin: 30px 0 0 30px; padding: 20px;">
+        <div class="glass-block">
+            <h2><lang translation_details_topic /></h2>
+            <div class="select-box glass-block-border glass-border" style="max-width: 300px;">
+                <select id="download-language" onchange="resetDownloadInformation(); resetDownloadElement();">
+                    <option value=""><lang global_option_actions_select /></option>
+                    <option value="0"><lang translation_download_all_translation_language /></option>
+                    <var language_options />
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="translation-block glass-block-border glass-border" style="margin: 30px 0 0 30px; padding: 20px;">
+        <div class="glass-block">
+            <h2><lang translation_download_filetype /></h2>
+            <div class="select-box glass-block-border glass-border" style="max-width: 300px;">
+                <select id="download-selected">
+                    <option value=""><lang global_option_actions_select /></option>
+                    <option value="xliff"><lang translation_download_filetype_xliff /></option>
+                    <option value="rpy"><lang translation_download_filetype_rpy /></option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="translation-block glass-block-border glass-border" style="margin: 30px 0 0 30px; padding: 20px;">
+        <div class="glass-block">
+            <h2><lang translation_download_massaction /></h2>
+            <div class="element-block">
+                <input type="hidden" name="export-dir" id="export-dir" value="" />
+                <button class="button glass-border" style="max-width:100%;" onclick="downloadMassAction();"><lang translation_download_export_and_download /></button>
+            </div>
+            <div class="element-block" id="download-block" style="display:none;">
+                <a class="button" id="zip-download" href=""></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let messageNoTypeSelect = "<lang translation_download_no_filetype_select />";
+    let messageNoLanguageSelect = "<lang translation_download_no_language_select />";
+    let messageNoExportDirectorySelect = "<lang translation_download_no_export_directory />";
+</script>
+
+<ul id="download-tree">
+    <var game_file_tree />
+</ul>

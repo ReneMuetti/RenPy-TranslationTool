@@ -1,0 +1,54 @@
+<div class="flex-3">
+    <div class="glass-block-border glass-border">
+        <div class="glass-block">
+            <h2><lang translation_upload_xliff /></h2>
+            <form id="xlif-file" enctype="multipart/form-data" method="post">
+                <input type="hidden" name="currstep" id="currstep" value="0" />
+                <input type="hidden" name="nexstep" id="nexstep" value="1" />
+                <input type="hidden" name="directory" id="directory" value="" />
+                <input type="hidden" name="translation" id="translation" value="" />
+                <div class="elment-block">
+                    <input type="file" name="xliff" id="xliff" accept=".xliff" />
+                </div>
+                <div class="elment-block">
+                    <input type="submit" value="<lang translation_upload_button />" class="glass-border" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="glass-block-border glass-border">
+        <div class="glass-block">
+            <h2><lang translation_upload_options /></h2>
+            <div class="checkbox-element">
+                <input type="checkbox" id="process-translations"><span><lang translation_upload_option_save_import_translations /></span>
+            </div>
+            <br />
+            <div class="checkbox-element">
+                <input type="checkbox" ><span>xx</span>
+            </div>
+        </div>
+    </div>
+    <div class="glass-block-border glass-border">
+        <div class="glass-block">
+            <h2><lang translation_remove_duplicates_from_translation /></h2>
+            <div class="elment-block">
+                <lang translation_remove_duplicates_from_translation_info />
+                <script>
+                    let foundIds = '';
+                </script>
+            </div>
+            <div class="elment-block button-flex">
+                <button class="button" onclick="searchDoublicateTranslations()"><lang translation_search_duplicates /></button>
+                <button class="button" onclick="deleteDoublicateTranslations()"><lang translation_delete_duplicates /></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="glass-block-border glass-border">
+    <div class="glass-block">
+        <div id="protocol-container">
+            <div id="protocol"></div>
+        </div>
+    </div>
+</div>

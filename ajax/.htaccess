@@ -1,0 +1,3 @@
+<IfModule mod_env.c>
+   SetEnv PHPRC /var/www/vhosts/info-panel.net/bbas.info-panel.net/.user.ini
+</IfModule>

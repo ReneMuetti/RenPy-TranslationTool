@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language>
+    <app_name>BBAS</app_name>
+    <page_titles>
+        <index>Домашняя страница</index>
+        <login>Логин</login>
+        <register>Регистрация</register>
+        <account>Аккаунт</account>
+        <admin_accounts>Управление учетными записями</admin_accounts>
+        <admin_language>Управление языками</admin_language>
+        <admin_translation>Управление переводами</admin_translation>
+        <admin_download>Скачать переводы</admin_download>
+    </page_titles>
+    <global>
+        <option_actions_select>- Пожалуйста, выберите -</option_actions_select>
+        <status_yes>Да</status_yes>
+        <status_no>Нет</status_no>
+        <close>Закрыть</close>
+        <no_account_data>данные учетной записи не найдены!</no_account_data>
+        <unkonwn_action>Ошибка!! Неизвестное действие!</unkonwn_action>
+        <upload_error_0>Ошибок нет, файл успешно загружен</upload_error_0>
+        <upload_error_1>Загруженный файл превышает директиву upload_max_filesize в php.ini</upload_error_1>
+        <upload_error_2>Загруженный файл превышает директиву MAX_FILE_SIZE, которая была указана в HTML-форме</upload_error_2>
+        <upload_error_3>Загруженный файл был загружен только частично</upload_error_3>
+        <upload_error_4>Ни один файл не был загружен</upload_error_4>
+        <upload_error_5>Неизвестная ошибка загрузки</upload_error_5>
+        <upload_error_6>Отсутствует временная папка</upload_error_6>
+        <upload_error_7>Не удалось записать файл на диск</upload_error_7>
+        <upload_error_8>Расширение PHP остановило загрузку файла</upload_error_8>
+    </global>
+    <languages>
+        <us>Английский</us>
+        <de>Немецкий</de>
+        <ru>Русский</ru>
+        <fr>Французский</fr>
+        <it>Итальянский</it>
+        <cn>Китайский</cn>
+        <sk>Словацкий</sk>
+        <es>Испанский</es>
+    </languages>
+    <navigation>
+        <index>Индекс</index>
+        <status>Статус</status>
+        <translate>Перевод</translate>
+        <details>Подробности</details>
+	    <history>История</history>
+        <account>Аккаунт</account>
+        <logout>Выйти</logout>
+        <admin>Администрирование</admin>
+        <admin_accounts>Управление учетными записями</admin_accounts>
+        <admin_language>Управление языками</admin_language>
+        <admin_translation>Управление переводами</admin_translation>
+	    <admin_download>Скачать переводы</admin_download>
+    </navigation>
+    <admin>
+        <confirmed>Подтвержден</confirmed>
+        <pending>Ожидаемый</pending>
+
+        <user_status>Статус</user_status>
+        <user_enable>Включен</user_enable>
+        <user_admin>Администратор</user_admin>
+
+        <table_account_id>ID</table_account_id>
+        <table_account_username>Имя пользователя</table_account_username>
+        <table_account_added>Добавлен</table_account_added>
+        <table_account_status>Статус</table_account_status>
+        <table_account_enabled>Включен</table_account_enabled>
+        <table_account_action>Действие</table_account_action>
+        <table_account_empty>учетная запись пользователя недоступна или список не удалось загрузить</table_account_empty>
+    </admin>
+    <language>
+        <new_language>добавить новый язык</new_language>
+        <new_language_save_close>Сохранить и закрыть</new_language_save_close>
+        <new_language_code>новый языковой код (ISO)</new_language_code>
+        <unknown_action>Неизвестное действие!</unknown_action>
+        <code_error>Неверный код языка!</code_error>
+        <code_unknown>Неизвестный языковой код!</code_unknown>
+        <insert_error>Язык не может быть создан!</insert_error>
+        <allready_exists>Этот язык уже существует!</allready_exists>
+    </language>
+    <translation>
+        <upload_xliff>загрузить XLIFF</upload_xliff>
+        <upload_xliff_zip>загрузить ZIP-архив с XLIFF-файлами</upload_xliff_zip>
+	    <upload_options>Варианты обработки</upload_options>
+	    <upload_option_save_import_translations>Сохранить импортированные переводы</upload_option_save_import_translations>
+
+	    <remove_duplicates_from_translation>Удаление дубликатов записей</remove_duplicates_from_translation>
+	    <remove_duplicates_from_translation_info>Поиск и удаление всех дубликатов записей в таблице переводов.</remove_duplicates_from_translation_info>
+	    <no_duplicates_from_translation_found>Дубликатов записей не обнаружено</no_duplicates_from_translation_found>
+	    <total_count_duplicates_from_translation_found>Общее количество дубликатов записей без перевода</total_count_duplicates_from_translation_found>
+	    <count_duplicates_from_translation_found>Дубликаты записей без перевода</count_duplicates_from_translation_found>
+	    <search_duplicates>Поиск дубликатов записей</search_duplicates>
+	    <delete_duplicates>Удалить найденные записи</delete_duplicates>
+	    <ajax_translation_no_ids_for_delete>Не переведены ID</ajax_translation_no_ids_for_delete>
+	    <ajax_translation_ids_not_complete>ID переведены не полностью</ajax_translation_ids_not_complete>
+	    <ajax_translation_delete_ids>Удаленные записи</ajax_translation_delete_ids>
+	    <ajax_translation_faile_delete_ids>Ошибка при удалении записей!</ajax_translation_faile_delete_ids>
+	    <ajax_translation_delete_ids_complete>Удаление записей завершено.</ajax_translation_delete_ids_complete>
+	    <ajax_translation_found_translation_with_md5>Найден перевод с такой же контрольной суммой. Пожалуйста, проверьте!</ajax_translation_found_translation_with_md5>
+	    <ajax_translation_inset_linebrak_manual>Пожалуйста, вставьте все переносы строк вручную!</ajax_translation_inset_linebrak_manual>
+
+        <upload_button>Начать загрузку</upload_button>
+        <xliff_unknown_file>загруженный файл не является файлом XLIFF</xliff_unknown_file>
+        <xliff_uploaded_file_size>XLIFF-Размер файла</xliff_uploaded_file_size>
+        <xliff_uploaded_file_name>XLIFF-Имя файла</xliff_uploaded_file_name>
+        <upload_file_not_found>Загруженный файл не удалось найти!</upload_file_not_found>
+        <upload_dir_create_fail>Каталог загрузки не может быть создан!</upload_dir_create_fail>
+        <moved_upload_file_fail>Файл не удалось загрузить!</moved_upload_file_fail>
+        <moved_upload_file_success>Файл был успешно загружен.</moved_upload_file_success>
+	    <ajax_error_data_failed>Ошибка при чтении данных!</ajax_error_data_failed>
+	    <ajax_translation_not_found>Перевод не найден!</ajax_translation_not_found>
+	    <ajax_translation_error_params>Ошибка параметра при загрузке перевода!</ajax_translation_error_params>
+	    <ajax_translation_save_by_md5>Перевести все одинаковые тексты</ajax_translation_save_by_md5>
+	    <ajax_translation_show_common>показать тексты common.rpy</ajax_translation_show_common>
+	    <ajax_translation_save_and_next>Сохранить и далее</ajax_translation_save_and_next>
+	    <ajax_translation_search_form_empty>Поиск открытых переводов</ajax_translation_search_form_empty>
+	    <ajax_translation_error_uuid>Текст с таким UUID не найден!</ajax_translation_error_uuid>
+	    <ajax_translation_error_insert_database>Не удалось сохранить перевод!</ajax_translation_error_insert_database>
+	    <ajax_translation_success_insert_database>Перевод успешно сохранен.</ajax_translation_success_insert_database>
+	    <ajax_translation_error_translation_exsist>Этот перевод уже есть в базе данных!</ajax_translation_error_translation_exsist>
+	    <ajax_translation_finish>Других текстов для перевода нет.</ajax_translation_finish>
+	    <ajax_translation_open_translation>Осталось перевести</ajax_translation_open_translation>
+	    <ajax_translation_filename>Имя файла</ajax_translation_filename>
+
+	    <translation_identical>Перевод идентичен оригиналу! Сохранение отменено!</translation_identical>
+	    <translation_empty>Перевод пуст! Сохранение отменено!</translation_empty>
+
+	    <details_topic>Выберите язык</details_topic>
+	    <details_placeholder>Выберите язык для отображения подробностей по сценарию</details_placeholder>
+	    <details_ajax_error>Ошибка Ajax</details_ajax_error>
+	    <details_ajax_no_result_for_request>Этот запрос не имеет результата!</details_ajax_no_result_for_request>
+	    <details_ajax_enable_edit>Редактировать</details_ajax_enable_edit>
+	    <details_ajax_button_save>Сохранить</details_ajax_button_save>
+	    <details_ajax_no_translation_from_id>Перевод с таким ID не найден!</details_ajax_no_translation_from_id>
+	    <details_ajax_uuid_is_different>Запись имеет неправильный UUID!</details_ajax_uuid_is_different>
+	    <details_ajax_translation_updatet>Перевод был обновлен</details_ajax_translation_updatet>
+	    <details_ajax_updatet_datetime>Обновленный</details_ajax_updatet_datetime>
+
+	    <download_all_translation_language>все переводы (только XLIFF)</download_all_translation_language>
+	    <download_filetype>Выберите тип файла для экспорта</download_filetype>
+	    <download_filetype_xliff>Скачать в формате XLIFF</download_filetype_xliff>
+	    <download_filetype_rpy>Скачать в формате PRY</download_filetype_rpy>
+	    <download_no_filetype_select>Тип скачивания не выбран!</download_no_filetype_select>
+	    <download_no_language_select>Не выбран язык скачивания!</download_no_language_select>
+	    <download_no_no_valid_filetype>Указанный тип скачивания недействителен!</download_no_no_valid_filetype>
+	    <download_massaction>скачать все (только для RPY)</download_massaction>
+	    <download_export_and_download>Экспорт и загрузка файлов</download_export_and_download>
+
+	    <export_dir_create_fail>Невозможно создать каталог экспорта!</export_dir_create_fail>
+	    <download_no_export_directory>Не указан каталог экспорта!</download_no_export_directory>
+	    <download_zip_link>Ссылка на скачивание</download_zip_link>
+    </translation>
+    <xliff>
+        <current_dir_is_empty>Текущий каталог пуст!</current_dir_is_empty>
+        <xml_parser_error>Ошибка XML при разборе файла XLIFF</xml_parser_error>
+        <found_records>Найденные записи</found_records>
+        <import_done>Импорт завершен.</import_done>
+	    <import_count_general>new general</import_count_general>
+	    <update_count_general>update general</update_count_general>
+        <import_count_strings>новые строки</import_count_strings>
+        <import_count_update>обновленные строки</import_count_update>
+        <import_count_translations>новые переводы</import_count_translations>
+	    <import_count_update_translation>обновленные переводы</import_count_update_translation>
+	    <import_processing_translation>Обработка переводов</import_processing_translation>
+	    <import_count_string_disable>Отключенные переводы</import_count_string_disable>
+
+	    <check_xliff_has_no_uuids>Загруженный файл XLIFF не содержит записей UUID!</check_xliff_has_no_uuids>
+	    <check_xliff_has_dublicate_uuids>Загруженный файл XLIFF содержит дубликаты UUID!</check_xliff_has_dublicate_uuids>
+	    <check_xliff_has_dublicate_uuids_count>Количество дубликатов UUID</check_xliff_has_dublicate_uuids_count>
+	    <check_xliff_has_dublicate_uuids_list>Список дубликатов UUID</check_xliff_has_dublicate_uuids_list>
+	    <check_xliff_has_no_dublicate_uuids>Загруженный файл XLIFF не содержит дубликаты UUID</check_xliff_has_no_dublicate_uuids>
+	    <check_xliff_found_uuid_in_database>UUID, найденный в базе данных</check_xliff_found_uuid_in_database>
+	    <check_xliff_found_uuid_file_id>текущий языковой файл</check_xliff_found_uuid_file_id>
+	    <check_xliff_found_uuid_file_database>Файл в базе данных</check_xliff_found_uuid_file_database>
+	    <check_xliff_found_uuid_label>Label</check_xliff_found_uuid_label>
+	    <check_xliff_found_uuid_linenumber>Номер строки</check_xliff_found_uuid_linenumber>
+	    <check_xliff_found_uuid_filename>Имя файла</check_xliff_found_uuid_filename>
+	    <check_xliff_database_check_no_dublicate_uuids>в базе данных не найдено ни одного UUID из текущего файла</check_xliff_database_check_no_dublicate_uuids>
+	    <check_xliff_database_check_found_dublicate_uuids>UUID текущего файла, найденные в базе данных</check_xliff_database_check_found_dublicate_uuids>
+
+	    <no_file_tree_data_found>Для дерева файлов не найдено никаких данных!</no_file_tree_data_found>
+	    <ajax_download_parameter_failed>Ошибка параметра!</ajax_download_parameter_failed>
+
+	    <export_mass_directory_fail>Ошибка при установке каталога массового экспорта!</export_mass_directory_fail>
+    </xliff>
+    <login_page>
+        <label_username>Имя пользователя</label_username>
+        <label_password>Пароль</label_password>
+        <label_password_confirm>Повторите пароль</label_password_confirm>
+        <label_email>Адрес электронной почты</label_email>
+        <label_login_button>Войти</label_login_button>
+        <label_register_button>Зарегистрировать</label_register_button>
+
+        <login_register_string>У вас нет учетной записи?</login_register_string>
+        <login_error_title>Сообщение об ошибке входа в систему</login_error_title>
+        <register_error_title>Регистрация не удалась</register_error_title>
+        <register_success_title>Регистрация завершена</register_success_title>
+        <register_success_message>Регистрация завершена.</register_success_message>
+        <register_success_info>Свяжитесь с командой, чтобы активировать свою учетную запись.</register_success_info>
+
+        <error_1>Пользователь не найден или учетная запись неактивна!</error_1>
+        <error_2>имя пользователя не установлено!</error_2>
+        <error_3>пароль не установлен!</error_3>
+        <error_4>Информация о безопасности недействительна!</error_4>
+        <error_5>Хэш-ключ недоступен!</error_5>
+        <error_6>Обнаружено несколько данных безопасности!</error_6>
+        <error_7>Не удалось установить данные безопасности!</error_7>
+        <error_8>Не удалось войти в систему!</error_8>
+        <error_9>пользовательские данные не найдены!</error_9>
+        <error_10>Учетная запись пользователя не активна.</error_10>
+        <error_11>Учетная запись пользователя не подтверждена.</error_11>
+        <error_12>Не удалось подтвердить безопасность входа в систему.</error_12>
+
+        <error_register_username_empty>Имя пользователя не было указано!</error_register_username_empty>
+        <error_register_passwort_not_equal>Пароли не установлены или не совпадают!</error_register_passwort_not_equal>
+        <error_register_email_empty>Адрес электронной почты не указан!</error_register_email_empty>
+    </login_page>
+    <profile>
+        <title_info>Пользователь</title_info>
+        <title_translation>Переводы</title_translation>
+        <username>Имя пользователя</username>
+        <email>Адрес электронной почты</email>
+        <language>Язык</language>
+        <admin>Администратор</admin>
+        <enabled>Включен</enabled>
+        <status>Статус</status>
+
+        <ajax_translation_view>Смотреть</ajax_translation_view>
+        <ajax_translation_edit>Редактировать</ajax_translation_edit>
+
+        <title_password>Пароль</title_password>
+        <password>Пароль</password>
+        <password_confirm>Повторите пароль</password_confirm>
+
+        <title_account>Счет</title_account>
+        <added>Добавлен</added>
+        <last_login>последний вход в систему</last_login>
+        <last_access>последний доступ</last_access>
+
+        <title_language>Язык</title_language>
+        <gui_language>Язык интерфейса</gui_language>
+
+        <save>Сохранить</save>
+        <back>Возврат</back>
+
+        <change_title>Настройка обновлена</change_title>
+        <change_text>Поле будет обновлено</change_text>
+        <error_password_not_equal>Введенные пароли не совпадают!</error_password_not_equal>
+        <error_no_change_data>Никакие данные не были изменены!</error_no_change_data>
+        <error_profile_update>Ошибка при обновлении профиля!</error_profile_update>
+        <success_profile_update>Профиль был успешно обновлен.</success_profile_update>
+        <success_profile_deleted>Профиль был успешно удален.</success_profile_deleted>
+        <error_profile_cannot_deleted>Этот профиль не может быть удален!</error_profile_cannot_deleted>
+    </profile>
+    <index>
+        <info_table_username>Имя пользователя</info_table_username>
+        <info_table_language_count>Языки</info_table_language_count>
+        <info_table_org_string_count>Текстовые строки</info_table_org_string_count>
+        <info_table_trans_string_count>Всего строк</info_table_trans_string_count>
+        <info_table_translated_count>Переведено</info_table_translated_count>
+        <info_table_translated_percent>Процент</info_table_translated_percent>
+        <info_table_translated_open>нужен перевод</info_table_translated_open>
+        <no_language_seceted><![CDATA[Вы не выбрали язык.<br>Перейдите в свой профиль и выберите хотя бы один язык.]]></no_language_seceted>
+        <language_seceted>Выбраны языки</language_seceted>
+        <language_other>другие языки</language_other>
+    </index>
+	<history>
+	    <table_date>Дата</table_date>
+	    <table_username>Имя пользователя</table_username>
+	    <table_language>Язык</table_language>
+	    <table_action>Действие</table_action>
+	    <table_uuid>UUID</table_uuid>
+	    <table_filename>имя файла</table_filename>
+	    <table_old_string>старая строка</table_old_string>
+	    <table_new_string>новая строка</table_new_string>
+	    <insert>вставить</insert>
+	    <update>обновление</update>
+	    <table_counter>Счётчик</table_counter>
+	    <empty_result>результат не найден</empty_result>
+	    <table_apply_filter>Применить фильтр</table_apply_filter>
+	    <table_reset_filter>Сбросить фильтр</table_reset_filter>
+	</history>
+</language>

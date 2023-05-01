@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language>
+    <app_name>BBAS</app_name>
+    <page_titles>
+        <index>Startseite</index>
+        <login>Anmeldung</login>
+        <register>Registrierung</register>
+        <account>Konto</account>
+        <admin_accounts>Accounts verwalten</admin_accounts>
+        <admin_language>Sprachen verwalten</admin_language>
+        <admin_translation>Übersetzungen verwalten</admin_translation>
+        <admin_download>Übersetzungen herunterladen</admin_download>
+    </page_titles>
+	<global>
+		<option_actions_select>- Bitte wählen -</option_actions_select>
+		<status_yes>Ja</status_yes>
+		<status_no>Nein</status_no>
+		<close>Schließen</close>
+		<no_account_data>keine Accountdaten gefunden!</no_account_data>
+		<unkonwn_action>Fehler!! Unbekannte Aktion!</unkonwn_action>
+		<upload_error_0>Es liegt kein Fehler vor, die Datei wurde erfolgreich hochgeladen</upload_error_0>
+		<upload_error_1>Die hochgeladene Datei überschreitet die Richtlinie upload_max_filesize in php.ini</upload_error_1>
+		<upload_error_2>Die hochgeladene Datei überschreitet die im HTML-Formular angegebene Richtlinie MAX_FILE_SIZE</upload_error_2>
+		<upload_error_3>Die hochgeladene Datei wurde nur teilweise hochgeladen</upload_error_3>
+		<upload_error_4>Es wurde keine Datei hochgeladen</upload_error_4>
+		<upload_error_5>Unbekannter Upload-Fehler</upload_error_5>
+		<upload_error_6>Ein temporärer Ordner fehlt</upload_error_6>
+		<upload_error_7>Die Datei konnte nicht auf die Festplatte geschrieben werden</upload_error_7>
+		<upload_error_8>Eine PHP-Erweiterung stoppte den Datei-Upload</upload_error_8>
+	</global>
+	<languages>
+	    <us>English</us>
+	    <de>Deutsch</de>
+	    <ru>Русский</ru>
+	    <fr>Français</fr>
+	    <it>Italiano</it>
+	    <cn>中国</cn>
+	    <sk>Slovenski</sk>
+	    <es>Español</es>
+	</languages>
+	<navigation>
+	    <index>Startseite</index>
+	    <status>Status</status>
+	    <details>Details</details>
+	    <history>Historie</history>
+	    <translate>Übersetzen</translate>
+	    <account>Konto</account>
+	    <logout>Abmelden</logout>
+	    <admin>Administration</admin>
+	    <admin_accounts>Accounts verwalten</admin_accounts>
+	    <admin_language>Sprachen verwalten</admin_language>
+	    <admin_translation>Übersetzungen verwalten</admin_translation>
+	    <admin_download>Übersetzungen herunterladen</admin_download>
+	</navigation>
+	<admin>
+	    <confirmed>Bestätigt</confirmed>
+	    <pending>Unbestätigt</pending>
+
+	    <user_status>Status</user_status>
+	    <user_enable>Aktiviert</user_enable>
+	    <user_admin>Admin</user_admin>
+
+	    <table_account_id>ID</table_account_id>
+	    <table_account_username>Benutzername</table_account_username>
+	    <table_account_added>Beigetreten</table_account_added>
+	    <table_account_status>Status</table_account_status>
+	    <table_account_enabled>Aktiviert</table_account_enabled>
+	    <table_account_action>Aktion</table_account_action>
+	    <table_account_empty>keine Benutzer-Account vorhanden oder die Liste konnte nicht geladen werden</table_account_empty>
+	</admin>
+	<language>
+	    <new_language>neue Sprache hinzufügen</new_language>
+	    <new_language_save_close>Speichern &amp; Schließen</new_language_save_close>
+	    <new_language_code>neuer Sprache-Code (ISO)</new_language_code>
+	    <unknown_action>unbekannte Aktion!</unknown_action>
+	    <code_error>Der Sprachcode ist ungültig!</code_error>
+	    <code_unknown>Unbekannter Sprachcode!</code_unknown>
+	    <insert_error>Die Sprache konnte nicht angelegt werden!</insert_error>
+	    <allready_exists>Diese Sprache existiert bereits!</allready_exists>
+	</language>
+	<translation>
+	    <upload_xliff>XLIFF hochalden</upload_xliff>
+	    <upload_xliff_zip>ZIP mit XLIFF hochalden</upload_xliff_zip>
+	    <upload_options>Verarbeitungsoptionen</upload_options>
+	    <upload_option_save_import_translations>importierte Übersetzungen speichern</upload_option_save_import_translations>
+
+	    <remove_duplicates_from_translation>Doppelte Einträge entfernen</remove_duplicates_from_translation>
+	    <remove_duplicates_from_translation_info>Alle doppelten Einträge in der Übersetzungstabelle suchen und löschen</remove_duplicates_from_translation_info>
+	    <no_duplicates_from_translation_found>Es wurden keine doppelten Einträge gefunden</no_duplicates_from_translation_found>
+	    <total_count_duplicates_from_translation_found>Gesamtzahl der doppelten Einträge ohne Übersetzung</total_count_duplicates_from_translation_found>
+	    <count_duplicates_from_translation_found>Doppelte Einträge ohne Übersetzung</count_duplicates_from_translation_found>
+	    <search_duplicates>Doppelte Einträge suchen</search_duplicates>
+	    <delete_duplicates>Gefundene Einträge löschen</delete_duplicates>
+	    <ajax_translation_no_ids_for_delete>Es wurden keine IDs übertragen</ajax_translation_no_ids_for_delete>
+	    <ajax_translation_ids_not_complete>Die IDs wurde nicht vollständig übertragen!</ajax_translation_ids_not_complete>
+	    <ajax_translation_delete_ids>Gelöschte Datensätze</ajax_translation_delete_ids>
+	    <ajax_translation_faile_delete_ids>Fehler beim Löschen der Datensätze!</ajax_translation_faile_delete_ids>
+	    <ajax_translation_delete_ids_complete>Löschen der Datensätze abgeschlossen.</ajax_translation_delete_ids_complete>
+	    <ajax_translation_found_translation_with_md5>Es wurde eine Übersetzung mit der gleichen Prüfsumme gefunden. Bitte Überprüfen!</ajax_translation_found_translation_with_md5>
+	    <ajax_translation_inset_linebrak_manual>Bitte alle Zeilenumbürche manuell einfügen!</ajax_translation_inset_linebrak_manual>
+
+	    <upload_button>Upload starten</upload_button>
+	    <xliff_unknown_file>die hochgeladene Datei ist keine XLIFF-Datei</xliff_unknown_file>
+	    <xliff_uploaded_file_size>XLIFF-Dateigröße</xliff_uploaded_file_size>
+	    <xliff_uploaded_file_name>XLIFF-Dateiname</xliff_uploaded_file_name>
+	    <upload_file_not_found>Die hochgeladene Datei konnte nicht gefunden werden!</upload_file_not_found>
+	    <upload_dir_create_fail>Das Upload-Verzeichniss kann nicht erstellt werden!</upload_dir_create_fail>
+	    <moved_upload_file_fail>Die Datei konnte nicht hochgeladen werden!</moved_upload_file_fail>
+	    <moved_upload_file_success>Die Datei wurde erfolgreich hochgeladen.</moved_upload_file_success>
+	    <ajax_error_data_failed>Fehler beim einlesen der Daten!</ajax_error_data_failed>
+	    <ajax_translation_not_found>Die Übersetzung wurde nicht gefunden!</ajax_translation_not_found>
+	    <ajax_translation_error_params>Parameterfehler beim Laden der Übersetzung!</ajax_translation_error_params>
+	    <ajax_translation_save_by_md5>alle identischen Texte übersetzen</ajax_translation_save_by_md5>
+	    <ajax_translation_show_common>zeige Texte der common.rpy</ajax_translation_show_common>
+	    <ajax_translation_save_and_next>Speichern &amp; Weiter</ajax_translation_save_and_next>
+	    <ajax_translation_search_form_empty>offene Übersetzungen suchen</ajax_translation_search_form_empty>
+	    <ajax_translation_error_uuid>Es wurde kein Text mit dieser UUID gefunden!</ajax_translation_error_uuid>
+	    <ajax_translation_error_insert_database>Die Übersetzung konnte nich gespeichert werden!</ajax_translation_error_insert_database>
+	    <ajax_translation_success_insert_database>Übersetzung erfolgreich gespeichert.</ajax_translation_success_insert_database>
+	    <ajax_translation_error_translation_exsist>Diese Übersetzung ist bereits in der Datenbank vorhanden!</ajax_translation_error_translation_exsist>
+	    <ajax_translation_finish>Es gibt keine weiteren Texte zum Übersetzen.</ajax_translation_finish>
+	    <ajax_translation_open_translation>noch zu Übersetzen</ajax_translation_open_translation>
+	    <ajax_translation_filename>Dateiname</ajax_translation_filename>
+
+	    <translation_identical>Die Übersetzung ist mit dem Origial identisch! Speichern abgebrochen!</translation_identical>
+	    <translation_empty>Die Übersetzung ist leer! Speichern abgebrochen!</translation_empty>
+
+	    <details_topic>Wähle eine Sprache aus</details_topic>
+	    <details_placeholder>Wähle eine Sprache aus, um die Details je Script anzuzeigen</details_placeholder>
+	    <details_ajax_error>Ajax-Fehler</details_ajax_error>
+	    <details_ajax_no_result_for_request>Diese Anfage hat kein Ergebnis!</details_ajax_no_result_for_request>
+	    <details_ajax_enable_edit>Bearbeiten</details_ajax_enable_edit>
+	    <details_ajax_button_save>Speichern</details_ajax_button_save>
+	    <details_ajax_no_translation_from_id>Es wurde keine Übersetzung mit dieser ID gefunden!</details_ajax_no_translation_from_id>
+	    <details_ajax_uuid_is_different>Der Datensatz hat die falsche UUID!</details_ajax_uuid_is_different>
+	    <details_ajax_translation_updatet>Die Übersetzung wurde aktualisiert</details_ajax_translation_updatet>
+	    <details_ajax_updatet_datetime>Aktualisiert</details_ajax_updatet_datetime>
+
+	    <download_all_translation_language>alle Übersetzungen (nur XLIFF)</download_all_translation_language>
+	    <download_filetype>Dateityp für den Export auswählen</download_filetype>
+	    <download_filetype_xliff>Download als XLIFF</download_filetype_xliff>
+	    <download_filetype_rpy>Download als PRY</download_filetype_rpy>
+	    <download_no_filetype_select>Es wurde kein Download-Typ gesetzt!</download_no_filetype_select>
+	    <download_no_language_select>Es wurde keine Sprache zum Downlaod gesetzt!</download_no_language_select>
+	    <download_no_no_valid_filetype>Der angegebene Download-Typ ist ungültig!</download_no_no_valid_filetype>
+	    <download_massaction>alles herunterladen (nur RPY)</download_massaction>
+	    <download_export_and_download>Dateien erstellen und herunterladen</download_export_and_download>
+
+	    <export_dir_create_fail>Das Export-Verzeichnis kann nicht erstellt werden!</export_dir_create_fail>
+	    <download_no_export_directory>Es wurde kein Export-Verzeichnis angegeben!</download_no_export_directory>
+	    <download_zip_link>Download-Link</download_zip_link>
+	</translation>
+	<xliff>
+	    <current_dir_is_empty>Das aktuelle Verzeichniss ist leer!</current_dir_is_empty>
+	    <xml_parser_error>XML-Fehler beim Parsen der XLIFF-Datei</xml_parser_error>
+	    <found_records>Gefundene Records</found_records>
+	    <import_done>Der Import ist abgeschlossen.</import_done>
+	    <import_count_general>neue Haupt-Texte</import_count_general>
+	    <update_count_general>aktualisierte Haupt-Texte</update_count_general>
+	    <import_count_strings>neue Texte</import_count_strings>
+	    <import_count_update>aktualisierte Texte</import_count_update>
+	    <import_count_translations>neue Übersetzungen</import_count_translations>
+	    <import_count_update_translation>aktualisierte Übersetzungen</import_count_update_translation>
+	    <import_processing_translation>Übersetzungen verarbeiten</import_processing_translation>
+	    <import_count_string_disable>Deaktivierte Übersetzungen</import_count_string_disable>
+
+	    <check_xliff_has_no_uuids>Die hochgelade XLIFF-Datei hat keine UUID-Einträge!</check_xliff_has_no_uuids>
+	    <check_xliff_has_dublicate_uuids>Die hochgelade XLIFF-Datei hat doppelte UUIDs!</check_xliff_has_dublicate_uuids>
+	    <check_xliff_has_dublicate_uuids_count>Anzahl der doppelten UUIDs</check_xliff_has_dublicate_uuids_count>
+	    <check_xliff_has_dublicate_uuids_list>Liste der doppelten UUIDs</check_xliff_has_dublicate_uuids_list>
+	    <check_xliff_has_no_dublicate_uuids>Die hochgelade XLIFF-Datei hat keine doppelten UUIDs</check_xliff_has_no_dublicate_uuids>
+	    <check_xliff_found_uuid_in_database>UUID in der Datenbank gefunden</check_xliff_found_uuid_in_database>
+	    <check_xliff_found_uuid_file_id>aktuelle Sprache-Datei</check_xliff_found_uuid_file_id>
+	    <check_xliff_found_uuid_file_database>Datei in der Datenbank</check_xliff_found_uuid_file_database>
+	    <check_xliff_found_uuid_label>Label</check_xliff_found_uuid_label>
+	    <check_xliff_found_uuid_linenumber>Zeilennummer</check_xliff_found_uuid_linenumber>
+	    <check_xliff_found_uuid_filename>Dateiname</check_xliff_found_uuid_filename>
+	    <check_xliff_database_check_no_dublicate_uuids>keine UUIDs aus der aktuellen Datei in der Datenbank gefunden</check_xliff_database_check_no_dublicate_uuids>
+	    <check_xliff_database_check_found_dublicate_uuids>UUIDs aus der aktuellen Datei in der Datenbank gefunden</check_xliff_database_check_found_dublicate_uuids>
+
+	    <no_file_tree_data_found>Es wurden keine Daten für den Dateibaum gefunden!</no_file_tree_data_found>
+	    <ajax_download_parameter_failed>Parameter-Fehler!</ajax_download_parameter_failed>
+
+	    <export_mass_directory_fail>Fehler beim setzen des Massen-Export-Verzeichniss!</export_mass_directory_fail>
+	</xliff>
+	<login_page>
+	    <label_username>Benutzername</label_username>
+	    <label_password>Passwort</label_password>
+	    <label_password_confirm>Passwort wiederholen</label_password_confirm>
+	    <label_email>E-Mail-Adresse</label_email>
+	    <label_login_button>Anmelden</label_login_button>
+	    <label_register_button>Registrieren</label_register_button>
+
+	    <login_register_string>Du hast noch kein Konto?</login_register_string>
+	    <login_error_title>Login-Fehlermeldung</login_error_title>
+	    <register_error_title>Registrierung fehlgeschlagen</register_error_title>
+	    <register_success_title>Registrierung abgeschlossen</register_success_title>
+	    <register_success_message>Die Registrierung istr abgeschlossen.</register_success_message>
+	    <register_success_info>Melde Dich beim Team, damit dein Account aktiviert wird.</register_success_info>
+
+	    <error_1>Benutzer nicht gefunden oder der Account ist inaktiv!</error_1>
+	    <error_2>kein Benutzername gesetzt!</error_2>
+	    <error_3>kein Passwort gesetzt!</error_3>
+	    <error_4>Die Sicherheitsinformationen stimmen sind ungültig!</error_4>
+	    <error_5>Hash-Key nicht vorhanden!</error_5>
+	    <error_6>Mehrfach-Sicherheitsdaten erkannt!</error_6>
+	    <error_7>Sicherheitsdaten konnten nicht gesetzt werden!</error_7>
+	    <error_8>Anmeldung fehlgeschlagen!</error_8>
+	    <error_9>keine Benutzerdaten gefunden!</error_9>
+	    <error_10>Der Benutzer-Account ist nicht aktiv.</error_10>
+	    <error_11>Der Benutzer-Account ist nicht bestätigt.</error_11>
+	    <error_12>Die Login-Sicherheit konnte nicht bestätig werden.</error_12>
+
+	    <error_register_username_empty>Es wurde kein Benutzername angegeben!</error_register_username_empty>
+	    <error_register_passwort_not_equal>Passwörter nicht gesetzt oder stimmen nicht überein!</error_register_passwort_not_equal>
+	    <error_register_email_empty>Keine E-Mail-Adresse angegeben!</error_register_email_empty>
+	</login_page>
+	<profile>
+	    <title_info>Benutzer</title_info>
+	    <title_translation>Übersetzungen</title_translation>
+	    <username>Benutzername</username>
+	    <email>E-Mail-Adresse</email>
+	    <language>Sprache</language>
+	    <admin>Admin</admin>
+	    <enabled>Aktiviert</enabled>
+	    <status>Status</status>
+
+	    <ajax_translation_view>Anzeigen</ajax_translation_view>
+	    <ajax_translation_edit>Bearbeiten</ajax_translation_edit>
+
+	    <title_password>Passwort</title_password>
+	    <password>Passwort</password>
+	    <password_confirm>Passwort wiederholen</password_confirm>
+
+	    <title_account>Konto</title_account>
+	    <added>Beigetreten</added>
+	    <last_login>letzte Anmeldung</last_login>
+	    <last_access>letzter Zugriff</last_access>
+
+	    <title_language>Sprache</title_language>
+	    <gui_language>Sprache der Oberfläche</gui_language>
+
+	    <save>Speichern</save>
+	    <back>Zurück</back>
+
+	    <change_title>Einstellung aktualisiert</change_title>
+	    <change_text>Das Feld wird aktualisiert</change_text>
+	    <error_password_not_equal>Die eingegebenen Passwörter sind nicht gleich!</error_password_not_equal>
+	    <error_no_change_data>Es wurden keine Daten verändert!</error_no_change_data>
+	    <error_profile_update>Fehler beim aktualisieren des Profiles!</error_profile_update>
+	    <success_profile_update>Das Profil wurde erfolgreich aktualisiert.</success_profile_update>
+	    <success_profile_deleted>Das Profil wurde erfolgreich gelöscht.</success_profile_deleted>
+	    <error_profile_cannot_deleted>Dieses Profil kann nicht gelöscht werden!</error_profile_cannot_deleted>
+	</profile>
+	<index>
+	    <info_table_username>Benutzername</info_table_username>
+	    <info_table_language_count>Sprachen</info_table_language_count>
+	    <info_table_org_string_count>Textzeilen</info_table_org_string_count>
+	    <info_table_trans_string_count>Gesamtzeilen</info_table_trans_string_count>
+	    <info_table_translated_count>Übersetzt</info_table_translated_count>
+	    <info_table_translated_percent>Prozent</info_table_translated_percent>
+	    <info_table_translated_open>zu Übersetzen</info_table_translated_open>
+	    <no_language_seceted><![CDATA[Du hast keine Sprache ausgewählt.<br />Gehe in dein Profil und wähle mindestens eine Sprache aus.]]></no_language_seceted>
+	    <language_seceted>ausgewählte Sprachen</language_seceted>
+	    <language_other>andere Sprachen</language_other>
+	</index>
+	<history>
+	    <table_date>Datum</table_date>
+	    <table_username>Username</table_username>
+	    <table_language>Sprache</table_language>
+	    <table_action>Aktion</table_action>
+	    <table_uuid>UUID</table_uuid>
+	    <table_filename>Dateiname</table_filename>
+	    <table_old_string>alter Text</table_old_string>
+	    <table_new_string>neuer Text</table_new_string>
+	    <insert>Eingefügt</insert>
+	    <update>Aktualisiert</update>
+	    <table_counter>Anzahl</table_counter>
+	    <empty_result>keine Ergebnisse vorhanden</empty_result>
+	    <table_apply_filter>Filter anwenden</table_apply_filter>
+	    <table_reset_filter>Filter zurücksetzen</table_reset_filter>
+	</history>
+</language>

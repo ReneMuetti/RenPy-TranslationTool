@@ -1,0 +1,142 @@
+table .status {
+    display: grid;
+}
+
+.col-account-id {
+    width: 80px;
+}
+.col-account-date {
+    width: 300px;
+}
+.col-account-state {
+   width: 250px;
+}
+.col-account-action {
+   width: 150px;
+}
+
+.account-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 25px;
+}
+.account-actions a {
+    text-decoration: none;
+}
+.account-edit-link {}
+.account-disable-link {}
+
+#new-language {
+    font-weight: 900;
+    font-size: 4rem;
+    padding-top: 15px;
+    cursor: pointer;
+}
+.lang-list {
+    display: flex;
+    padding: 20px;
+}
+.lang-block {
+    display: initial;
+    max-width: 160px;
+    height: 125px;
+    flex: 1;
+    text-align: center;
+    margin: 0 20px 20px 0;
+    padding: 7px;
+}
+.lang-block:hover {
+    outline: 3px solid var(--rgba-color-dark-03);
+}
+
+#protocol-container {
+    height: calc(100vh - 420px);
+    padding: 20px;
+}
+#protocol {
+    position: relative;
+    box-sizing: border-box;
+    background: var( --protocol-background-color);
+    border: 3px solid transparent;
+    border-radius: 1em;
+
+    height: 100%;
+    width: 100%;
+    padding: 15px;
+    overflow-y: auto;
+    overflow-x: clip;
+}
+#protocol:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -6px;
+    border-radius: inherit;
+    background: linear-gradient(to right, red, orange);
+}
+#protocol > div {
+    padding: 5px;
+}
+#protocol > div:hover {
+    background: var(--background-color-dark);
+}
+#protocol > div:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+#download-tree {
+    background-color: var(--navbar-link-active-color);
+    margin: 30px;
+    padding: 10px;
+    max-width: 1500px;
+    column-count: 3;
+}
+#download-tree li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+#download-tree li:first-child {
+    border-top: 1px solid var(--navbar-dark-color);
+}
+#download-tree li:not(:last-child) {
+    border-bottom: 1px solid var(--navbar-dark-color);
+}
+#download-tree li > span {
+    background-color: var(--navbar-link-active-color);
+    padding: 11px;
+    display: flex;
+    position: relative;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+#download-tree li > span.file:hover {
+    background-color: var(--navbar-link-hover-color);
+    cursor: pointer;
+}
+#download-tree li > span.file:after {
+    border-left: 1px solid var(--navbar-dark-color);
+    text-align: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    line-height: 40px;
+    /* https://www.htmlsymbols.xyz/arrow-symbols */
+    content: "\2935";
+}
+#download-tree li > span.file span {
+    position: absolute;
+    right: 50px;
+    color: var(--color-okay-font);
+    font-size: 14px;
+    background-color: var(--color-okay-back);
+}
+#download-tree li > ul {
+    padding-left: 20px;
+}

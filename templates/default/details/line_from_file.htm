@@ -1,0 +1,18 @@
+<div class="details-block glass-block-border glass-border">
+    <img src="<var char_image />" />
+    <div class="details-data">
+        <input type="hidden" name="original-<var translate_id />" id="original-<var translate_id />" value="<var original_id />" />
+        <input type="hidden" name="uuid-<var translate_id />" id="uuid-<var translate_id />" value="<var uuid />" />
+        <div class="details-header">
+            <input type="checkbox" class="simple" name="edit-<var translate_id />" id="edit-<var translate_id />" onclick="toggleEditTranslation(<var translate_id />);" />
+            <label for="edit-<var translate_id />"><lang translation_details_ajax_enable_edit /></label>
+            <button id="save-button-<var translate_id />" style="display:none;" onclick="saveChangedData(<var translate_id />);"><lang translation_details_ajax_button_save /></button>
+            <span id="message-<var translate_id />"></span>
+        </div>
+        <div class="elment-block">
+            <div id="source-<var translate_id />" class="pseudo-input"><var source_text /></div>
+            <div id="translate-<var translate_id />" class="pseudo-input"><var translate_text /></div>
+            <textarea name="input-<var translate_id />" id="input-<var translate_id />" style="display:none;" /><var translate_text /></textarea>
+        </div>
+    </div>
+</div>

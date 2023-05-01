@@ -1,0 +1,28 @@
+<div class="lang-list">
+    <var curr_lang_list />
+        
+    <div id="new-language" class="lang-block glass-block-border glass-border">
+        <span>+</span>
+    </div>
+</div>
+
+<div id="popup-overlay" class="popup-overlay">
+    <div class="popup glass-block-border glass-border">
+        <h2><lang language_new_language /></h2>
+        <a class="close" href="javascript:void(0)" onclick="closeLanguagePopup()" title="<lang global_close />">&times;</a>
+        <div class="content">
+            <div class="glass-block">
+                <div class="elment-block">
+                    <label for="lng-code"><lang language_new_language_code /></label>
+                    <input type="text" class="glass-border" id="lng-code" name="lng-code" placeholder="<lang language_new_language_code />" value="" maxlength="3" />
+                </div>
+            </div>
+            
+            <div class="glass-block">
+                <div class="elment-block center-content">
+                    <button class="button glass-border" onclick="saveNewLanguage()"><lang language_new_language_save_close /></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

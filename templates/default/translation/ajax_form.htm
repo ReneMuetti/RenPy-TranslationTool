@@ -1,0 +1,37 @@
+<div class="translation-block glass-block-border glass-border">
+    <div class="glass-block">
+        <div class="source-view-grid elment-block">
+            <img id="pre-person-emote" class="glass-block-border glass-border" src="<var_config baseurl />skin/images/default.png" />
+            <div id="pre-source-sting" class="pseudo-input"></div>
+        </div>
+    </div>
+</div>
+<div class="translation-block glass-block-border glass-border">
+    <div class="glass-block">
+        <div id="source-language">
+            <input type="hidden" id="source-file" value="" />
+            <input type="hidden" id="general-id" value="" />
+            <input type="hidden" id="original-id" value="" />
+            <input type="hidden" id="uuid" vlaue="" />
+            <input type="hidden" id="desitnation-langs" value="<var dest_langs />" />
+            <input type="hidden" id="show-langs" value="<var show_langs />" />
+
+            <div class="source-view-grid elment-block">
+                <img id="person-emote" class="glass-block-border glass-border" src="" />
+                <div id="source-sting" class="pseudo-input"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<var save_block />
+<div id="translation-result" class="translation-block glass-block-border glass-border">
+    <div class="glass-block">
+        <var trans_blocks />
+    </div>
+</div>
+<script>
+    var languageSeperator = "<var current_lang_sepeartor />";
+    var alertTranslationIdentical = "<lang translation_translation_identical />";
+    var alertTranslationEmpty = "<lang translation_translation_empty />";
+</script>
+<script src="<var_config baseurl />skin/js/translation.js"></script>

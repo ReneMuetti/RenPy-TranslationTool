@@ -1,0 +1,19 @@
+body {
+    margin           : auto;
+    text-align       : center;
+    background-color : #FF0000;
+}
+
+p {
+    border            : solid 2px #808080;
+    border-top-width  : 1px;
+    border-left-width : 1px;
+    border-top-color  : #C0C0C0;
+    border-left-color : #C0C0C0;
+    margin-left       : 100px;
+    margin-right      : 100px;
+    padding           : 10px;
+    background-color  : #0000FF;
+    color             : #FFFFFF;
+    text-align        : left;
+}

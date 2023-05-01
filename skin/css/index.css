@@ -1,0 +1,272 @@
+section#index {
+    padding: 20px 35px 20px 20px;
+}
+.flex-3 > .translation-block {
+    padding: 20px;
+    margin: 0 !important;
+}
+
+/* Table */
+#index-info-table {
+    background: var(--rgba-color-dark-05);
+}
+#index-info-table th,
+#index-info-table td {
+    border: 1px solid var(--rgba-color-light-05);
+    padding: 5px;
+}
+#index-info-table th:first-child {
+    vertical-align: top;
+    text-align: left;
+}
+#index-info-table th input[type="text"],
+#index-info-table th select {
+    width: 100%;
+    height: 36px;
+    border-radius: 10px;
+    background-color: var(--background-color-light);
+    color: var(--font-color-dark);
+}
+#index-info-table .table-symbol {
+    width: 60px;
+    padding: 5px 15px;
+}
+#index-info-table #table-using,
+#index-info-table #table-counter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px;
+}
+#index-info-table #table-counter label {
+    line-height: 36px;
+    margin-right: 10px;
+}
+#index-info-table #table-counter .element-block {
+    margin-left: 20px;
+}
+#index-info-table #table-counter .button {
+    margin: 0;
+}
+#index-info-table #pager-grid {
+    display: grid;
+    grid-template-columns: 36px 80px 36px;
+    grid-gap: 10px;
+}
+#index-info-table #pager-back,
+#index-info-table #packer-forward {
+    width: 36px;
+    height: 36px;
+    color: var(--font-color-light);
+    justify-content: space-around;
+}
+#index-info-table #pager-back:not(.no-click):hover,
+#index-info-table #pager-forward:not(.no-click):hover {
+    background-color: var(--background-color-light);
+    color: var(--font-color-dark);
+    cursor: pointer;
+}
+#index-info-table ins {
+    background-color: var(--color-okay-back);
+    color: var(--color-okay-font);
+}
+#index-info-table del {
+    background-color: var(--color-fail-back);
+    color: var(--color-fail-font);
+}
+/* End :: Table */
+
+.index-laguage-grid-block,
+.translation-block {
+    padding: 20px 10px;
+}
+.index-laguage-grid-block:not(:last-child),
+.translation-block:not(:last-child) {
+    margin-bottom: 30px;
+}
+.index-laguage-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+.index-block-clickable {
+    cursor: pointer;
+    height: 151px;
+}
+.index-block-clickable:hover {
+    outline: 3px solid var(--rgba-color-dark-05);
+}
+.index-language-block {
+    display: block;
+    flex: 1;
+    padding: 10px 5px 5px 5px;
+    min-width: 410px;
+    max-width: 410px;
+    margin-bottom: 10px;
+    color: var(--font-color-dark);
+}
+.index-language-block:not(:last-child) {
+    margin-right: 20px;
+}
+.index-language-block img {
+    max-width: 100px;
+}
+.index-lang-name {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.index-lang-info {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 5px;
+}
+.index-lang-progress-box {
+    margin-top: 10px;
+    width: calc( 100% - 20px );
+}
+.index-lang-progress-meter {
+    box-sizing: content-box;
+    height: 20px;
+    position: relative;
+    background: var(--background-color-dark);
+    border-radius: 25px;
+    padding: 5px;
+    box-shadow: inset 0 -1px 1px var(--rgba-color-light-03);
+}
+.rgb-bar {
+    /* https://cssgradient.io/ */
+    background-image: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(238,246,40,1) 50%, rgba(0,255,0,1) 100%);
+    mask: linear-gradient(to left, transparent 0%, white 0%);
+    -webkit-mask: linear-gradient(to left, transparent 0%, white 0%);
+
+    display: block;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.translation-block {
+    color: var(--font-color-dark);
+}
+.translation-block .checkbox-element span {
+    position: absolute;
+    left: 150px;
+    top: 12px;
+}
+.translation-button .button {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+}
+#translation-result .elment-block input,
+#translation-result .elment-block textarea,
+#translation-result .elment-block .pseudo-input {
+    background: var(--rgba-color-dark-07);
+    color: var(--font-color-light);
+    font-size: 16px;
+}
+#translation-result .elment-block textarea {
+    width: 100%;
+}
+
+.source-view-grid,
+.destination-view-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 5px;
+}
+.source-view-grid img {
+    width: 125px;
+    height: 125px;
+}
+.destination-view-grid img {
+    width: 80px;
+    height: 80px;
+}
+#translation-status {
+    padding: 4px;
+}
+#translation-status #status {
+    background: var( --protocol-background-color);
+    color: var(--font-color-light);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#details-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.block-caption {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.details-data {
+    height: 100%;
+}
+.details-data .pseudo-input,
+.details-data textarea,
+.details-data input[type='text'] {
+    background: var(--rgba-color-dark-07);
+    color: var(--font-color-light);
+    font-size: 16px;
+}
+.details-data .pseudo-input:first-child {
+    margin-bottom: 10px;
+}
+.details-block {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 5px;
+
+    width: 100%;
+    padding: 10px;
+    position: relative;
+    height: calc(100% - 40px);
+}
+.details-block:not(:last-child) {
+    margin-bottom: 20px;
+}
+.details-block img {
+    width: 125px;
+    height: 125px;
+}
+.details-header {
+    background: var(--rgba-color-dark-02);
+    padding: 5px;
+    margin-bottom: 10px;
+    position: relative;
+}
+.details-header label {
+    color: var(--font-color-dark);
+}
+.details-header button {
+    background: var(--rgba-color-dark-07);
+    color: var(--font-color-light);
+    position: absolute;
+    left: 200px;
+    font-size: 12px;
+    padding: 3px 15px;
+    top: 1px;
+    height: 26px;
+    border: none;
+}
+.details-header button:hover {
+    background: var(--rgba-color-light-02);
+    color: var(--rgba-color-dark-07);
+    outline: 2px solid var(--rgba-color-dark-07);
+    cursor: pointer;
+}
+.details-header span {
+    position: absolute;
+    left: 350px;
+    background: var(--rgba-color-dark-07);
+    color: var(--font-color-light);
+    padding: 2px 5px;
+    top: 3px;
+    height: 22px;
+    width: 280px;
+}
