@@ -535,15 +535,21 @@ class Xliff_Download
         $output = '';
         // recombine translated string for replacement (hope this works :/))
         foreach( $destSegments AS $key => $value ) {
-            $ignorable[$key]['source'] = str_replace('\\\n', $this -> inlineLB, $ignorable[$key]['source']);
+            // check if key is set -- ignorable can have diffent count
+            if ( isset($ignorable[$key]) ) {
+                $ignorable[$key]['source'] = str_replace('\\\n', $this -> inlineLB, $ignorable[$key]['source']);
 
-            if ( $startWithSegment == true ) {
-                $output .= $ignorable[$key]['source'];
-                $output .= $value;
+                if ( $startWithSegment == true ) {
+                    $output .= $ignorable[$key]['source'];
+                    $output .= $value;
+                }
+                else {
+                    $output .= $value;
+                    $output .= $ignorable[$key]['source'];
+                }
             }
             else {
                 $output .= $value;
-                $output .= $ignorable[$key]['source'];
             }
         }
 
