@@ -242,7 +242,7 @@ class Xliff_Download
                     else {
                         // TODO :: better handling for common.rpy
                         if ( $originalFileName == 'common.rpy' ) {
-                            $output[] = $this -> spacer . 'new "' . $this -> _fixedStringForRPY($originalData['comment']) . '"';
+                            $output[] = $this -> spacer . 'new "' . $this -> _fixedStringForRPY($originalData['comment'], false, true) . '"';
                         }
                         else {
                             // missing translation
@@ -499,7 +499,8 @@ class Xliff_Download
 
         // extract the core string, if necessary
         if ( mb_strpos($sourceString, $this -> quoteMask) !== false ) {
-            $coreString = mb_substr($sourceString, mb_strpos($sourceString, $this -> quoteMask) + mb_strlen($this -> quoteMask), 0 - mb_strlen($this -> quoteMask) );
+            $coreString = mb_substr($sourceString, mb_strpos($sourceString, $this -> quoteMask) + mb_strlen($this -> quoteMask));
+            $coreString = mb_substr($coreString, 0, mb_strpos($coreString, $this -> quoteMask));
         }
         else {
             $coreString = $sourceString;
