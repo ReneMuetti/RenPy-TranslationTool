@@ -93,7 +93,7 @@ section#index {
     height: 151px;
 }
 .index-block-clickable:hover {
-    outline: 3px solid var(--rgba-color-dark-05);
+    outline: 3px solid var(--rgba-color-light-05);
 }
 .index-language-block {
     display: block;
@@ -102,7 +102,8 @@ section#index {
     min-width: 410px;
     max-width: 410px;
     margin-bottom: 10px;
-    color: var(--font-color-dark);
+    color: var(--font-color-light);
+    background: var(--rgba-color-dark-05);
 }
 .index-language-block:not(:last-child) {
     margin-right: 20px;
@@ -135,19 +136,16 @@ section#index {
 }
 .rgb-bar {
     /* https://cssgradient.io/ */
-    background-image: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(238,246,40,1) 50%, rgba(0,255,0,1) 100%);
+    background-image: linear-gradient(90deg, var(--rgb-color-bar-red) 0%, var(--rgb-color-bar-yellow) 50%, var(--rgb-color-bar-green) 100%);
     mask: linear-gradient(to left, transparent 0%, white 0%);
     -webkit-mask: linear-gradient(to left, transparent 0%, white 0%);
 
     display: block;
     height: 100%;
     border-radius: 10px;
-    box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 2px 9px var(--rgba-color-light-03), inset 0 -2px 6px var(--rgba-color-dark-04);
 }
 
-.translation-block {
-    color: var(--font-color-dark);
-}
 .translation-block .checkbox-element span {
     position: absolute;
     left: 150px;
@@ -161,8 +159,6 @@ section#index {
 #translation-result .elment-block input,
 #translation-result .elment-block textarea,
 #translation-result .elment-block .pseudo-input {
-    background: var(--rgba-color-dark-07);
-    color: var(--font-color-light);
     font-size: 16px;
 }
 #translation-result .elment-block textarea {

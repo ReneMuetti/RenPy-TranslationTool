@@ -208,11 +208,11 @@ nav a.active {
 .elment-block .pseudo-input,
 .button {
     width: 100%;
-    background: var(--rgba-color-light-02);
+    background: var(--rgba-color-dark-07);
     outline: none;
     padding: 10px 20px;
     border-radius: 7px;
-    color: var(--font-color-dark);
+    color: var(--font-color-light);
     box-shadow: 0 5px 15px var(--rgba-color-dark-01);
 }
 .elment-block textarea {
@@ -309,7 +309,8 @@ input:checked[type="checkbox"]:not(.simple) {
                 inset 0 0 15px var(--rgba-color-dark-02);
 }
 
-input[type="checkbox"]:not(.simple):before, input[type="checkbox"]:not(.simple):after {
+input[type="checkbox"]:not(.simple):before,
+input[type="checkbox"]:not(.simple):after {
     content: "";
     position: absolute;
     width: 80px;
@@ -351,7 +352,7 @@ input:checked[type="checkbox"]:not(.simple):after {
 }
 .flex-2, .flex-3 {
     display: flex;
-    flex: 1;
+    gap: 20px;
 }
 .flex-2:not(:last-child), .flex-3:not(:last-child) {
     margin-bottom: 20px;
@@ -362,11 +363,12 @@ input:checked[type="checkbox"]:not(.simple):after {
     min-width: 300px;
     flex: 1;
 }
-.flex-2 > div:nth-child(2), .flex-3 > div:not(:nth-child(3n+1)) {
-    margin-left: 20px;
+.flex-2 > div:nth-child(2),
+.flex-3 > div:not(:nth-child(3n+1)) {
+    /*margin-left: 20px;*/
 }
 .flex-3 > div {
-    max-width: calc( 34% - 20px );
+    /*max-width: calc( 34% - 20px );*/
 }
 /* End :: Flex-Elements */
 
