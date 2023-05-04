@@ -27,14 +27,15 @@ class LoginLogout
     {
         global $website;
 
-        $this -> registry  = $website;
+        $this -> registry = $website;
+
         $this -> usr = $website -> userinfo;
         $this -> db  = $website -> db;
 
         if ( empty($website -> baseurl) ) {
             $this -> baseurl = "https://empty.host";
         }
-        
+
         $this -> curDate  = date("Y-m-d H:i:s");
         $this -> basePath = $path = str_replace(array('/include', '/classes', '//'), '', dirname(__FILE__));
 
@@ -59,7 +60,7 @@ class LoginLogout
 
         foreach( $this -> error AS $error ) {
             if ( isset($this -> registry -> user_lang['login_page']['error_' . $error]) ) {
-                $html[] = '<li>' . $this -> registry -> user_lang['login_page']['error_' . $error] . '</li>';
+                $html[] = '<li class="status status-fail">' . $this -> registry -> user_lang['login_page']['error_' . $error] . '</li>';
             }
         }
 
@@ -146,7 +147,7 @@ class LoginLogout
                         );
                 $this -> db -> insertRow($data, 'accounts');
             }
-            
+
             if ( isset($this -> userdata['language']) AND strlen($this -> userdata['language']) ) {
                 $website -> change_language($this -> userdata['language']);
                 $renderer -> updateLanguage();
@@ -191,7 +192,7 @@ class LoginLogout
                     $this -> ok = ( ($this -> userdata["passhash"] == $check) ? TRUE : FALSE );
                 }
             }
-            
+
             if ( $this -> ok ) {
                 $data = array(
                             'last_login' => $this -> curDate,
@@ -372,7 +373,14 @@ class LoginLogout
 
     private function returnToLogin()
     {
-        $this -> openUrl('/login.php?' . $this -> getErrors() );
+        if ( strlen($this -> registry -> GPC['lang']) ) {
+            $_language = 'lang=' . $this -> registry -> GPC['lang'] . '&';
+        }
+        else {
+            $_language = 'lang=us&';
+        }
+
+        $this -> openUrl('/login.php?' . $_language . $this -> getErrors() );
         die();
     }
 
@@ -406,7 +414,7 @@ class LoginLogout
         {
             $this -> setSecure();
             $this -> updateUserInformation();
-            
+
             $_SESSION[SESSION]       = $this -> userdata;
             $_SESSION[SESSION]["ip"] = $this -> getIP();
         }

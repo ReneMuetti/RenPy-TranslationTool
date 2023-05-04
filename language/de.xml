@@ -191,6 +191,8 @@
 	    <label_login_button>Anmelden</label_login_button>
 	    <label_register_button>Registrieren</label_register_button>
 
+	    <default_login_error>Benutzername oder Passwort ist falsch!</default_login_error>
+
 	    <login_register_string>Du hast noch kein Konto?</login_register_string>
 	    <login_error_title>Login-Fehlermeldung</login_error_title>
 	    <register_error_title>Registrierung fehlgeschlagen</register_error_title>

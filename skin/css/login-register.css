@@ -6,10 +6,31 @@ aside {
 }
 section {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100%;
 }
+
+.login-error {
+    z-index: 1;
+    flex-direction: column;
+    width: 400px;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+.login-error h2 {
+    margin-bottom: 15px;
+    color: var(--rgba-color-dark-07);
+}
+.login-error ul {
+    list-style: none;
+    width: 100%;
+}
+.login-error li:not(:last-child) {
+    margin-bottom: 10px;
+}
+
 #login-container, #register-container {
     width: 400px;
     min-height: 400px;

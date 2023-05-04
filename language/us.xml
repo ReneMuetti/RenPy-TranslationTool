@@ -191,6 +191,8 @@
 	    <label_login_button>Log in</label_login_button>
 	    <label_register_button>Register</label_register_button>
 
+	    <default_login_error>User name or password is wrong!</default_login_error>
+
 	    <login_register_string>Don't have an account?</login_register_string>
 	    <login_error_title>Login error message</login_error_title>
 	    <register_error_title>Registration failed</register_error_title>

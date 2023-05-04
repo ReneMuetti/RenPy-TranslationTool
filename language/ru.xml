@@ -191,6 +191,8 @@
         <label_login_button>Войти</label_login_button>
         <label_register_button>Зарегистрировать</label_register_button>
 
+	    <default_login_error>Имя пользователя или пароль неверны!</default_login_error>
+
         <login_register_string>У вас нет учетной записи?</login_register_string>
         <login_error_title>Сообщение об ошибке входа в систему</login_error_title>
         <register_error_title>Регистрация не удалась</register_error_title>
