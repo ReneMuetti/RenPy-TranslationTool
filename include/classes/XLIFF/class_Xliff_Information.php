@@ -4,29 +4,29 @@ class Xliff_Information
     private $registry = null;
     private $renderer = null;
     private $hiddenLanguage = 'ru';   // Language not shown on Status-Page
-    
+
     private $inventoryOriginal = null;
     private $inventoryTranslation = null;
-    
+
     public function __construct()
     {
         global $website, $renderer;
-        
+
         $this -> registry = $website;
         $this -> renderer = $renderer;
     }
-    
+
     public function __destruct()
     {
         unset($this -> registry);
         unset($this -> renderer);
     }
-    
+
     /**
      * get all Gamefiles al seperatet Block
      *
      * @access public
-     * @return string; 
+     * @return string;
      */
     public function getAllGameFilesFormGeneralAsBlock()
     {
@@ -42,10 +42,10 @@ class Xliff_Information
                 $blocks[] = $this -> renderer -> renderTemplate();
             }
         }
-        
+
         return implode("\n", $blocks);
     }
-    
+
     /**
      * get Information from one Gemafile
      *
@@ -62,20 +62,20 @@ class Xliff_Information
                       'percent' => 0,
                       'style'   => '',
                   );
-    
+
         // Total String-Count
         $return['total'] = $this -> registry -> db -> tableCount('xliff_general', "WHERE `org_filename` = '" . $filename . "' AND `active` = 1;");
-        
+
         // translatet strings
         $condition = "LEFT JOIN `xliff_translate` ON (`xliff_general`.`uuid` = `xliff_translate`.`uuid`) WHERE`org_filename` = '" . $filename . "' " .
                      "AND `xliff_general`.`active` = 1 AND `xliff_translate`.`language` = " . $language . ";";
         $translatet = $this -> registry -> db -> tableCount('xliff_general', $condition);
         $return['open'] = $return['total'] - $translatet;
-        
+
         // percent
         $return['percent'] = ( $translatet * 100 / $return['total'] );
         $return['percent'] = $this -> _formatPercentCounter($return['percent']);
-        
+
         // RGB-Bar-Style
         if ( $translatet < $return['total'] ) {
             $return['style'] = 'linear-gradient(to left, transparent ' . (100 - $return['percent']) . '%, white 0%)';
@@ -83,10 +83,10 @@ class Xliff_Information
         else {
             $return['style'] = 'linear-gradient(to left, transparent 0%, white 0%)';
         }
-    
+
         return $return;
     }
-    
+
     /**
      * get List from all Users with there selected Languages
      *
@@ -97,7 +97,7 @@ class Xliff_Information
     {
         $lang  = new Languages();
         $langs = $lang -> getLanguagesByCode();
-        
+
         $xliff = $this -> _getCurrentTranslationStatus();
         $users = $this -> _getTranslationUserStatus();
 
@@ -106,19 +106,19 @@ class Xliff_Information
         foreach($langs AS $code => $id) {
             if ( $code != 'ru' ) {
                 $headLangs[] = '<th colspan="2">' . $this -> registry -> user_lang['languages'][$code] . '</th>';
-                
-                $headLangs2[] = '<th class="table-symbol" title="' . $this -> registry -> user_lang['profile']['ajax_translation_view'] . '">' . 
+
+                $headLangs2[] = '<th class="table-symbol" title="' . $this -> registry -> user_lang['profile']['ajax_translation_view'] . '">' .
                                 '<img src="' .  $this -> registry -> baseurl . 'skin/images/view.png"></th>';
                 $headLangs2[] = '<th class="table-symbol" title="' . $this -> registry -> user_lang['profile']['ajax_translation_edit'] . '">' .
                                 '<img src="' .  $this -> registry -> baseurl . 'skin/images/edit.png"></th>';
             }
         }
-        
+
         $userLines = array();
         foreach( $users AS $key => $tUser ) {
             $userLines[] = '<tr>';
             $userLines[] = '    <td>' . $tUser['username'] . '</td>';
-            
+
             foreach($langs AS $code => $id) {
                 if ( $code != 'ru' ) {
                     if ( isset($tUser['languages'][$code]['view']) AND ($tUser['languages'][$code]['view'] == 1) ) {
@@ -135,23 +135,23 @@ class Xliff_Information
                     }
                 }
             }
-            
+
             $userLines[] = '</tr>';
         }
-       
+
         $this -> renderer -> loadTemplate('index' . DS . 'user_table.htm');
             $this -> renderer -> setVariable('thead_col1' , implode("\n            ", $headLangs));
             $this -> renderer -> setVariable('thead_col2' , implode("\n            ", $headLangs2));
             $this -> renderer -> setVariable('tbody_lines', implode("\n        ", $userLines));
         $userTable = $this -> renderer -> renderTemplate();
-        
+
         if ( $xliff['transStringCount'] > 0 ) {
             $translatePercent = ( $xliff['translatedCount'] * 100 ) / $xliff['transStringCount'];
         }
         else {
             $translatePercent = 0;
         }
-        
+
         $this -> renderer -> loadTemplate('index' . DS . 'xliff_table.htm');
             $this -> renderer -> setVariable('language_count'    , count($langs));
             $this -> renderer -> setVariable('org_string_count'  , $xliff['orgStringCount']);
@@ -159,10 +159,10 @@ class Xliff_Information
             $this -> renderer -> setVariable('translated_count'  , $xliff['translatedCount']);
             $this -> renderer -> setVariable('translated_percent', $this -> _formatPercentCounter($translatePercent));
         $xliffTable = $this -> renderer -> renderTemplate();
-        
+
         return $userTable . "\n<br /><br />\n" . $xliffTable;
     }
-    
+
     /**
      * get translation status by language
      *
@@ -180,23 +180,23 @@ class Xliff_Information
             $currentSelectedLangs = $this -> _getLanguagesWithoutCurrentUser();
             $section_title = $this -> registry -> user_lang['index']['language_other'];
         }
-        
-        $currentTranslationStratus = $this -> _getCurrentTranslationStatusByCode($currentSelectedLangs);
+
+        $currentTranslationStatus = $this -> _getCurrentTranslationStatusByCode($currentSelectedLangs);
 
         $blocks = array();
-        if ( is_array($currentTranslationStratus) AND count($currentTranslationStratus) ) {
+        if ( is_array($currentTranslationStatus) AND count($currentTranslationStatus) ) {
 
-            foreach( $currentTranslationStratus AS $code => $status ) {
+            foreach( $currentTranslationStatus AS $code => $status ) {
                 if ( $status['orgStringCount'] > 0 ) {
                     $percentCount = ( $status['translatedCount'] * 100 / $status['orgStringCount'] );
                 }
                 else {
                     $percentCount = 0;
                 }
-                
-                
+
+
                 if ( $status['translatedCount'] < $status['orgStringCount'] ) {
-                    $masktStyle = ' style="mask: linear-gradient(to left, transparent ' . (100 - $percentCount) . '%, white 0%); ' . 
+                    $masktStyle = ' style="mask: linear-gradient(to left, transparent ' . (100 - $percentCount) . '%, white 0%); ' .
                                           '-webkit-mask: linear-gradient(to left, transparent ' . (100 - $percentCount) . '%, white 0%);"';
                 }
                 else {
@@ -213,22 +213,22 @@ class Xliff_Information
                 $blocks[] = $this -> renderer -> renderTemplate();
             }
         }
-        
+
         if ( count($blocks) ) {
             $grid_content = implode("\n", $blocks);
         }
         else {
             $grid_content = $this -> registry -> user_lang['index']['no_language_seceted'];
         }
-        
+
         $this -> renderer -> loadTemplate('index' . DS . 'xliff_lanuage_grid.htm');
             $this -> renderer -> setVariable('section_title', $section_title);
             $this -> renderer -> setVariable('grid_content' , $grid_content);
         return $this -> renderer -> renderTemplate();
     }
-    
+
     /**
-     * get current status from Languages (view and/or edit) 
+     * get current status from Languages (view and/or edit)
      *
      * @access public
      * @return array
@@ -237,7 +237,7 @@ class Xliff_Information
     {
         return $this -> _getLanguagesFromCurrentUser();
     }
-    
+
     /**
      * find dublicate strings in translation table
      *
@@ -248,20 +248,20 @@ class Xliff_Information
     {
         $this -> _getAllOriginalTranslations();
         $this -> _getAllTranslationsByOriginalAndLanguage();
-        
+
         $globalCount = 0;
         $globalIds = array();
         $langCount = array();
-        
+
         foreach( $this -> inventoryTranslation AS $langID => $value ) {
             $langCount[$langID] = 0;
             foreach ($value AS $uuid => $data) {
                 $globalCount += $data['count'];
                 $langCount[$langID] += $data['count'];
                 $globalIds[] = $data['ids'];
-            } 
+            }
         }
-        
+
         $mess = array();
         if ( $globalCount > 0 ) {
             $mess[] = $this -> registry -> user_lang['translation']['total_count_duplicates_from_translation_found'] . ': ' . $globalCount;
@@ -276,14 +276,14 @@ class Xliff_Information
         else {
             $mess[] = $this -> registry -> user_lang['translation']['no_duplicates_from_translation_found'];
         }
-        
+
         return array(
                    'details' => implode("<br />", $mess),
                    'total'   => $globalCount,
                    'ids'     => implode(',', $globalIds),
                );
     }
-    
+
     /**
      * delete dublicate strings from translation table
      *
@@ -299,10 +299,10 @@ class Xliff_Information
             foreach( $list AS $id => $number ) {
                 $list[$id] = intval($number);
             }
-            
+
             $query  = "DELETE FROM `xliff_translate` WHERE `translate_id` IN (" . implode(',', $list) . ");";
             $result = $this -> registry -> db -> execute($query);
-            
+
             if ( $result >= 1 ) {
                 return $this -> registry -> user_lang['translation']['ajax_translation_delete_ids'] . ': ' . $result;
             }
@@ -314,7 +314,7 @@ class Xliff_Information
             // sinlge-ID
             $query  = "DELETE FROM `xliff_translate` WHERE `translate_id` = " . intval($deleteIds) . ";";
             $result = $this -> registry -> db -> execute($query);
-            
+
             if ( $result >= 1 ) {
                 return $this -> registry -> user_lang['translation']['ajax_translation_delete_ids'] . ': ' . $result;
             }
@@ -323,10 +323,10 @@ class Xliff_Information
             }
         }
     }
-    
-    
-    
-    
+
+
+
+
     /**
      * sort all translations by LanguageID an UUID
      *
@@ -335,10 +335,10 @@ class Xliff_Information
     private function _getAllTranslationsByOriginalAndLanguage()
     {
         $this -> inventoryTranslation = array();
-        
+
         $langs = new Languages();
         $liste = $langs -> getLanguagesByCode();
-        
+
         foreach( $liste AS $langIso => $langCode ) {
             foreach( $this -> inventoryOriginal AS $uuid => $orgData ) {
                 $query = "SELECT `translate_id`, `translatet` FROM `xliff_translate` WHERE `uuid` = '" . $uuid . "' " .
@@ -366,7 +366,7 @@ class Xliff_Information
             }
         }
     }
-    
+
     /**
      * collect all Data from Original-Table
      *
@@ -375,10 +375,10 @@ class Xliff_Information
     private function _getAllOriginalTranslations()
     {
         $this -> inventoryOriginal = array();
-        
+
         $query = "SELECT `original_id`, `uuid`, `general` FROM `xliff_original`;";
         $data  = $this -> registry -> db -> queryObjectArray($query);
-        
+
         if ( is_array($data) AND count($data) ) {
             foreach( $data AS $value ) {
                 $this -> inventoryOriginal[$value['uuid']] = array(
@@ -388,7 +388,7 @@ class Xliff_Information
             }
         }
     }
-    
+
     /**
      * roud percent-values
      *
@@ -400,7 +400,7 @@ class Xliff_Information
     {
         return number_format($percent, 2, '.', ',');
     }
-    
+
     /**
      * get translation-status over all
      *
@@ -410,7 +410,7 @@ class Xliff_Information
     private function _getCurrentTranslationStatus()
     {
         $orgCounter = $this -> registry -> db -> tableCount('xliff_general', "WHERE `active` = 1");
-        
+
         $return = array(
                       'orgStringCount'   => $orgCounter,
                       'transStringCount' => ($this -> registry -> db -> tableCount('language') - 1) * $orgCounter,
@@ -418,7 +418,7 @@ class Xliff_Information
                   );
         return $return;
     }
-    
+
     /**
      * get translationstatus from user
      *
@@ -430,7 +430,7 @@ class Xliff_Information
         $query = 'SELECT `username`, `translation` FROM `users`';
         $data  = $this -> registry -> db -> queryObjectArray($query);
         $users = array();
-        
+
         if ( is_array($data) AND count($data) ) {
             foreach( $data AS $key => $value ) {
                 $users[] = array(
@@ -439,10 +439,10 @@ class Xliff_Information
                            );
             }
         }
-        
+
         return $users;
     }
-    
+
     /**
      * stansation-status from language
      *
@@ -455,14 +455,14 @@ class Xliff_Information
         if ( !is_array($currentSelectedLangs) OR !count($currentSelectedLangs) ) {
             return;
         }
-        
+
         $lngs = new Languages();
         $languages = $lngs -> getLanguagesByCode();
-        
+
         // select all strings, where not in common.rpy
         $filterGeneral    = "WHERE `org_filename` <> 'common.rpy' AND  `active` = 1";
-        $filterTranslatet = "WHERE `general` IN (SELECT `general_id` FROM `xliff_general` " . $filterGeneral . ") AND `translatet` <> '' AND `language` = ";
-        
+        $filterTranslatet = "WHERE `uuid` IN (SELECT `uuid` FROM `xliff_general` " . $filterGeneral . ") AND `translatet` <> '' AND `language` = ";
+
         $result = array();
         foreach( $currentSelectedLangs AS $language ) {
             $result[$language] = array(
@@ -470,10 +470,10 @@ class Xliff_Information
                                      'translatedCount' => $this -> registry -> db -> tableCount('xliff_translate', $filterTranslatet . $languages[$language]),
                                  );
         }
-        
+
         return $result;
     }
-    
+
     /**
      * language-selection from current user
      *
@@ -494,11 +494,11 @@ class Xliff_Information
                     $return[] = $code;
                 }
             }
-            
+
             return $return;
         }
     }
-    
+
     /**
      * all languages which the current user has not chosen
      *
@@ -508,12 +508,12 @@ class Xliff_Information
     private function _getLanguagesWithoutCurrentUser()
     {
         $userLangs = $this -> _getLanguagesFromCurrentUser();
-        
+
         $lngs = new Languages();
         $languages = $lngs -> getLanguagesByCode();
 
         $return = array();
-        
+
         foreach( $languages AS $code => $id ) {
             if ( $code != $this -> hiddenLanguage ) {
                 if ( is_array($userLangs) AND count($userLangs) ) {
@@ -526,7 +526,7 @@ class Xliff_Information
                 }
             }
         }
-        
+
         return $return;
     }
 }
