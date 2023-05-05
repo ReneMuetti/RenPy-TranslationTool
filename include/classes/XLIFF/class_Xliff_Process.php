@@ -381,7 +381,7 @@ class Xliff_Process
 
             if ( count($currentUuids) ) {
                 // deactivate all remaining UUID-entries
-                $this -> _disableRemainingUuids($currentUuids);
+                $this -> _disableRemainingUuids($currentUuids, $currentGameFile);
             }
 
             if ( $saveTranslation == true ) {
@@ -666,7 +666,8 @@ class Xliff_Process
      */
     private function _getAllUuidByFileFromGeneralTable($currentFileName)
     {
-        $query = "SELECT `uuid`, `general_id` FROM `xliff_general` WHERE `active` = 1 AND `org_filename` = '" . trim($currentFileName) . "'";
+        $query = "SELECT `uuid`, `general_id` FROM `xliff_general` WHERE `active` = 1 " .
+                 "AND `org_filename` = '" . trim($currentFileName) . "'";
         $data  = $this -> registry -> db -> queryObjectArray($query);
         $return = array();
 
@@ -684,11 +685,14 @@ class Xliff_Process
      *
      * @access private
      * @param  array     remaining UUIDs
+     * @param  string    current Filename
      * @return boolean|integer
      */
-    private function _disableRemainingUuids($currentUuids)
+    private function _disableRemainingUuids($currentUuids, $currentFileName)
     {
-        $query = "UPDATE `xliff_general` SET `active` = 0 WHERE `uuid` IN ('" . implode( "', '", array_keys($currentUuids) ) .  "')";
+        $query = "UPDATE `xliff_general` SET `active` = 0 WHERE `uuid` IN ('" .
+                 implode( "', '", array_keys($currentUuids) ) .
+                 "') AND `org_filename` = '" . trim($currentFileName) . "';";
         return $this -> registry -> db -> execute($query);
     }
 
