@@ -44,6 +44,7 @@
         <translate>Перевод</translate>
         <details>Подробности</details>
 	    <history>История</history>
+	    <search>Search string</search>
         <account>Аккаунт</account>
         <logout>Выйти</logout>
         <admin>Администрирование</admin>
@@ -282,4 +283,10 @@
 	    <table_apply_filter>Применить фильтр</table_apply_filter>
 	    <table_reset_filter>Сбросить фильтр</table_reset_filter>
 	</history>
+	<search>
+	    <form_title>Full-text search</form_title>
+	    <button_search>Search</button_search>
+	    <empty_placeholder>Enter a search text and select a language to narrow the search.</empty_placeholder>
+	    <no_result_for_request>No hits found for this search pattern!</no_result_for_request>
+	</search>
 </language>

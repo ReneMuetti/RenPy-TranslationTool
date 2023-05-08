@@ -60,6 +60,10 @@ if ( isset($website -> GPC['action']) ) {
         $history = new Translation_History();
         $content = $history -> getHistoryTable();
     }
+    elseif ( $website -> GPC['action'] == 'search' ) {
+        $search  = new Xliff_Information();
+        $content = $search -> getSearchForm();
+    }
     else {
         $content = $website -> user_lang['global']['unkonwn_action'];
     }

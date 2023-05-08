@@ -43,6 +43,7 @@
 	    <status>Status</status>
 	    <details>Details</details>
 	    <history>History</history>
+	    <search>Search string</search>
 	    <translate>Translate</translate>
 	    <account>Account</account>
 	    <logout>Logout</logout>
@@ -282,4 +283,10 @@
 	    <table_apply_filter>Apply filter</table_apply_filter>
 	    <table_reset_filter>Reset filer</table_reset_filter>
 	</history>
+	<search>
+	    <form_title>Full-text search</form_title>
+	    <button_search>Search</button_search>
+	    <empty_placeholder>Enter a search text and select a language to narrow the search.</empty_placeholder>
+	    <no_result_for_request>No hits found for this search pattern!</no_result_for_request>
+	</search>
 </language>

@@ -302,18 +302,19 @@ class Xliff_Process
 
                                 $found = $this -> findTranslationByParameters($generalId, $originalId, $general['uuid'], $destLang);
                                 if ( $found === false ) {
+                                    // insert new translation
                                     $this -> registry -> db -> insertRow($translation, 'xliff_translate');
                                     $tStrings++;
                                 }
                                 else {
-                                    // remove UUID from list
-                                    unset( $currentUuids[$general['uuid']] );
-
                                     // strings are diffrent and new string is not empty
                                     if ( ($found['translatet'] != $translation['translatet']) AND strlen($translation['translatet']) ) {
                                         $this -> registry -> db -> updateRow($translation, 'xliff_translate', "`translate_id` = " . $found['translate_id']);
                                         $uStrings++;
                                     }
+
+                                    // remove UUID from list
+                                    unset( $currentUuids[$general['uuid']] );
                                 }
 
                                 if ( $multiTarget === false ) {
@@ -349,18 +350,19 @@ class Xliff_Process
 
                                 $found = $this -> findTranslationByParameters($generalId, $originalId, $general['uuid'], $destLang);
                                 if ( $found === false ) {
+                                    // insert new translation
                                     $this -> registry -> db -> insertRow($translation, 'xliff_translate');
                                     $tStrings++;
                                 }
                                 else {
-                                    // remove UUID from list
-                                    unset( $currentUuids[$general['uuid']] );
-
                                     // strings are diffrent and new string is not empty
                                     if ( ($found['translatet'] != $translation['translatet']) AND strlen($translation['translatet']) ) {
                                         $this -> registry -> db -> updateRow($translation, 'xliff_translate', "`translate_id` = " . $found['translate_id']);
                                         $uStrings++;
                                     }
+
+                                    // remove UUID from list
+                                    unset( $currentUuids[$general['uuid']] );
                                 }
                             }
                         }
@@ -370,8 +372,6 @@ class Xliff_Process
                     }
                 }
                 // end if translation saved
-
-
 
                 if ( $breakForeach == true ) {
                     // beakt, if is Single-Segment
@@ -531,6 +531,7 @@ class Xliff_Process
             $general[$common['category']] = $common['value'];
         }
 
+        // TODO :: some entrys has no Emotes
         if ( strpos($general['comment'], '"') !== false ) {
             $segments = explode(" ", $general['comment']);
             if ( strlen($segments[1]) == 2 ) {
@@ -620,7 +621,8 @@ class Xliff_Process
      */
     private function _getAllTranslationsByFilter($uuid, $generalId, $originalId)
     {
-        $query = "SELECT `translate_id`, `language` FROM `xliff_translate` WHERE `uuid` = '" . $uuid . "' AND `general` = " . $generalId . " AND `original` = " . $originalId;
+        $query = "SELECT `translate_id`, `language` FROM `xliff_translate` WHERE `uuid` = '" . $uuid .
+                 "' AND `general` = " . $generalId . " AND `original` = " . $originalId;
         $data  = $this -> registry -> db -> queryObjectArray($query);
         $return = array();
 

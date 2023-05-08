@@ -25,6 +25,38 @@ function nl2br (str, is_xhtml) {
 }
 
 /**
+ * full-text-search
+ */
+function searchStringInTranslations()
+{
+    $.ajax({
+        "method": "POST",
+        "url"   : baseurl + "ajax_search.php",
+        "data"  : {
+                      "action"  : "find_translations",
+                      "pattern" : $("#search-string").val(),
+                      "language": $("#language-selected").find(":selected").val(),
+                  },
+        "beforeSend": function() {
+                          $("#search-list").html("");
+                      }
+    })
+    .done(function(ajaxResult) {
+        let ajaxData = $.parseJSON(ajaxResult);
+
+        if ( ajaxData.error == true ) {
+            $("#search-list").html( ajaxData.message );
+        }
+        else {
+            $("#search-list").html( ajaxData.data );
+        }
+    })
+    .fail(function(jqXHR, textStatus){
+        alert( "Request failed: " + textStatus );
+    });
+}
+
+/**
  * change Language with Select-Box
  */
 function changeLanguage()

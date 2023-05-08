@@ -23,6 +23,30 @@ class Xliff_Information
     }
 
     /**
+     * generate searchform for full-text-search
+     *
+     * @access public
+     * @return string
+     */
+    public function getSearchForm()
+    {
+        $lang  = new Languages();
+        $langs = $lang -> getLanguagesByCode();
+
+        $langOptions = array();
+        $langOptions[] = '<option value="0">' . $this -> registry -> user_lang['global']['option_actions_select'] . '</option>';
+        foreach( $langs AS $code => $lngId ) {
+            if ( $code != $this -> hiddenLanguage ) {
+                $langOptions[] = '<option value="' . $lngId . '">' . $this -> registry -> user_lang['languages'][$code] . '</option>';
+            }
+        }
+
+        $this -> renderer -> loadTemplate('search' . DS . 'form.htm');
+            $this -> renderer -> setVariable('select_options', implode("\n                ", $langOptions));
+        return $this -> renderer -> renderTemplate();
+    }
+
+    /**
      * get all Gamefiles al seperatet Block
      *
      * @access public
@@ -104,7 +128,7 @@ class Xliff_Information
         $headLangs = array();
         $headLangs2 = array();
         foreach($langs AS $code => $id) {
-            if ( $code != 'ru' ) {
+            if ( $code != $this -> hiddenLanguage ) {
                 $headLangs[] = '<th colspan="2">' . $this -> registry -> user_lang['languages'][$code] . '</th>';
 
                 $headLangs2[] = '<th class="table-symbol" title="' . $this -> registry -> user_lang['profile']['ajax_translation_view'] . '">' .

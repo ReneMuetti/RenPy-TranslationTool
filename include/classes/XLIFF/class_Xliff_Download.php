@@ -161,6 +161,7 @@ class Xliff_Download
                     $hasTopicOut = true;
 
                     $sourceStr = $this -> _fixedStringForRPY($originalData['comment'], true);
+                    $orgString = stripslashes($this -> dlGenerals[$originalData['uuid']]);
 
                     $output[] = '';
                     $output[] = '# ' . $originalData['filename'] . ':' . $originalData['linenumber'];
@@ -169,8 +170,6 @@ class Xliff_Download
                     $output[] = $this -> spacer . '# ' . $sourceStr;
 
                     if ( is_array($this -> dlTranslation) AND array_key_exists($originalData['uuid'], $this -> dlTranslation) ) {
-                        $orgString = stripslashes($this -> dlGenerals[$originalData['uuid']]);
-
                         $newString = $this -> dlTranslation[$originalData['uuid']];
                         $key = array_key_first($newString);
 
@@ -222,7 +221,7 @@ class Xliff_Download
                             // ignorable is set an has Data
                             $checkSource = mb_substr($originalData['comment'], 0, mb_strlen($ignorable[0]['source']));
                             $checkDest0  = mb_substr($newString[$key]        , 0, mb_strlen($ignorable[0]['source']));
-                            $checkDest1  = mb_substr($newString[$key]           , 0 - mb_strlen($ignorable[1]['source']));
+                            $checkDest1  = mb_substr($newString[$key]        , 0 - mb_strlen($ignorable[1]['source']));
 
                             if ( (count($ignorable) == 2) AND ($checkSource == $ignorable[0]['source']) AND ($checkDest0 != $ignorable[0]['source']) AND ($checkDest1 != $ignorable[1]['source']) ) {
                                 // ignorable has 2 segments and it covers original string

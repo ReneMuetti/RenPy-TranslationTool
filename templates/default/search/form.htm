@@ -1,0 +1,29 @@
+<div class="translation-block glass-block-border glass-border">
+    <div class="glass-block">
+        <h2><lang search_form_title /></h2>
+        <div class="flex-3">
+            <div class="select-box glass-block-border glass-border" style="padding:5px; max-width:300px;">
+                <select id="language-selected">
+                    <var select_options />
+                </select>
+            </div>
+            <div class="elment-block glass-block-border glass-border" style="padding:5px; max-width:initial; margin:0;">
+                <input id="search-string" name="search-string" type="text" />
+            </div>
+            <div class="glass-block-border glass-border" style="padding:5px; max-width:300px;">
+                <div class="glass-block">
+                    <div class="elment-block" style="padding:0;">
+                        <button class="button glass-border" onclick="searchStringInTranslations()" style="margin:0; max-width:100%;"><lang search_button_search /></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="translation-block glass-block-border glass-border">
+    <div id="search-list" class="glass-block">
+        <lang search_empty_placeholder />
+    </div>
+</div>
+<script src="<var_config baseurl />skin/js/translation_details.js"></script>

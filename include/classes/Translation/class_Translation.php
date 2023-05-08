@@ -171,37 +171,43 @@ class Translation
 
         $blocks = array();
         if ( is_array($data) AND count($data) ) {
-            foreach( $data AS $key => $value ) {
-                $imagename = $this -> _getImageNameFromCharacter($value['person'], $value['emote'], true);
-
-                if ( strpos($value['ignorable'], '{') !== false ) {
-                    $sourceString = $this -> _transformStringToHtmlOutput($value['comment']);
-
-                    // convert BB-Code to HTML-Out
-                    $sourceString = str_replace(
-                                        array('{i}', '{/i}', '{b}', '{/b}', '{u}', '{/u}'),
-                                        array('<i>', '</i>', '<b>', '</b>', '<u>', '</u>'),
-                                        $sourceString
-                                    );
-                }
-                else {
-                    $sourceString = $this -> _transformStringToHtmlOutput($value['source']);
-                }
-
-                $this -> renderer -> loadTemplate('details' . DS . 'line_from_file.htm');
-                    $this -> renderer -> setVariable('translate_id'  , $value['translate_id']);
-                    $this -> renderer -> setVariable('original_id'   , $value['original']);
-                    $this -> renderer -> setVariable('uuid'          , $value['uuid']);
-                    $this -> renderer -> setVariable('source_text'   , $sourceString );
-                    $this -> renderer -> setVariable('translate_text', $this -> _transformStringToHtmlOutput($value['translatet']) );
-                    $this -> renderer -> setVariable('char_image'    , $imagename);
-                $blocks[] = $this -> renderer -> renderTemplate();
-            }
+            $this -> _generateBlocksForInlineTranslations($blocks, $data);
         }
         else {
             $blocks[] = $this -> registry -> user_lang['translation']['details_ajax_no_result_for_request'];
         }
 
+        return implode("\n", $blocks);
+    }
+
+    /**
+     * find translations by search pattern
+     *
+     * @access public
+     * @param  string     search string in translation
+     * @param  integer    Language-ID
+     * @return string
+     */
+    public function getTranslationFromSearchPatterns($searchPattern, $language)
+    {
+        $query = "SELECT `xliff_translate`.*, " .
+                        "`xliff_original`.`source`, " .
+                        "`xliff_general`.`linenumber`, `xliff_general`.`person`, `xliff_general`.`emote`, `xliff_general`.`comment`, `xliff_general`.`ignorable` " .
+                 "FROM `xliff_translate` " .
+                 "LEFT JOIN `xliff_original` ON (`xliff_translate`.`original` = `xliff_original`.`original_id`) " .
+                 "LEFT JOIN `xliff_general` ON (`xliff_translate`.`general` = `xliff_general`.`general_id`) " .
+                 "WHERE `xliff_translate`.`translatet` LIKE '%" . $searchPattern . "%' " .
+                 ( ($language >= 1) ? "AND `xliff_translate`.`language` = " . $language . " " : '' ) .
+                 "ORDER BY `xliff_general`.`linenumber` ASC;";
+        $data = $this -> registry -> db -> queryObjectArray($query);
+
+        $blocks = array();
+        if ( is_array($data) AND count($data) ) {
+            $this -> _generateBlocksForInlineTranslations($blocks, $data);
+        }
+        else {
+            $blocks[] = $this -> registry -> user_lang['translation']['search_no_result_for_request'];
+        }
         return implode("\n", $blocks);
     }
 
@@ -247,13 +253,6 @@ class Translation
 
                             if ( strpos($data['ignorable'], '{') !== false ) {
                                 $sourceString = $this -> _transformStringToHtmlOutput($data['comment']);
-
-                                // convert BB-Code to HTML-Out
-                                $sourceString = str_replace(
-                                                    array('{i}', '{/i}', '{b}', '{/b}', '{u}', '{/u}'),
-                                                    array('<i>', '</i>', '<b>', '</b>', '<u>', '</u>'),
-                                                    $sourceString
-                                                );
                             }
                             else {
                                 $sourceString = $this -> _transformStringToHtmlOutput($data['source']);
@@ -475,6 +474,35 @@ class Translation
     }
 
 
+    /**
+     * generate Blocks from filter
+     *
+     * @access private
+     * @param  array       returned HTML-Blocks
+     * @param  array       filter-data from SQL
+     */
+    private function _generateBlocksForInlineTranslations(&$blocks, $data)
+    {
+        foreach( $data AS $key => $value ) {
+            $imagename = $this -> _getImageNameFromCharacter($value['person'], $value['emote'], true);
+
+            if ( strpos($value['ignorable'], '{') !== false ) {
+                $sourceString = $this -> _transformStringToHtmlOutput($value['comment']);
+            }
+            else {
+                $sourceString = $this -> _transformStringToHtmlOutput($value['source']);
+            }
+
+            $this -> renderer -> loadTemplate('details' . DS . 'line_from_file.htm');
+                $this -> renderer -> setVariable('translate_id'  , $value['translate_id']);
+                $this -> renderer -> setVariable('original_id'   , $value['original']);
+                $this -> renderer -> setVariable('uuid'          , $value['uuid']);
+                $this -> renderer -> setVariable('source_text'   , $sourceString );
+                $this -> renderer -> setVariable('translate_text', $this -> _transformStringToHtmlOutput($value['translatet']) );
+                $this -> renderer -> setVariable('char_image'    , $imagename);
+            $blocks[] = $this -> renderer -> renderTemplate();
+        }
+    }
 
     /**
      * convert string for HTML-Output
@@ -483,17 +511,19 @@ class Translation
      * @param  string
      * @return string
      */
-    private function _transformStringToHtmlOutput($string)
+    private function _transformStringToHtmlOutput($string, $replaceBBCode = true)
     {
         $string = stripslashes($string);
         $string = nl2br($string);
 
         // convert BB-Code to HTML
-        $string = str_replace(
-                      array('{i}', '{/i}', '{b}', '{/b}', '{u}', '{/u}'),
-                      array('<i>', '</i>', '<b>', '</b>', '<u>', '</u>'),
-                      $string
-                  );
+        if ( $replaceBBCode === true ) {
+            $string = str_replace(
+                          array('{i}', '{/i}', '{b}', '{/b}', '{u}', '{/u}'),
+                          array('<i>', '</i>', '<b>', '</b>', '<u>', '</u>'),
+                          $string
+                      );
+        }
 
         return $string;
     }

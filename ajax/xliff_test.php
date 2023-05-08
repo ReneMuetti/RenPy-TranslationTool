@@ -38,5 +38,9 @@ echo '<pre>';
 //echo $processor -> downloadTranslationFromFileAsRPY('game/scripts/story_01/bathroom.rpy', 2, '', false);
 //echo $processor -> downloadTranslationFromFileAsRPY('game/scripts/story_01/dreams.rpy', 2, '', false);
 //echo $processor -> downloadTranslationFromFileAsRPY('game/scripts/engine/characters.rpy', 2, '', false);
+//echo $processor -> downloadTranslationFromFileAsRPY('common.rpy', 2, '', false);
+//echo $processor -> downloadTranslationFromFileAsRPY('game/scripts/story_01/myroom.rpy', 2, '', false);
+//echo $processor -> downloadTranslationFromFileAsRPY('game/scripts/screens/screens.rpy', 1, '', false);
+//echo $processor -> downloadTranslationFromFileAsRPY('game/scripts/story_01/arachnophobia.rpy', 6, '', false);
 
 echo '<pre>';

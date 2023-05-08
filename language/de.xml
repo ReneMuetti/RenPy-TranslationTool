@@ -43,6 +43,7 @@
 	    <status>Status</status>
 	    <details>Details</details>
 	    <history>Historie</history>
+	    <search>Text suchen</search>
 	    <translate>Übersetzen</translate>
 	    <account>Konto</account>
 	    <logout>Abmelden</logout>
@@ -282,4 +283,10 @@
 	    <table_apply_filter>Filter anwenden</table_apply_filter>
 	    <table_reset_filter>Filter zurücksetzen</table_reset_filter>
 	</history>
+	<search>
+	    <form_title>Voll-Textsuche</form_title>
+	    <button_search>Suchen</button_search>
+	    <empty_placeholder>Geben Sie einen Suchtext ein und wählen Sie zur Eingrenzug der Suche eine Sprache aus.</empty_placeholder>
+	    <no_result_for_request>Für dieses Suchmuster wurden keine Treffer gefunden!</no_result_for_request>
+	</search>
 </language>
