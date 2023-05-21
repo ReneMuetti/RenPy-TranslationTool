@@ -100,7 +100,7 @@
 	    <ajax_translation_found_translation_with_md5>Найден перевод с такой же контрольной суммой. Пожалуйста, проверьте!</ajax_translation_found_translation_with_md5>
 	    <ajax_translation_inset_linebrak_manual>Пожалуйста, вставьте все переносы строк вручную!</ajax_translation_inset_linebrak_manual>
 
-	    <search_no_result_for_request>no matches found for the current search query!</search_no_result_for_request>
+	    <search_no_result_for_request>для текущего поискового запроса не найдено совпадений!</search_no_result_for_request>
 
         <upload_button>Начать загрузку</upload_button>
         <xliff_unknown_file>загруженный файл не является файлом XLIFF</xliff_unknown_file>
