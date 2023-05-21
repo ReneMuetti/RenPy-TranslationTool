@@ -471,19 +471,22 @@ class Xliff_Process
                         }
                     }
                     else {
-                        if ( is_array($value['notes']) AND is_array($value['notes']['note']) AND count($value['notes']['note']) ) {
-                            foreach( $value['notes']['note'] AS $id => $data ) {
-                                if ( $data['category'] == 'uuid' ) {
-                                    if ( !array_key_exists($data['value'], $uuids) ) {
-                                        $uuids[$data['value']] = 1;
+                        // check, if "notes" exists"
+                        if ( isset($value['notes']) ) {
+                            if ( is_array($value['notes']) AND is_array($value['notes']['note']) AND count($value['notes']['note']) ) {
+                                foreach( $value['notes']['note'] AS $id => $data ) {
+                                    if ( $data['category'] == 'uuid' ) {
+                                        if ( !array_key_exists($data['value'], $uuids) ) {
+                                            $uuids[$data['value']] = 1;
+                                        }
+                                        else {
+                                            $uuids[$data['value']]++;
+                                        }
+                                        break 1;
                                     }
-                                    else {
-                                        $uuids[$data['value']]++;
-                                    }
-                                    break 1;
                                 }
+                                // end foreach all notes
                             }
-                            // end foreach all notes
                         }
                     }
                     // end processing single or mulit
