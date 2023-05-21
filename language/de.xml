@@ -100,6 +100,8 @@
 	    <ajax_translation_found_translation_with_md5>Es wurde eine Übersetzung mit der gleichen Prüfsumme gefunden. Bitte Überprüfen!</ajax_translation_found_translation_with_md5>
 	    <ajax_translation_inset_linebrak_manual>Bitte alle Zeilenumbürche manuell einfügen!</ajax_translation_inset_linebrak_manual>
 
+	    <search_no_result_for_request>keine Treffer für die aktuelle Suchanfrage gefunden!</search_no_result_for_request>
+
 	    <upload_button>Upload starten</upload_button>
 	    <xliff_unknown_file>die hochgeladene Datei ist keine XLIFF-Datei</xliff_unknown_file>
 	    <xliff_uploaded_file_size>XLIFF-Dateigröße</xliff_uploaded_file_size>

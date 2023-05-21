@@ -514,9 +514,11 @@ class Xliff_Download
 
         $temp = $coreString;
         // modify original string for sepeerating to array
-        foreach( $ignorable AS $key => $igno ) {
-            $segmenter = str_replace('\\\n', $this -> inlineLB, $igno['source']);
-            $temp      = str_replace($segmenter, $helpStringForSegmentation, $temp);
+        if ( is_array($ignorable) AND count($ignorable) ) {
+            foreach( $ignorable AS $key => $igno ) {
+                $segmenter = str_replace('\\\n', $this -> inlineLB, $igno['source']);
+                $temp      = str_replace($segmenter, $helpStringForSegmentation, $temp);
+            }
         }
 
         // switch segments to array for precessing

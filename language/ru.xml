@@ -44,7 +44,7 @@
         <translate>Перевод</translate>
         <details>Подробности</details>
 	    <history>История</history>
-	    <search>Search string</search>
+	    <search>Строка поиска</search>
         <account>Аккаунт</account>
         <logout>Выйти</logout>
         <admin>Администрирование</admin>
@@ -99,6 +99,8 @@
 	    <ajax_translation_delete_ids_complete>Удаление записей завершено.</ajax_translation_delete_ids_complete>
 	    <ajax_translation_found_translation_with_md5>Найден перевод с такой же контрольной суммой. Пожалуйста, проверьте!</ajax_translation_found_translation_with_md5>
 	    <ajax_translation_inset_linebrak_manual>Пожалуйста, вставьте все переносы строк вручную!</ajax_translation_inset_linebrak_manual>
+
+	    <search_no_result_for_request>no matches found for the current search query!</search_no_result_for_request>
 
         <upload_button>Начать загрузку</upload_button>
         <xliff_unknown_file>загруженный файл не является файлом XLIFF</xliff_unknown_file>
@@ -284,9 +286,9 @@
 	    <table_reset_filter>Сбросить фильтр</table_reset_filter>
 	</history>
 	<search>
-	    <form_title>Full-text search</form_title>
-	    <button_search>Search</button_search>
-	    <empty_placeholder>Enter a search text and select a language to narrow the search.</empty_placeholder>
-	    <no_result_for_request>No hits found for this search pattern!</no_result_for_request>
+	    <form_title>Полнотекстовый поиск</form_title>
+	    <button_search>Поиск</button_search>
+	    <empty_placeholder>Введите текст для поиска и выберите язык, чтобы сузить поиск.</empty_placeholder>
+	    <no_result_for_request>Для этого шаблона поиска не найдено ни одного совпадения!</no_result_for_request>
 	</search>
 </language>

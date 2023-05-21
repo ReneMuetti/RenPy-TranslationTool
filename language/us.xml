@@ -100,6 +100,8 @@
 	    <ajax_translation_found_translation_with_md5>A translation with the same checksum was found. Please check!</ajax_translation_found_translation_with_md5>
 	    <ajax_translation_inset_linebrak_manual>Please insert all line breaks manually!</ajax_translation_inset_linebrak_manual>
 
+	    <search_no_result_for_request>no matches found for the current search query!</search_no_result_for_request>
+
 	    <upload_button>Start upload</upload_button>
 	    <xliff_unknown_file>the uploaded file is not an XLIFF file</xliff_unknown_file>
 	    <xliff_uploaded_file_size>XLIFF-Filesize</xliff_uploaded_file_size>
