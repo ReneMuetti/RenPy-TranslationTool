@@ -7,7 +7,7 @@ class Website_Pdo
 	 * @var	Registry
 	 */
 	private $registry = null;
-	
+
 	/**
 	 * Ausgabe von Fehlern
 	 */
@@ -17,22 +17,27 @@ class Website_Pdo
      * letzter Fehler eines Statements
      */
 	private $lastError  = null;
-	
+
 	/**
 	 * alle in der aktuellen Session abgesetzten SQL-Abfragen
 	 */
 	private $queryCache = array();
-	
+
+	/**
+	 * letzte mit prepare erstellte SQL-Abfrage
+	 */
+	private $lastQuery = null;
+
 	/**
 	 * ID des zuletzt eingefügten Datensatzes
 	 */
 	private $lastInsertID = null;
-	
+
 	/**
 	 * Connection-String für DB-Initialisierung
 	 */
 	private $dsn = null;
-	
+
 	/**
 	 * Optionen für DB-Verbindung
 	 */
@@ -47,64 +52,64 @@ class Website_Pdo
 	 * DB-Host
 	 */
 	protected $dbHost = null;
-	
+
 	/**
 	 * DB-Port
 	 */
 	protected $dbPort = null;
-	
+
 	/**
 	 * DB-User
 	 */
 	protected $dbUser = null;
-	
+
 	/**
 	 * DB-Passwort für den aktuellen User
 	 */
 	protected $dbPassword = null;
-	
+
 	/**
 	 * DB-Name
 	 */
 	protected $dbDatabase = null;
-	
+
 	/**
 	 * DB-Zeichensatzz für die Verbindung
 	 */
 	protected $dbCharset = null;
-	
+
 	/**
 	 * Verbindungs-Opbect zur Datenbank
 	 */
 	protected $connection = null;
-	
+
 	/**
 	 * PDO-Fetch-Mode
 	 */
 	protected $fetchMode = null;
-	
+
 	/**
 	 * PDO-Error-Mode
 	 */
 	protected $errorMode = null;
-	
+
 	/**
 	 * Zähler für Errors
 	 */
 	protected $errorCount = 0;
-	
+
 	/**
 	 * Debug-Mode
 	 * true: Error-Meldungen werden angezeigt
 	 * false: Error-Meldungen werden nur ins LOG-File geschrieben
 	 */
 	protected $debugMode = false;
-	
+
 	/**
 	 * soll jede Query in ein LOG-File geschrieben werden
 	 */
 	protected $writeQueryCache = false;
-	
+
 	/**
      * gobale Definition.
      *
@@ -112,7 +117,7 @@ class Website_Pdo
      * @var    string
      */
 	protected $stmt = null;
-    
+
     /**
      * Zähler für die SQL-Abfragen.
      *
@@ -173,15 +178,15 @@ class Website_Pdo
 
 		// Error-Printer
 		$this -> errorPrint = new Website_Pdo_Exception();
-		
+
 		// Fehlerzähler zurücksetzen
 		$this -> resetErrorCount();
-		
+
 		$this -> _setModes();
 		$this -> starttime = $this -> microtime_float();
 		$this -> _connect();
     }
-    
+
     /**
      * DB-Verbindung schließen und löschen
      *
@@ -192,7 +197,7 @@ class Website_Pdo
         unset($this -> stmt);
         unset($this -> connection);
     }
-    
+
     /**
      * Debug-Modus der Klasse ändern
      *
@@ -202,10 +207,10 @@ class Website_Pdo
     public function setDebugMode($newMode)
     {
         $boolval = ( is_string($newMode) ? filter_var($newMode, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool)$newMode );
-        
+
         $this -> errorMode =  $boolval;
     }
-    
+
     /**
      * Fehlerzähler auf 0 setzen
      *
@@ -215,7 +220,7 @@ class Website_Pdo
     {
         $this -> errorCount = 0;
     }
-    
+
     /**
      * Fehlerzähler abfragen
      *
@@ -226,7 +231,7 @@ class Website_Pdo
     {
         return $this -> errorCount;
     }
-    
+
     /**
      * Sicherstellen, das alle Transaktionen und Daten korrekt gespeichert werden
      *
@@ -241,15 +246,16 @@ class Website_Pdo
                    'options'
                );
     }
-    
+
     /**
      * @access    public
      */
     public function __toString()
     {
         // TODO
+        return null;
     }
-    
+
     /**
      * Wiederherstellen einer DB-Verbindung nach Warte- / Ruhemodus
      *
@@ -258,11 +264,11 @@ class Website_Pdo
     public function __wakeup()
     {
         $this -> _setModes();
-		
+
 		$this -> starttime = $this -> microtime_float();
 		$this -> _connect();
     }
-    
+
     /**
      * Default-Modes für DB setzen
      *
@@ -271,7 +277,7 @@ class Website_Pdo
     private function _setModes()
     {
         $this -> fetchMode = PDO::FETCH_ASSOC;
-        
+
         if ( $this -> debugMode ) {
             $this -> errorMode = PDO::ERRMODE_WARNING;
         }
@@ -279,7 +285,7 @@ class Website_Pdo
             $this -> errorMode = PDO::ERRMODE_EXCEPTION;
         }
     }
-    
+
     /**
      * Verbindung zur Datenbank aufbauen
      *
@@ -290,13 +296,13 @@ class Website_Pdo
     {
         $this -> dsn = $this -> dbType . ':host=' . $this -> dbHost . ';dbname=' . $this -> dbDatabase .
                        ';port=' . $this -> dbPort . ';charset=' . $this -> dbCharset;
-        
+
         $this -> options = array(
                                PDO::ATTR_EMULATE_PREPARES   => false,
                                PDO::ATTR_DEFAULT_FETCH_MODE => $this -> fetchMode,
                                PDO::ATTR_ERRMODE            => $this -> errorMode,
                            );
-    
+
         try{
             $this -> connection = new PDO ($this -> dsn, $this -> dbUser, $this -> dbPassword, $this -> options);
         }
@@ -305,14 +311,14 @@ class Website_Pdo
             $this -> lastError = $e -> getMessage();
 	        $logMessage = $this -> _generateLogMessage($e, null, true);
             new Logging('pdo_exception', $logMessage);
-            
+
             if ( $this -> debugMode ) {
                 echo $this -> errorPrint -> printErrorPage('Datenbankfehler :: Verbindungs-Fehler', 'Keine Verbindung zur Datenbank m&ouml;glich', $logMessage);
                 die();
             }
         }
     }
-    
+
     /**
      * Erzeugen der Daten für eine Log-Meldung
      *
@@ -325,7 +331,7 @@ class Website_Pdo
     private function _generateLogMessage($exception = null, $result = null, $full = false)
     {
         $default = array();
-        
+
         if ($full) {
             $default = array(
                            'Error: '       . $this -> lastError,
@@ -339,16 +345,16 @@ class Website_Pdo
         }
         else {
             $default = array(
-                           'Query: '       . $this -> stmt -> queryString,
+                           'Query: '       . $this -> lastQuery,
                            'Result: '      . var_export($result, true),
                            'Data: '        . print_r($this -> stmt -> errorInfo(), true),
                            "\nPDO-Daten: " . $this -> _getPdoDump(),
                        );
         }
-        
+
         return implode("\n", $default);
     }
-    
+
     /**
      * zusätzliche Verarbeitung von Strings
      *
@@ -361,15 +367,15 @@ class Website_Pdo
         if ( strlen($string) ) {
             // Quoted string for Statement
             $string = $this -> connection -> quote($string);
-            
+
             // removed Double-Quotes
             $string = substr($string, 1, -1);
-            
+
             // check, if string not UTF-8-Encoded
             if ( !mb_detect_encoding($string, 'UTF-8') ) {
                 $string = utf8_encode($string);
             }
-            
+
             // FIX, damit Zeilenumbrüche korrekt übernommen werden
             $string = str_replace(
                           array("\\n", "\\t"),
@@ -378,7 +384,7 @@ class Website_Pdo
                       );
         }
     }
-    
+
     /**
      * Alle Daten des PDO-Statements ermitteln und als Return erfassen
      *
@@ -391,10 +397,10 @@ class Website_Pdo
             $this -> stmt -> debugDumpParams();
             $result = ob_get_contents();
         ob_end_clean();
-        
+
         return $result;
     }
-    
+
     /**
      * Klassenzeitmessung
      *
@@ -406,7 +412,7 @@ class Website_Pdo
         list($usec, $sec) = explode(" ", microtime());
         return (floatval($usec) + floatval($sec));
     }
-    
+
     /**
      * Anzeige der Laufzeitinformationen
      *
@@ -434,15 +440,21 @@ class Website_Pdo
     {
         if ( strlen($query) ) {
             $query = str_replace('``', '`', $query);
-            
+
             $this -> startTimeQuery  = $this -> microtime_float();
             $this -> sqlcounter++;
 
     		$this -> stmt = $this -> connection -> prepare($query);
+
+    		if ( !$this -> stmt ) {
+    		    $logMessage = "Fehler beim Erstellen des Statements: " . $this -> connection -> errorInfo()[2];
+    		    new Logging('pdo_error', $logMessage);
+    		}
+
     		$this -> queryCache[] = $this -> stmt -> queryString;
-        } 
+        }
 	}
-	
+
 	/**
 	 * Anbinden von Values an das bereits definierte SQL-Statement
 	 *
@@ -461,23 +473,23 @@ class Website_Pdo
 	                                    break;
 	            case is_null($value)  : $type = PDO::PARAM_NULL;
                                         break;
-                
+
                 default : $type = PDO::PARAM_STR;
 	        }
 	    }
-	    
+
 	    $bindResult = $this -> stmt -> bindValue($param, $value, $type);
 	    if ( $bindResult == false ) {
 	        $this -> errorCount++;
 	        $logMessage = 'Fehler beim zuweisen eines Statement-Wertes: (' . $type . ')' . $param . '::' . $value;
 	        new Logging('pdo_error', $logMessage);
-	        
+
 	        if ( $this -> debugMode ) {
 	            echo $this -> errorPrint -> printErrorBlock('pdo_error :: Fehler beim Zuweisen innerhalb des Statement', $logMessage);
 	        }
 	    }
 	}
-	
+
 	/**
 	 * ein Statement ausführen
 	 *
@@ -488,10 +500,15 @@ class Website_Pdo
 	public function executeQuery()
 	{
 	    try {
+	        $this -> lastQuery = $this -> stmt -> queryString;
 	        $result = $this -> stmt -> execute();
 
 	        if ( $this -> writeQueryCache ) {
-	            new Logging('pdo_query_cache', "Query:\n" . var_export($this -> stmt, true) . "\nResult: " . var_export($result, true) . "\nPDO-Daten: " . $this -> _getPdoDump() );
+	            new Logging('pdo_query_cache', "SQL-Query:\n"   . $this -> lastQuery .
+	                                           "\nStatement:\n" . var_export($this -> stmt, true) .
+	                                           "\nResult: "     . var_export($result, true) .
+	                                           "\nPDO-Object: " . $this -> _getPdoDump()
+	                       );
 	        }
 
     		if ( ($result === true) OR ($this -> stmt -> errorCode() === '00000') ) {
@@ -502,11 +519,11 @@ class Website_Pdo
     		    $this -> errorCount++;
     		    $logMessage = $this -> _generateLogMessage(null, $result, false);
                 new Logging('pdo_error', $logMessage);
-                
+
                 if ( $this -> debugMode ) {
                     echo $this -> errorPrint -> printErrorBlock('pdo_error :: Abfrage-Fehler', $logMessage);
-                } 
-                
+                }
+
                 return false;
     		}
 	    }
@@ -515,11 +532,11 @@ class Website_Pdo
 	        $this -> lastError = $e -> getMessage();
 	        $logMessage = $this -> _generateLogMessage($e, null, true);
             new Logging('pdo_exception', $logMessage);
-            
+
             if ( $this -> debugMode ) {
                 echo $this -> errorPrint -> printErrorBlock('pdo_exception :: Abfrage-Fehler', $logMessage);
             }
-            
+
             return false;
 	    }
 	}
@@ -545,7 +562,7 @@ class Website_Pdo
 	        return false;
         }
     }
-    
+
     /**
      * einzelnen SELECT-MySQL-Datensatz abrufen
      *
@@ -588,7 +605,7 @@ class Website_Pdo
     public function querySingleItem($query)
     {
         $result = $this -> querySingleArray($query);
-        
+
         if ( is_array($result) AND count($result) ) {
             return reset($result);
         }
@@ -610,7 +627,7 @@ class Website_Pdo
         $this -> query($query);
         if ( $this -> executeQuery() ) {
             $result = $this -> stmt -> fetchAll($this -> fetchMode);
-            
+
             if ( count($result) ) {
                 $this -> rowcount += count($result);
                 return $result;
@@ -627,7 +644,7 @@ class Website_Pdo
             }
         }
     }
-    
+
     /**
      * Anzeige der Anzahl aller Datensätze in einer Tabelle
      *
@@ -636,14 +653,14 @@ class Website_Pdo
      *  $table      string   Name der Tabelle
      * @return    mixed      Anzahl der Zeilen; bei Fehlern false
      */
-    function tableCount($table = "", $cond = "")
+    public function tableCount($table = "", $cond = "")
     {
         if (trim($table) != "") {
             $this -> query( 'SELECT COUNT(*) AS `tableCount` FROM `' . $table . '` ' . ((strlen($cond)) ? " " . trim($cond) : "") . ';' );
             if ( $this -> executeQuery() ) {
                 $result = $this -> stmt -> fetch($this -> fetchMode);
                 $this -> rowcount++;
-                
+
                 return $result['tableCount'];
             }
             else {
@@ -656,7 +673,7 @@ class Website_Pdo
             return false;
         }
     }
-    
+
     /**
      * liefert die größte ID innerhalb der Tabelle
      *
@@ -666,7 +683,7 @@ class Website_Pdo
      *  $table      string   Name des Tabelle
      * @return    mixed      ID des letzten Datensatzes; bei Fehlern false
      */
-    function maxID($field = "id", $table = "", $cond = "")
+    public function maxID($field = "id", $table = "", $cond = "")
     {
         if ((trim($field) != "") &&  (trim($table) != ""))
         {
@@ -674,7 +691,7 @@ class Website_Pdo
             if ( $this -> executeQuery() ) {
                 $result = $this -> stmt -> fetch($this -> fetchMode);
                 $this -> rowcount++;
-                
+
                 return $result['foundMax'];
             }
             else {
@@ -686,7 +703,7 @@ class Website_Pdo
             return false;
         }
     }
-    
+
     /**
      * liefert die kleinste ID innerhalb der Tabelle
      *
@@ -696,7 +713,7 @@ class Website_Pdo
      *  $table      string   Name des Tabelle
      * @return    mixed      ID des ersten Datensatzes; bei Fehlern false
      */
-    function minID($field = "id", $table = "", $cond = "")
+    public function minID($field = "id", $table = "", $cond = "")
     {
         if ((trim($field) != "") &&  (trim($table) != ""))
         {
@@ -704,7 +721,7 @@ class Website_Pdo
             if ( $this -> executeQuery() ) {
                 $result = $this -> stmt -> fetch($this -> fetchMode);
                 $this -> rowcount++;
-                
+
                 return $result['foundMin'];
             }
             else {
@@ -717,7 +734,7 @@ class Website_Pdo
             return false;
         }
     }
-    
+
     /**
      * einfügen eines neuen Datensatzes
      *
@@ -728,11 +745,11 @@ class Website_Pdo
      *  $array      array    Spalten, welche kein Escape erfahren sollten
      * @return    boolean
      */
-    function insertRow($array = "", $table = "", $escapeKeys = null)
+    public function insertRow($array = "", $table = "", $escapeKeys = null)
     {
         $CheckKey = array_keys($array);
         $queryValue = array();
-        
+
         if((count($array) > 0) AND (is_string($CheckKey[0]) == TRUE) AND (trim($table) != "")) {
             foreach( array_keys($array) AS $value ) {
                 $queryValue[] = ':' . $value;
@@ -751,14 +768,14 @@ class Website_Pdo
                         $this -> _fixedStringForStatement($value);
                     }
                 }
-                
+
                 $this -> bind($key, $value);
             }
-            
+
             if ( $result = $this -> executeQuery() ) {
                 $this -> lastInsertID = $this -> connection -> lastInsertId();
                 $this -> rowcount++;
-                
+
                 return $result;
             }
         }
@@ -766,7 +783,7 @@ class Website_Pdo
             return false;
         }
     }
-    
+
     /**
      * updaten eines vorhandenen Datensatzes
      *
@@ -777,7 +794,7 @@ class Website_Pdo
      *  $condition  string   Zusätzliche Parameter zum udaten
      * @return    boolean    bei Fehlern false
      */
-    function updateRow($array = "", $table = "", $condition = NULL)
+    public function updateRow($array = "", $table = "", $condition = NULL)
     {
         $CheckKey  = array_keys($array);
         $queryData = array();
@@ -793,7 +810,7 @@ class Website_Pdo
                 $queryAdds[] = '`' . $key . '` = ' . $stmtKey;
             }
             $query = 'UPDATE `' . trim($table) . '` SET ' . implode(', ',  $queryAdds);
-            
+
             if(!is_null($condition)) {
                 $condition = trim($condition);
 
@@ -802,13 +819,13 @@ class Website_Pdo
                 }
                 $query .= ' ' . trim($condition) . ';';
             }
-            
+
             $this -> query($query);
-            
+
             foreach( $queryData AS $key => $value ) {
                 $this -> bind($key, $value);
             }
-            
+
             if ( $result = $this -> executeQuery() ) {
                 $this -> rowcount++;
 
@@ -819,8 +836,22 @@ class Website_Pdo
             return false;
         }
     }
-    
-    
+
+    /**
+     * Escaping einer Zeichenkette für eine SQL-Abfrage
+     *
+     * @access    public
+     * @param     string
+     * @return    string
+     */
+    public function escapeString($string)
+    {
+        if ( is_string($string) ) {
+            $this -> _fixedStringForStatement($string);
+        }
+        return $string;
+    }
+
     /**
      * Anzeige der ID des zuletzt eingefügten Datensatzes
      *
@@ -853,7 +884,7 @@ class Website_Pdo
     {
         return $this -> stmt -> queryString;
     }
-    
+
     /**
      * Anzeige aller bisher ausgeführten SQL-Statements
      *
@@ -864,8 +895,8 @@ class Website_Pdo
     {
         return $this -> queryCache;
     }
-    
-    
+
+
     /**
      * Rücksetzen der Laufzeitinformationen
      *
@@ -878,7 +909,7 @@ class Website_Pdo
         $this -> dbtime         = 0;
         $this -> starttime      = 0;
         $this -> startTimeQuery = 0;
-        
+
         $this -> resetErrorCount();
     }
 }
