@@ -190,13 +190,16 @@ class Translation
      */
     public function getTranslationFromSearchPatterns($searchPattern, $language)
     {
+        $searchPattern = $this -> registry -> db -> escapeString($searchPattern);
+        $replaceWhere = 'REPLACE(`xliff_translate`.`translatet`, "\\\", \'\')';
+
         $query = "SELECT `xliff_translate`.*, " .
                         "`xliff_original`.`source`, " .
                         "`xliff_general`.`linenumber`, `xliff_general`.`person`, `xliff_general`.`emote`, `xliff_general`.`comment`, `xliff_general`.`ignorable` " .
                  "FROM `xliff_translate` " .
                  "LEFT JOIN `xliff_original` ON (`xliff_translate`.`original` = `xliff_original`.`original_id`) " .
                  "LEFT JOIN `xliff_general` ON (`xliff_translate`.`general` = `xliff_general`.`general_id`) " .
-                 "WHERE `xliff_translate`.`translatet` LIKE '%" . $searchPattern . "%' " .
+                "WHERE " . $replaceWhere . " LIKE '%" . $searchPattern . "%' " .
                  ( ($language >= 1) ? "AND `xliff_translate`.`language` = " . $language . " " : '' ) .
                  "ORDER BY `xliff_general`.`linenumber` ASC;";
         $data = $this -> registry -> db -> queryObjectArray($query);
@@ -570,15 +573,22 @@ class Translation
     {
         if ( strlen($person) ) {
             $imagename = 'e' . strtolower($person) . '-' . $emote . $this -> imageExt;
-            // reformat while Max is "thinking"
+
+            // reformat for Max
+            $imagename = str_replace(array('etmax', 'epmax'), 'emax', $imagename);
+
+            // reformat for Ann
+            $imagename = str_replace(array('epann'), 'eann', $imagename);
+
+            // reformat for Lisa
+            $imagename = str_replace(array('eplisa'), 'elisa', $imagename);
 
             if ( $fullUrl === true ) {
                 return $this -> registry -> config['Misc']['baseurl'] .
-                       $this -> imageSubPath .
-                       str_replace('etm', 'em', $imagename);
+                       $this -> imageSubPath . $imagename;
             }
             else {
-                return str_replace('etm', 'em', $imagename);
+                return $imagename;
             }
         }
         else {
