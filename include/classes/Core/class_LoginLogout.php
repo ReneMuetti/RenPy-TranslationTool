@@ -339,12 +339,10 @@ class LoginLogout
 
     private function getRandomString($max = 8)
     {
-        srand((double)microtime()*1000000);
-        $result = '';
-        $zufall = rand();
-        $max    = intval($max);
+        $max = intval($max);
 
-        $result = substr(md5($zufall) , 0 , $max);
+        $zufall = random_int(PHP_INT_MIN, PHP_INT_MAX);
+        $result = substr(md5($zufall), 0, $max);
 
         return $result;
     }
