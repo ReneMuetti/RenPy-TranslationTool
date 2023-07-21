@@ -222,6 +222,8 @@ class Xliff_Process
             $tStrings = 0;   // Counter for insert Translating Strings
             $uStrings = 0;   // Counter for update Translating Strings
 
+            $errorCnt = 0;   // Error-Counter
+
             foreach( $this -> currentXLIFF['file']['unit'] AS $id => $data ) {
                 $general  = array();
                 $original = array();
@@ -330,40 +332,83 @@ class Xliff_Process
                     else {
                         // Multi-Segment
                         if ( isset($data['segment'][0]['target']) AND is_array($data['segment'][0]['target']) ) {
-                            $segemtnCount = count($data['segment']);
-                            foreach( $data['segment'][0]['target'] AS $id => $translate ) {
-                                $translation = array();
+                            $segmentCount = count($data['segment']);
+                            try {
+                                foreach( $data['segment'][0]['target'] AS $id => $translate ) {
+                                    $translation = array();
 
-                                $destLang = $this -> languages[ $translate['xml:lang'] ];
-
-                                // Collect all Segments for combine
-                                $translationSegemtns = array();
-                                for( $i = 0; $i < $segemtnCount; $i++ ) {
-                                    $translationSegemtns[] = $data['segment'][$i]['target'][$id]['value'];
-                                }
-
-                                $translation['general']    = $generalId;
-                                $translation['original']   = $originalId;
-                                $translation['uuid']       = $general['uuid'];
-                                $translation['language']   = $destLang;
-                                $translation['translatet'] = implode("\n", $translationSegemtns);
-
-                                $found = $this -> findTranslationByParameters($generalId, $originalId, $general['uuid'], $destLang);
-                                if ( $found === false ) {
-                                    // insert new translation
-                                    $this -> registry -> db -> insertRow($translation, 'xliff_translate');
-                                    $tStrings++;
-                                }
-                                else {
-                                    // strings are diffrent and new string is not empty
-                                    if ( ($found['translatet'] != $translation['translatet']) AND strlen($translation['translatet']) ) {
-                                        $this -> registry -> db -> updateRow($translation, 'xliff_translate', "`translate_id` = " . $found['translate_id']);
-                                        $uStrings++;
+                                    // check if the segment has multiple translations
+                                    if ( is_array($translate) ) {
+                                        $destLang = $this -> languages[ $translate['xml:lang'] ];
+                                    }
+                                    else {
+                                        // ISO-Language-Code has 3 or less characters
+                                        if ( strlen($translate) <= 3 ) {
+                                            $destLang = $this -> languages[$translate];
+                                        }
                                     }
 
-                                    // remove UUID from list
-                                    unset( $currentUuids[$general['uuid']] );
+                                    // Collect all Segments for combine
+                                    $translationSegments = array();
+                                    for( $i = 0; $i < $segmentCount; $i++ ) {
+                                        // check if segment hat single translation
+                                        if ( isset($data['segment'][$i]['target']['value']) ) {
+                                            $translationSegments[] = $data['segment'][$i]['target']['value'];
+                                        }
+                                        else {
+                                            $translationSegments[] = $data['segment'][$i]['target'][$id]['value'];
+                                        }
+                                    }
+
+                                    $translation['general']    = $generalId;
+                                    $translation['original']   = $originalId;
+                                    $translation['uuid']       = $general['uuid'];
+                                    $translation['language']   = $destLang;
+                                    $translation['translatet'] = implode("\n", $translationSegments);
+
+                                    $found = $this -> findTranslationByParameters($generalId, $originalId, $general['uuid'], $destLang);
+                                    if ( $found === false ) {
+                                        // insert new translation
+                                        $this -> registry -> db -> insertRow($translation, 'xliff_translate');
+                                        $tStrings++;
+                                    }
+                                    else {
+                                        // strings are diffrent and new string is not empty
+                                        if ( ($found['translatet'] != $translation['translatet']) AND strlen($translation['translatet']) ) {
+                                            $this -> registry -> db -> updateRow($translation, 'xliff_translate', "`translate_id` = " . $found['translate_id']);
+                                            $uStrings++;
+                                        }
+
+                                        // remove UUID from list
+                                        unset( $currentUuids[$general['uuid']] );
+                                    }
                                 }
+                            }
+                            catch (Throwable $t) {
+                                $errorCnt++;
+
+                                $data1 = gettype($data)              . ' :: ' . var_export($data, true);
+                                $data2 = gettype($translate)         . ' :: ' . var_export($translate, true);
+                                $data3 = gettype($destLang)          . ' :: ' . var_export($destLang, true);
+                                $data4 = gettype($this -> languages) . ' :: ' . var_export($this -> languages, true);
+                                $data5 = gettype($translation)       . ' :: ' . var_export($translation, true);
+
+                                $logMassage = array(
+                                                  'Throwable: ' . $t -> getMessage(),
+                                                  'Code: '      . $t -> getCode(),
+                                                  'Line: '      . $t -> getLine(),
+                                                  'Trace: '     . $t -> getTraceAsString(),
+                                                  '$data:',
+                                                  $data1,
+                                                  '$translate:' . $data2,
+                                                  '$destLang:'  . $data3,
+                                                  '$this -> languages:',
+                                                  $data4,
+                                                  '$translation',
+                                                  $data5,
+                                              );
+
+                                new Logging('xliff_process_error', implode("\n", $logMassage));
                             }
                         }
                         else {
@@ -392,6 +437,7 @@ class Xliff_Process
             }
 
             $result = $this -> registry -> user_lang['xliff']['import_done']                                         . '<br />' .
+                      $this -> registry -> user_lang['xliff']['import_count_error']              . ': ' . $errorCnt  . '<br />' .
                       $this -> registry -> user_lang['xliff']['import_count_general']            . ': ' . $igStrings . '<br />' .
                       $this -> registry -> user_lang['xliff']['update_count_general']            . ': ' . $ugStrings . '<br />' .
                       $this -> registry -> user_lang['xliff']['import_count_strings']            . ': ' . $oStrings  . '<br />' .

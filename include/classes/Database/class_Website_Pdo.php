@@ -373,7 +373,7 @@ class Website_Pdo
 
             // check, if string not UTF-8-Encoded
             if ( !mb_detect_encoding($string, 'UTF-8') ) {
-                $string = utf8_encode($string);
+                $string = mb_convert_encoding($string, 'UTF-8');
             }
 
             // FIX, damit Zeilenumbrüche korrekt übernommen werden

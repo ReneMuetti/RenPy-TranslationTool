@@ -325,7 +325,8 @@ class Translation
                 $result[$langIsoCode] = $this -> registry -> user_lang['translation']['ajax_translation_error_params'];
             }
             else {
-                $result[$langIsoCode] = stripslashes($searchString);
+                $result[$langIsoCode] = $this -> _transformStringToHtmlOutput($searchString);
+                $result[$langIsoCode] = str_replace( array('.r<br />', '.r<br />\n'), '.<br />', $result[$langIsoCode]);
             }
         }
 
