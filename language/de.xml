@@ -13,6 +13,7 @@
     </page_titles>
 	<global>
 		<option_actions_select>- Bitte wählen -</option_actions_select>
+		<option_actions_original_language>Suche im Original</option_actions_original_language>
 		<status_yes>Ja</status_yes>
 		<status_no>Nein</status_no>
 		<close>Schließen</close>
@@ -158,6 +159,7 @@
 	    <xml_parser_error>XML-Fehler beim Parsen der XLIFF-Datei</xml_parser_error>
 	    <found_records>Gefundene Records</found_records>
 	    <import_done>Der Import ist abgeschlossen.</import_done>
+	    <import_count_error>Import-Fehler</import_count_error>
 	    <import_count_general>neue Haupt-Texte</import_count_general>
 	    <update_count_general>aktualisierte Haupt-Texte</update_count_general>
 	    <import_count_strings>neue Texte</import_count_strings>

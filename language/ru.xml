@@ -13,6 +13,7 @@
     </page_titles>
     <global>
         <option_actions_select>- Пожалуйста, выберите -</option_actions_select>
+		<option_actions_original_language>Поиск в оригинале</option_actions_original_language>
         <status_yes>Да</status_yes>
         <status_no>Нет</status_no>
         <close>Закрыть</close>
@@ -158,6 +159,7 @@
         <xml_parser_error>Ошибка XML при разборе файла XLIFF</xml_parser_error>
         <found_records>Найденные записи</found_records>
         <import_done>Импорт завершен.</import_done>
+        <import_count_error>Ошибка импорта</import_count_error>
 	    <import_count_general>new general</import_count_general>
 	    <update_count_general>update general</update_count_general>
         <import_count_strings>новые строки</import_count_strings>
