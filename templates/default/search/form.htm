@@ -2,11 +2,17 @@
     <div class="glass-block">
         <h2><lang search_form_title /></h2>
         <div class="flex-3">
+            <div style="padding:10px 5px; max-width:350px;">
+                <div class="checkbox-element">
+                    <input type="checkbox" id="original" /><span style="top:0; left:auto;"><lang global_option_actions_original_language /></span>
+                </div>
+            </div>
             <div class="select-box glass-block-border glass-border" style="padding:5px; max-width:300px;">
                 <select id="language-selected">
                     <var select_options />
                 </select>
             </div>
+
             <div class="elment-block glass-block-border glass-border" style="padding:5px; max-width:initial; margin:0;">
                 <input id="search-string" name="search-string" type="text" />
             </div>

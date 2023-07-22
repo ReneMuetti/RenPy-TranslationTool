@@ -34,6 +34,7 @@ function searchStringInTranslations()
         "url"   : baseurl + "ajax_search.php",
         "data"  : {
                       "action"  : "find_translations",
+                      "original": $("#original").is(":checked"),
                       "pattern" : $("#search-string").val(),
                       "language": $("#language-selected").find(":selected").val(),
                   },

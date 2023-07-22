@@ -34,7 +34,8 @@ class Xliff_Information
         $langs = $lang -> getLanguagesByCode();
 
         $langOptions = array();
-        $langOptions[] = '<option value="0">' . $this -> registry -> user_lang['global']['option_actions_select'] . '</option>';
+        $langOptions[] = '<option value="0">'   . $this -> registry -> user_lang['global']['option_actions_select'] . '</option>';
+        //$langOptions[] = '<option value="255">' . $this -> registry -> user_lang['global']['option_actions_original_language'] . '</option>';
         foreach( $langs AS $code => $lngId ) {
             if ( $code != $this -> hiddenLanguage ) {
                 $langOptions[] = '<option value="' . $lngId . '">' . $this -> registry -> user_lang['languages'][$code] . '</option>';

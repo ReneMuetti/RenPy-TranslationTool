@@ -186,12 +186,19 @@ class Translation
      * @access public
      * @param  string     search string in translation
      * @param  integer    Language-ID
+     * @param  bool       search in original source
      * @return string
      */
-    public function getTranslationFromSearchPatterns($searchPattern, $language)
+    public function getTranslationFromSearchPatterns($searchPattern, $language, $searchOriginal = false)
     {
         $searchPattern = $this -> registry -> db -> escapeString($searchPattern);
-        $replaceWhere = 'REPLACE(`xliff_translate`.`translatet`, "\\\", \'\')';
+
+        if ( $searchOriginal == true ) {
+            $replaceWhere = 'REPLACE(`xliff_original`.`source`, "\\\", \'\')';
+        }
+        else {
+            $replaceWhere = 'REPLACE(`xliff_translate`.`translatet`, "\\\", \'\')';
+        }
 
         $query = "SELECT `xliff_translate`.*, " .
                         "`xliff_original`.`source`, " .
