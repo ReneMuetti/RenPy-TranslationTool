@@ -182,6 +182,12 @@ class Xliff_Download
                             $translatet = $this -> _replaceTokenFromMultiSegmentStrings($sourceStr, $newString[$key], $originalData['ignorable']);
                         }
 
+                        $translatet = str_replace(
+                                          array('{b}{b}', '{/b}:{/b}'),
+                                          array('{b}'   , '{/b}:'),
+                                          $translatet
+                                      );
+
                         $output[] = $this -> spacer . $translatet;
                     }
                     else {
@@ -574,6 +580,11 @@ class Xliff_Download
                       array($this -> inlineLB, ''),
                       $string
                   );
+
+        // replace HTML-Char in translation string if need
+        if ( mb_strpos($string, 'quot;') !== false ) {
+            $string = str_replace( array('&quot;', '&amp;quot;'), '"', $string);
+        }
 
         if ( mb_substr_count($string, '"') > 2 ) {
             // the string contains more than 2 quote marks; all inner ones must therefore be escaped

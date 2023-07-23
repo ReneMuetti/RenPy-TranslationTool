@@ -160,7 +160,7 @@ class Translation
     {
         $query = "SELECT `xliff_translate`.*, " .
                         "`xliff_original`.`source`, " .
-                        "`xliff_general`.`linenumber`, `xliff_general`.`person`, `xliff_general`.`emote`, `xliff_general`.`comment`, `xliff_general`.`ignorable` " .
+                        "`xliff_general`.`linenumber`, `xliff_general`.`person`, `xliff_general`.`emote`, `xliff_general`.`comment`, `xliff_general`.`ignorable`, `xliff_general`.`org_filename` " .
                  "FROM `xliff_translate` " .
                  "LEFT JOIN `xliff_original` ON (`xliff_translate`.`original` = `xliff_original`.`original_id`) " .
                  "LEFT JOIN `xliff_general` ON (`xliff_translate`.`general` = `xliff_general`.`general_id`) " .
@@ -202,7 +202,7 @@ class Translation
 
         $query = "SELECT `xliff_translate`.*, " .
                         "`xliff_original`.`source`, " .
-                        "`xliff_general`.`linenumber`, `xliff_general`.`person`, `xliff_general`.`emote`, `xliff_general`.`comment`, `xliff_general`.`ignorable` " .
+                        "`xliff_general`.`linenumber`, `xliff_general`.`person`, `xliff_general`.`emote`, `xliff_general`.`comment`, `xliff_general`.`ignorable`, `xliff_general`.`org_filename` " .
                  "FROM `xliff_translate` " .
                  "LEFT JOIN `xliff_original` ON (`xliff_translate`.`original` = `xliff_original`.`original_id`) " .
                  "LEFT JOIN `xliff_general` ON (`xliff_translate`.`general` = `xliff_general`.`general_id`) " .
@@ -333,7 +333,7 @@ class Translation
             }
             else {
                 $result[$langIsoCode] = $this -> _transformStringToHtmlOutput($searchString);
-                $result[$langIsoCode] = str_replace( array('.r<br />', '.r<br />\n'), '.<br />', $result[$langIsoCode]);
+                //$result[$langIsoCode] = str_replace( array('.r<br />', '.r<br />\n'), '.<br />', $result[$langIsoCode]);
             }
         }
 
@@ -504,15 +504,61 @@ class Translation
                 $sourceString = $this -> _transformStringToHtmlOutput($value['source']);
             }
 
+            if ( mb_strpos($sourceString, '«') !== false ) {
+                $value['translatet'] = $this -> _replaceQuoteInTranslationString($value['translatet']);
+            }
+
+            $value['translatet'] = $this -> _transformStringToHtmlOutput($value['translatet']);
+
             $this -> renderer -> loadTemplate('details' . DS . 'line_from_file.htm');
                 $this -> renderer -> setVariable('translate_id'  , $value['translate_id']);
                 $this -> renderer -> setVariable('original_id'   , $value['original']);
                 $this -> renderer -> setVariable('uuid'          , $value['uuid']);
+                $this -> renderer -> setVariable('file_name'     , $value['org_filename'] . ':' . $value['linenumber']);
                 $this -> renderer -> setVariable('source_text'   , $sourceString );
-                $this -> renderer -> setVariable('translate_text', $this -> _transformStringToHtmlOutput($value['translatet']) );
+                $this -> renderer -> setVariable('translate_text', $value['translatet']);
                 $this -> renderer -> setVariable('char_image'    , $imagename);
             $blocks[] = $this -> renderer -> renderTemplate();
         }
+    }
+
+    /**
+     * replace " characters in « and »
+     *
+     * @access private
+     * @param  string
+     * @return string
+     */
+    private function _replaceQuoteInTranslationString($string)
+    {
+        $result = '';
+        $quoteCount = 0;
+
+        $processString = stripslashes($string);
+
+        // replace HTML-Char in translation string if need
+        if ( mb_strpos($processString, 'quot;') !== false ) {
+            $processString = str_replace( array('&quot;', '&amp;quot;'), '"', $processString);
+        }
+
+        // get string length
+        $stringLength = mb_strlen($processString);
+
+        for ( $pos = 0; $pos < $stringLength; $pos++ ) {
+            $char = mb_substr($processString, $pos, 1);
+
+            if ($char === '"') {
+                $quoteCount++;
+
+                $replacement = ($quoteCount % 2 === 1) ? '«' : '»';
+                $result .= $replacement;
+            }
+            else {
+                $result .= $char;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -535,6 +581,8 @@ class Translation
                           $string
                       );
         }
+
+        $string = str_replace( array('.r<br />', '.r<br />\n'), '.<br />', $string);
 
         return $string;
     }

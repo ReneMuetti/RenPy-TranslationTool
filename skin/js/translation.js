@@ -1,6 +1,9 @@
 $(document).ready(function() {
     // Init Translation
     loadNextTranslation();
+
+    // init Event for "textarea"
+    bindEventForTextarea();
 });
 
 function nl2br (str, is_xhtml) {
@@ -25,6 +28,38 @@ function nl2br (str, is_xhtml) {
   return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
 
+function replaceQuotes(str) {
+    let count = 0;
+
+    return str.replace(/"/g, () => {
+        count++;
+        return count % 2 === 1 ? "«" : "»";
+    });
+}
+
+function getCurrentDivText() {
+    let currentDivText = $("#source-string").text();
+    //console.log("Current DIV Text:", currentDivText);
+    return currentDivText;
+}
+
+function bindEventForTextarea()
+{
+    $("textarea").on("input", function() {
+        let textarea = $(this);
+
+        setTimeout(function() {
+            let currentDivText = getCurrentDivText();
+
+            if ( currentDivText.includes("«") ) {
+                let orgTranslation = textarea.val();
+                let newTranslation = replaceQuotes(orgTranslation);
+
+                textarea.val(newTranslation);
+            }
+        }, 100);
+    });
+}
 
 function saveCurrentTranslation()
 {
