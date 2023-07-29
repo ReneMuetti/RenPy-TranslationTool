@@ -182,11 +182,7 @@ class Xliff_Download
                             $translatet = $this -> _replaceTokenFromMultiSegmentStrings($sourceStr, $newString[$key], $originalData['ignorable']);
                         }
 
-                        $translatet = str_replace(
-                                          array('{b}{b}', '{/b}:{/b}'),
-                                          array('{b}'   , '{/b}:'),
-                                          $translatet
-                                      );
+                        $translatet = $this -> _postProcessingForExport($translatet);
 
                         $output[] = $this -> spacer . $translatet;
                     }
@@ -429,6 +425,22 @@ class Xliff_Download
     /**************************************************************/
     /*********************  private functions *********************/
     /**************************************************************/
+
+    private function _postProcessingForExport($translation)
+    {
+        $translation = str_replace(
+                           array('{b}{b}', '{/b}:{/b}', '"Lisa:r{/b}'),
+                           array('{b}'   , '{/b}:'    , 'Lisa:{/b}'),
+                           $translation
+                       );
+        $translation = str_replace(
+                           array('&amp;', '&lt;br /&gt;'),
+                           array('&'    , ''),
+                           $translation
+                       );
+
+        return $translation;
+    }
 
     /**
      * convert serialized string to array
