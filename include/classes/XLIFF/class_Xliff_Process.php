@@ -241,7 +241,22 @@ class Xliff_Process
                 $this -> _getGeneralData($data, $general);
                 $general['org_filename'] = $currentGameFile;
 
+                $_isNewTranslation = false;
+                // check if the UUID is already stored in the database for the current file
                 if ( !array_key_exists($general['uuid'], $currentUuids) ) {
+                    $_isNewTranslation = true;
+                }
+                if ( $_isNewtranslation === true ) {
+                    // check if the UUID is already stored in the database but for a different file
+                    $_searchUuidWhileMoving = $this -> _findGeneralByUUID($uuid);
+
+                    if ( is_int($_searchUuidWhileMoving) AND ($_searchUuidWhileMoving > 0) ) {
+                        $_isNewTranslation = false;
+                    }
+                }
+
+                // if the record is new, then save it in the database - otherwise just update it
+                if ( $_isNewtranslation === true ) {
                     $this -> registry -> db -> insertRow($general, 'xliff_general');
                     $generalId = $this -> registry -> db -> insertID();
                     $igStrings++;
@@ -488,6 +503,26 @@ class Xliff_Process
         }
         else {
             return false;
+        }
+    }
+
+    /**
+     * Search for a UUID within the database (translation moved to another script)
+     *
+     * @access private
+     * @param  string      UUID
+     * @return boool|integer
+     */
+    private function _findGeneralByUUID($uuid)
+    {
+        $query = "SELECT `general_id` FROM `xliff_general` WHERE `uuid` = '" . $uuid . "'";
+        $data = $this -> registry -> db -> querySingleItem($query);
+
+        if ( is_null($data) OR ($data == NULL) OR !is_int($data) ) {
+            return false;
+        }
+        else {
+            return $data;
         }
     }
 

@@ -423,10 +423,10 @@ class Website_Pdo
     {
         $totalTime = $this -> microtime_float() - $this -> starttime;
 
-        return "<b>" . $this -> rowcount . " Zeile" . ( ($this -> rowcount > 1) ? 'n' : '' ) . " / " .
-                       $this -> sqlcounter . " Abfrage" . ( ($this -> sqlcounter > 1) ? 'n' : '' ) . " - " .
+        return "<b>" . $this -> rowcount    . " Zeile"   . ( ($this -> rowcount > 1) ? 'n' : '' ) . " / " .
+                       $this -> sqlcounter  . " Abfrage" . ( ($this -> sqlcounter > 1) ? 'n' : '' ) . " - " .
                        round($totalTime, 4) . " Sekunden (" . round(($totalTime - $this -> dbtime), 4) .
-                       " Sekunden PHP / " . round($this -> dbtime, 4) . " Sekunden SQL)" .
+                       " Sekunden PHP / "   . round($this -> dbtime, 4) . " Sekunden SQL)" .
                "</b>";
     }
 
