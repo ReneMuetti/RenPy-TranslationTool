@@ -227,7 +227,10 @@ class Xliff_Download
 
                             if ( (count($ignorable) == 2) AND ($checkSource == $ignorable[0]['source']) AND ($checkDest0 != $ignorable[0]['source']) AND ($checkDest1 != $ignorable[1]['source']) ) {
                                 // ignorable has 2 segments and it covers original string
-                                $output[] = $this -> spacer . 'new "' . $ignorable[0]['source'] . $this -> _fixedStringForRPY($newString[$key], false, true) . $ignorable[1]['source'] . '"';
+                                $translatet = $this -> _fixedStringForRPY($newString[$key], false, true);
+                                $translatet = $this -> _postProcessingForExport($translatet);
+
+                                $output[] = $this -> spacer . 'new "' . $ignorable[0]['source'] . $translatet . $ignorable[1]['source'] . '"';
                             }
                             else {
                                 // multible segments or ignorable mixed position
@@ -239,13 +242,19 @@ class Xliff_Download
                         }
                         else {
                             // simple translation
-                            $output[] = $this -> spacer . 'new "' . $this -> _fixedStringForRPY($newString[$key], false, true) . '"';
+                            $translatet = $this -> _fixedStringForRPY($newString[$key], false, true);
+                            $translatet = $this -> _postProcessingForExport($translatet);
+
+                            $output[] = $this -> spacer . 'new "' . $translatet . '"';
                         }
                     }
                     else {
                         // TODO :: better handling for common.rpy
                         if ( $originalFileName == 'common.rpy' ) {
-                            $output[] = $this -> spacer . 'new "' . $this -> _fixedStringForRPY($originalData['comment'], false, true) . '"';
+                            $translatet = $this -> _fixedStringForRPY($newString[$key], false, true);
+                            $translatet = $this -> _postProcessingForExport($translatet);
+
+                            $output[] = $this -> spacer . 'new "' . $translatet . '"';
                         }
                         else {
                             // missing translation
@@ -436,8 +445,8 @@ class Xliff_Download
                            $translation
                        );
         $translation = str_replace(
-                           array('&amp;', '&lt;br /&gt;'),
-                           array('&'    , ''),
+                           array('&amp;amp;', '&amp;', '&lt;br /&gt;', '&lt;', '&gt;'),
+                           array('&'        , '&'    , ''            , '<'   , '>'),
                            $translation
                        );
 
