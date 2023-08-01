@@ -232,6 +232,8 @@ class Xliff_Download
                             else {
                                 // multible segments or ignorable mixed position
                                 $translatet = $this -> _replaceTokenFromMultiSegmentStrings($sourceStr, $newString[$key], $originalData['ignorable']);
+                                $translatet = $this -> _postProcessingForExport($translatet);
+
                                 $output[] = $this -> spacer . 'new "' . $translatet . '"';
                             }
                         }
