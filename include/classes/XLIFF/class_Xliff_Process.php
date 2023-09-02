@@ -225,11 +225,14 @@ class Xliff_Process
             $errorCnt = 0;   // Error-Counter
 
             foreach( $this -> currentXLIFF['file']['unit'] AS $id => $data ) {
+                // Reset working-variables
                 $general  = array();
                 $original = array();
 
                 $mulitSegment = false;
                 $breakForeach = false;
+
+                $_isNewTranslation = false;
 
                 if ( is_string($data) AND strlen($data) == 36 ) {
                     // Only one Record in XLIFF-File
@@ -241,14 +244,13 @@ class Xliff_Process
                 $this -> _getGeneralData($data, $general);
                 $general['org_filename'] = $currentGameFile;
 
-                $_isNewTranslation = false;
                 // check if the UUID is already stored in the database for the current file
                 if ( !array_key_exists($general['uuid'], $currentUuids) ) {
                     $_isNewTranslation = true;
                 }
-                if ( $_isNewtranslation === true ) {
+                if ( $_isNewTranslation === true ) {
                     // check if the UUID is already stored in the database but for a different file
-                    $_searchUuidWhileMoving = $this -> _findGeneralByUUID($uuid);
+                    $_searchUuidWhileMoving = $this -> _findGeneralByUUID($general['uuid']);
 
                     if ( is_int($_searchUuidWhileMoving) AND ($_searchUuidWhileMoving > 0) ) {
                         $_isNewTranslation = false;
@@ -256,7 +258,7 @@ class Xliff_Process
                 }
 
                 // if the record is new, then save it in the database - otherwise just update it
-                if ( $_isNewtranslation === true ) {
+                if ( $_isNewTranslation === true ) {
                     $this -> registry -> db -> insertRow($general, 'xliff_general');
                     $generalId = $this -> registry -> db -> insertID();
                     $igStrings++;
