@@ -35,7 +35,11 @@ section {
     width: 400px;
     min-height: 400px;
 }
-#login-form, #register-form {
+#success-container {
+    width: 550px;
+    min-height: 400px;
+}
+#login-form, #register-form, #success-container > div {
     padding: 40px;
 }
 #login-form input[type="text"], #login-form input[type="password"], #login-form input::placeholder,

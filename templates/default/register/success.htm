@@ -18,6 +18,7 @@
         <link href="<var_config baseurl />favicon.png" rel="shortcut icon" />
         <link href="<var_config baseurl />favicon.png" rel="apple-touch-icon" />
 
+        <link rel="stylesheet" type="text/css" href="<var_config baseurl />skin/css/colors.css"  media="screen" />
         <link rel="stylesheet" type="text/css" href="<var_config baseurl />skin/css/base.css"  media="screen" />
 
         <var header_js />
@@ -41,11 +42,14 @@
             </aside>
             <section id="register">
 
-<div>.: <lang login_page_register_success_title /> :.</div>
-<div>
-    <lang login_page_register_success_message />
-    <br />
-    <lang login_page_register_success_info />
+<div id="register-box">
+    <div id="success-container" class="glass-block-border glass-border">
+        <div class="glass-block">
+            <h2>.: <lang login_page_register_success_title /> :.</h2>
+            <div class="elment-block"><lang login_page_register_success_message /></div>
+            <div class="elment-block"><lang login_page_register_success_info /></div>
+        </div>
+    </div>
 </div>
 
             </section>
