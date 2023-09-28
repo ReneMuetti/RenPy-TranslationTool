@@ -201,7 +201,8 @@ class Translation
             $replaceWhere = 'REPLACE(`xliff_translate`.`translatet`, "\\\", \'\')';
         }
 
-        if ( $filterByPerson == 'none' ) {
+        $filterByPerson = trim($filterByPerson);
+        if ( ($filterByPerson == 'none') OR (!strlen($filterByPerson)) ) {
             $personFilter = '';
         }
         else {
