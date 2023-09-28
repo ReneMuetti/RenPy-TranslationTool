@@ -42,8 +42,16 @@ class Xliff_Information
             }
         }
 
+        $allPersons = $this -> _getAllPersonsFromOriginal();
+        $charOptions = array();
+        $charOptions[] = '<option value="none">'   . $this -> registry -> user_lang['global']['option_actions_select'] . '</option>';
+        foreach( $allPersons AS $person ) {
+            $charOptions[] = '<option value="' . $person . '">' . $person . '</option>';
+        }
+
         $this -> renderer -> loadTemplate('search' . DS . 'form.htm');
-            $this -> renderer -> setVariable('select_options', implode("\n                ", $langOptions));
+            $this -> renderer -> setVariable('select_options'   , implode("\n                            ", $langOptions));
+            $this -> renderer -> setVariable('character_options', implode("\n                            ", $charOptions));
         return $this -> renderer -> renderTemplate();
     }
 
@@ -351,6 +359,29 @@ class Xliff_Information
 
 
 
+
+    /**
+     * get all Persons as array
+     *
+     * @access private
+     * @return array
+     */
+    private function _getAllPersonsFromOriginal()
+    {
+        $persons = array();
+
+        $query = 'SELECT `person` FROM `xliff_general` WHERE `person` <> "" GROUP BY `person` ORDER BY `person`;';
+        $data  = $this -> registry -> db -> queryObjectArray($query);
+        if ( is_array($data) AND count($data) ) {
+            foreach($data AS $key => $value) {
+                if ( ctype_upper($value['person'][0]) ) {
+                    $persons[] = $value['person'];
+                }
+            }
+        }
+
+        return $persons;
+    }
 
     /**
      * sort all translations by LanguageID an UUID

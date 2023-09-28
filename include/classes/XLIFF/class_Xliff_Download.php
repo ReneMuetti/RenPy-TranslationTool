@@ -250,7 +250,7 @@ class Xliff_Download
                     }
                     else {
                         // TODO :: better handling for common.rpy
-                        if ( $originalFileName == 'common.rpy' ) {
+                        if ( ($originalFileName == 'common.rpy') AND is_string($newString[$key]) ) {
                             $translatet = $this -> _fixedStringForRPY($newString[$key], false, true);
                             $translatet = $this -> _postProcessingForExport($translatet);
 
@@ -449,6 +449,7 @@ class Xliff_Download
                            array('&'        , '&'    , ''            , '<'   , '>'),
                            $translation
                        );
+        $translation = str_replace('\\" nointeract"', '" nointeract', $translation);
 
         return $translation;
     }
@@ -597,6 +598,10 @@ class Xliff_Download
      */
     private function _fixedStringForRPY($string, $replaceQuoteMarks = false, $isShortTranslation = false)
     {
+        if ( !strlen($string) ) {
+            return $string;
+        }
+
         $string = stripslashes($string);
         $string = str_replace(
                       array("\n"             , "\r"),

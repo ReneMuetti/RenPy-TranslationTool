@@ -4,7 +4,7 @@ class Translation
     private $registry;
     private $renderer;
 
-    private $languageStatus = null;
+    private $languageStatus  = null;
     private $openTranslation = null;
     private $languageCodesID = null;
 
@@ -187,9 +187,10 @@ class Translation
      * @param  string     search string in translation
      * @param  integer    Language-ID
      * @param  bool       search in original source
+     * @param  string     filter String by Person
      * @return string
      */
-    public function getTranslationFromSearchPatterns($searchPattern, $language, $searchOriginal = false)
+    public function getTranslationFromSearchPatterns($searchPattern, $language, $searchOriginal = false, $filterByPerson = 'none')
     {
         $searchPattern = $this -> registry -> db -> escapeString($searchPattern);
 
@@ -200,6 +201,19 @@ class Translation
             $replaceWhere = 'REPLACE(`xliff_translate`.`translatet`, "\\\", \'\')';
         }
 
+        if ( $filterByPerson == 'none' ) {
+            $personFilter = '';
+        }
+        else {
+            $peronStrings = array(
+                                      $filterByPerson,
+                                'p' . $filterByPerson,
+                                't' . $filterByPerson,
+                            );
+
+            $personFilter = 'AND `xliff_general`.`person` IN ("' . implode('", "', $peronStrings) . '") ';
+        }
+
         $query = "SELECT `xliff_translate`.*, " .
                         "`xliff_original`.`source`, " .
                         "`xliff_general`.`linenumber`, `xliff_general`.`person`, `xliff_general`.`emote`, `xliff_general`.`comment`, `xliff_general`.`ignorable`, `xliff_general`.`org_filename` " .
@@ -208,7 +222,9 @@ class Translation
                  "LEFT JOIN `xliff_general` ON (`xliff_translate`.`general` = `xliff_general`.`general_id`) " .
                 "WHERE " . $replaceWhere . " LIKE '%" . $searchPattern . "%' " .
                  ( ($language >= 1) ? "AND `xliff_translate`.`language` = " . $language . " " : '' ) .
+                 $personFilter .
                  "ORDER BY `xliff_general`.`linenumber` ASC;";
+
         $data = $this -> registry -> db -> queryObjectArray($query);
 
         $blocks = array();
@@ -508,7 +524,7 @@ class Translation
                 $value['translatet'] = $this -> _replaceQuoteInTranslationString($value['translatet']);
             }
 
-            $value['translatet'] = $this -> _transformStringToHtmlOutput($value['translatet']);
+            $translatet_html = $this -> _transformStringToHtmlOutput($value['translatet']);
 
             $this -> renderer -> loadTemplate('details' . DS . 'line_from_file.htm');
                 $this -> renderer -> setVariable('translate_id'  , $value['translate_id']);
@@ -516,6 +532,7 @@ class Translation
                 $this -> renderer -> setVariable('uuid'          , $value['uuid']);
                 $this -> renderer -> setVariable('file_name'     , $value['org_filename'] . ':' . $value['linenumber']);
                 $this -> renderer -> setVariable('source_text'   , $sourceString );
+                $this -> renderer -> setVariable('translate_html', $translatet_html );
                 $this -> renderer -> setVariable('translate_text', $value['translatet']);
                 $this -> renderer -> setVariable('char_image'    , $imagename);
             $blocks[] = $this -> renderer -> renderTemplate();
@@ -531,34 +548,8 @@ class Translation
      */
     private function _replaceQuoteInTranslationString($string)
     {
-        $result = '';
-        $quoteCount = 0;
-
-        $processString = stripslashes($string);
-
-        // replace HTML-Char in translation string if need
-        if ( mb_strpos($processString, 'quot;') !== false ) {
-            $processString = str_replace( array('&quot;', '&amp;quot;'), '"', $processString);
-        }
-
-        // get string length
-        $stringLength = mb_strlen($processString);
-
-        for ( $pos = 0; $pos < $stringLength; $pos++ ) {
-            $char = mb_substr($processString, $pos, 1);
-
-            if ($char === '"') {
-                $quoteCount++;
-
-                $replacement = ($quoteCount % 2 === 1) ? '«' : '»';
-                $result .= $replacement;
-            }
-            else {
-                $result .= $char;
-            }
-        }
-
-        return $result;
+        $converter = new HtmlTransform();
+        return $converter -> replaceQuoteInTranslationString($string);
     }
 
     /**
@@ -570,21 +561,8 @@ class Translation
      */
     private function _transformStringToHtmlOutput($string, $replaceBBCode = true)
     {
-        $string = stripslashes($string);
-        $string = nl2br($string);
-
-        // convert BB-Code to HTML
-        if ( $replaceBBCode === true ) {
-            $string = str_replace(
-                          array('{i}', '{/i}', '{b}', '{/b}', '{u}', '{/u}'),
-                          array('<i>', '</i>', '<b>', '</b>', '<u>', '</u>'),
-                          $string
-                      );
-        }
-
-        $string = str_replace( array('.r<br />', '.r<br />\n'), '.<br />', $string);
-
-        return $string;
+        $converter = new HtmlTransform();
+        return $converter -> convertCodeToHtml($string, $replaceBBCode);
     }
 
     /**

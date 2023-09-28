@@ -33,6 +33,7 @@ function searchStringInTranslations()
                       "original": $("#original").is(":checked"),
                       "pattern" : $("#search-string").val(),
                       "language": $("#language-selected").find(":selected").val(),
+                      "person"  : $("#character-selected").find(":selected").val(),
                   },
         "beforeSend": function() {
                           $("#search-list").html("");
@@ -102,15 +103,50 @@ function toggleEditTranslation(senderID)
         bindEventForTextarea(senderID);
     }
     else {
-        if ( $("#input-" + senderID).val() != $("#translate-" + senderID).html() ) {
+        if ( $("#loaded-translation-" + senderID).html() != $("#translate-" + senderID).html() ) {
             // need save change data
-            $("#translate-" + senderID).html( nl2br($("#input-" + senderID).val(), true) );
+            //$("#translate-" + senderID).html( nl2br($("#input-" + senderID).val(), true) );
+            convertTranslationIntoHtml(senderID);
+            $("#loaded-translation-" + senderID).html( $("#input-" + senderID).val() );
         }
 
         $("#translate-" + senderID).show();
         $("#input-" + senderID).hide().off("input");
         $("#save-button-" + senderID).hide();
     }
+}
+
+/**
+ * send Translation for HTML-Convertig to Server
+ *
+ * @param integer   Translation-ID
+ */
+function convertTranslationIntoHtml(senderID)
+{
+    $.ajax({
+        "method": "POST",
+        "url"   : baseurl + "ajax_string_convert.php",
+        "data"  : {
+                      "action"     : "convert",
+                      "translation": $("#input-" + senderID).val(),
+                  },
+        "beforeSend": function() {
+                      }
+    })
+    .done(function(ajaxResult) {
+        let ajaxData = $.parseJSON(ajaxResult);
+
+        if ( ajaxData.error == true ) {
+            alert( ajaxData.message );
+        }
+        else {
+            // insert new Translation
+            $("#translate-" + senderID).html( ajaxData.data );
+        }
+    })
+    .fail(function(jqXHR, textStatus){
+        alert( "Request failed: " + textStatus );
+    });
 }
 
 /**

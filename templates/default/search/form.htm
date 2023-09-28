@@ -2,21 +2,29 @@
     <div class="glass-block">
         <h2><lang search_form_title /></h2>
         <div class="flex-3">
-            <div style="padding:10px 5px; max-width:350px;">
-                <div class="checkbox-element">
+            <div style="padding:10px 5px; max-width:700px;">
+                <div class="checkbox-element" style="margin-bottom: 10px;">
                     <input type="checkbox" id="original" /><span style="top:0; left:auto;"><lang global_option_actions_original_language /></span>
                 </div>
-            </div>
-            <div class="select-box glass-block-border glass-border" style="padding:5px; max-width:300px;">
-                <select id="language-selected">
-                    <var select_options />
-                </select>
+
+                <div class="flex-2">
+                    <div class="select-box glass-block-border glass-border" style="padding:5px;">
+                        <select id="language-selected">
+                            <var select_options />
+                        </select>
+                    </div>
+                    <div class="select-box glass-block-border glass-border" style="padding:5px;">
+                        <select id="character-selected">
+                            <var character_options />
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="elment-block glass-block-border glass-border" style="padding:5px; max-width:initial; margin:0;">
                 <input id="search-string" name="search-string" type="text" />
             </div>
-            <div class="glass-block-border glass-border" style="padding:5px; max-width:300px;">
+            <div class="glass-block-border glass-border" style="padding:40px 5px; max-width:300px;">
                 <div class="glass-block">
                     <div class="elment-block" style="padding:0;">
                         <button class="button glass-border" onclick="searchStringInTranslations()" style="margin:0; max-width:100%;"><lang search_button_search /></button>
