@@ -45,6 +45,7 @@ class Xliff_Information
         $allPersons = $this -> _getAllPersonsFromOriginal();
         $charOptions = array();
         $charOptions[] = '<option value="none">'   . $this -> registry -> user_lang['global']['option_actions_select'] . '</option>';
+        $charOptions[] = '<option value="empty">'   . $this -> registry -> user_lang['search']['no_person'] . '</option>';
         foreach( $allPersons AS $person ) {
             $charOptions[] = '<option value="' . $person . '">' . $person . '</option>';
         }

@@ -206,13 +206,18 @@ class Translation
             $personFilter = '';
         }
         else {
-            $peronStrings = array(
-                                      $filterByPerson,
-                                'p' . $filterByPerson,
-                                't' . $filterByPerson,
-                            );
+            if ( $filterByPerson == 'empty' ) {
+                $personFilter = 'AND `xliff_general`.`person` = "" ';
+            }
+            else {
+                $peronStrings = array(
+                                          $filterByPerson,
+                                    'p' . $filterByPerson,
+                                    't' . $filterByPerson,
+                                );
 
-            $personFilter = 'AND `xliff_general`.`person` IN ("' . implode('", "', $peronStrings) . '") ';
+                $personFilter = 'AND `xliff_general`.`person` IN ("' . implode('", "', $peronStrings) . '") ';
+            }
         }
 
         $query = "SELECT `xliff_translate`.*, " .

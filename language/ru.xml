@@ -292,5 +292,6 @@
 	    <button_search>Поиск</button_search>
 	    <empty_placeholder>Введите текст для поиска и выберите язык, чтобы сузить поиск.</empty_placeholder>
 	    <no_result_for_request>Для этого шаблона поиска не найдено ни одного совпадения!</no_result_for_request>
+	    <no_person>Текст системы</no_person>
 	</search>
 </language>

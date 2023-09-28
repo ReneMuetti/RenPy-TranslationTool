@@ -292,5 +292,6 @@
 	    <button_search>Suchen</button_search>
 	    <empty_placeholder>Geben Sie einen Suchtext ein und wählen Sie zur Eingrenzug der Suche eine Sprache aus.</empty_placeholder>
 	    <no_result_for_request>Für dieses Suchmuster wurden keine Treffer gefunden!</no_result_for_request>
+	    <no_person>System-Text</no_person>
 	</search>
 </language>
