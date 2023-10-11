@@ -4,4 +4,4 @@
 | Date | Short description |
 | --- | --- |
 | 09/2023 | better Ajaxsearch |
-| 0872023 | fixed HTML-formating |
+| 08/2023 | fixed HTML-formating |
