@@ -22,7 +22,7 @@ class Logging
     {
         global $website;
 
-        $this -> basePath    = $website -> config['Misc']['path'] . '/log/';
+        $this -> basePath    = $website -> config['Misc']['log_path'] . DS;
         $this -> logFile     = trim($logType) . '.log';
         $this -> logFileFull = $this -> basePath . $this -> logFile;
 
@@ -46,7 +46,7 @@ class Logging
             file_put_contents($this -> logFileFull, $logMessage, FILE_APPEND | LOCK_EX);
         }
     }
-    
+
     /**
      * Daten aus der Announce-Unpack einlesen und als Array zurückgeben
      *
@@ -67,32 +67,32 @@ class Logging
                     if ( strpos($line, 'Passkey') !== false ) {
                         $tmp = explode(' ', $line);
                         $key = trim($tmp[1]);
-                        
+
                         if ( !array_key_exists($key, $data) ) {
                             $data[$key] = array();
                         }
                         $count++;
                     }
-                    
+
                     if ( strlen($key) ) {
                         if ( strpos($line, '[1]') !== false ) {
                             $tmp = explode(' ',  trim($line));
                             $sha = trim($tmp[2]);
-                            
+
                             if ( !array_key_exists($sha, $data[$key]) ) {
                                 $data[$key][$sha] = 1;
                             }
                             else {
                                 $data[$key][$sha] += 1;
                             }
-                            
+
                             $key = '';
                             $sha = '';
                         }
                     }
                 }
                 fclose($handle);
-                
+
                 return $data;
             }
             else {
@@ -103,7 +103,7 @@ class Logging
             return 'LOG-File nicht vorhanden!';
         }
     }
-    
+
 
     /**
      * Zeile mit Dateum und Script erzeugen
@@ -124,7 +124,7 @@ class Logging
     {
         return $this -> nl . $this -> _getTrenner() . $this -> nl;
     }
-    
+
     private function _getTrenner()
     {
         return str_repeat('-', $this -> length);

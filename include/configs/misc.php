@@ -4,6 +4,7 @@ $config_data['Host']['host']     = '** current base-URL **';
 $config_data['Host']['script']   = THIS_SCRIPT . '.php';
 
 $config_data['Misc']['path']              = '** physical path to directory **';
+$config_data['Misc']['log_path']          = $config_data['Misc']['path'] . '/var/log';
 $config_data['Misc']['baseurl']           = $config_data['Host']['protocol'] . '://' . $config_data['Host']['host'] . '/';
 $config_data['Misc']['charset']           = 'UTF-8';
 $config_data['Misc']['showtemplatenames'] = FALSE;
