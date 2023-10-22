@@ -449,6 +449,13 @@ class Xliff_Download
                            array('&'        , '&'    , ''            , '<'   , '>'),
                            $translation
                        );
+
+        // fixed "Max"-Export
+        if ( mb_strpos($translation, 'Max «Маx') !== false ) {
+            $translation = str_replace('Max «Маx', 'Max', $translation);
+            $translation = mb_substr($translation, 0, -4) . '"';
+        }
+
         $translation = str_replace('\\" nointeract"', '" nointeract', $translation);
 
         return $translation;
@@ -487,11 +494,11 @@ class Xliff_Download
         $lastSrc  = '';
 
         foreach( $ignorabeData AS $key => $value ) {
-            if ( strpos($value['source'], '\\\\') !== false ) {
+            if ( mb_strpos($value['source'], '\\\\') !== false ) {
                 $value['source'] = str_replace('\\\\', '\\', $value['source']);
             }
 
-            $curStart = strpos($originalString, $value['source']);
+            $curStart = mb_strpos($originalString, $value['source']);
 
             if ( ($curStart == $lastEnd) AND ($lastEnd >= 1) ) {
                 $removableIds[] = $key;
@@ -604,8 +611,8 @@ class Xliff_Download
 
         $string = stripslashes($string);
         $string = str_replace(
-                      array("\n"             , "\r"),
-                      array($this -> inlineLB, ''),
+                      array("\n"             , '.\r', "\r"),
+                      array($this -> inlineLB, ''   , ''),
                       $string
                   );
 
@@ -646,7 +653,7 @@ class Xliff_Download
         }
         else {
             // short-strings (old/new - duo)
-            if ( (strpos($string, '"') !== false) AND ($isShortTranslation === true) ) {
+            if ( (mb_strpos($string, '"') !== false) AND ($isShortTranslation === true) ) {
                 $string = str_replace('"', '\\"', $string);
             }
 

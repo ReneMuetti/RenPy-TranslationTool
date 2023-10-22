@@ -25,6 +25,10 @@ require_once( realpath('./include/helper/xml.php') );   // XML-Functions
 require_once( realpath('./include/functions/function_init.php') );
 
 
+if ( !defined('LOCAL_CHARSET') ) {
+    define('LOCAL_CHARSET', $website -> config['Misc']['charset']);
+}
+
 if ( !defined('TIMENOW') ) {
     define('TIMENOW', time());
 }

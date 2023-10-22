@@ -355,7 +355,6 @@ class Translation
             }
             else {
                 $result[$langIsoCode] = $this -> _transformStringToHtmlOutput($searchString);
-                //$result[$langIsoCode] = str_replace( array('.r<br />', '.r<br />\n'), '.<br />', $result[$langIsoCode]);
             }
         }
 
@@ -526,10 +525,7 @@ class Translation
                 $sourceString = $this -> _transformStringToHtmlOutput($value['source']);
             }
 
-            if ( mb_strpos($sourceString, '«') !== false ) {
-                $value['translatet'] = $this -> _replaceQuoteInTranslationString($value['translatet']);
-            }
-
+            $value['translatet'] = $this -> _replaceQuoteInTranslationString($value['translatet']);
             $translatet_html = $this -> _transformStringToHtmlOutput($value['translatet']);
 
             $this -> renderer -> loadTemplate('details' . DS . 'line_from_file.htm');

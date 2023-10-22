@@ -108,14 +108,16 @@ class Translation_History
                                      FineDiff::$characterGranularity,
                                  );
 
+            $transformer = new HtmlTransform();
+
             foreach( $data AS $key => $value ) {
                 if($key == 0) {
                     $result['data']['general']['firstid'] = $value['history_id'];
                 }
                 $result['data']['general']['lastid'] = $value['history_id'];
 
-                $value['old_string'] = nl2br(stripslashes($value['old_string']));
-                $value['new_string'] = nl2br(stripslashes($value['new_string']));
+                $value['old_string'] = $transformer -> convertCodeToHtml($value['old_string'], true, true);
+                $value['new_string'] = $transformer -> convertCodeToHtml($value['new_string'], true, true);
 
                 $diff_opcodes    = FineDiff::getDiffOpcodes($value['old_string'], $value['new_string'], $granularityStacks[$granularity]);
                 $renderNewString = FineDiff::renderDiffToHTMLFromOpcodes($value['old_string'], $diff_opcodes);
@@ -197,17 +199,15 @@ class Translation_History
             $where[] = "`history`.`new_string` LIKE '%" . $new . "%'";
         }
 
+        if ( $page >= 2 ) {
+            $where[] = "`history`.`history_id` <= " . ($end - 1);
+        }
+
         if ( $showTotalCount === true ) {
             $limit = '';
         }
         else {
-            // Set limit parameter only after the 2nd page has been set in the pager
-            if ( ($count >= 1) AND ($page >= 2) ) {
-                $limit = "LIMIT " . ($page * $count) + 1 . ", " . $count;
-            }
-            else {
-                $limit = "LIMIT " . $count;
-            }
+            $limit = "LIMIT " . $count;
         }
 
         if ( count($where) ) {

@@ -1,27 +1,32 @@
+let pagerCurrent = 1;
+let pagerFirst = -1;
+let pagerLast = -1;
+let newIndex = 1;
+let tableRefresh = false;
+
+
 $(document).ready(function(){
     $("#index-info-table select").on("change", function() {
         updateHistoryTable(this);
     });
-    
+
     $("#counter").on("change", function() {
         // clear pager
         $("#pager").html("");
         addNewSelectOption($("#pager"), 0, strPleaseSelect);
     });
-    
+
     if ( $(this).hasClass("no-click") ) {
         $(this).removeClass("no-click");
     }
-    
+
     $("#pager-back, #pager-forward").on("click", function() {
         $("#pager-back, #pager-forward").removeClass("no-click");
-        
-        let pagerCurrent = parseInt( $("#pager").find(":selected").val() );
-        let pagerFirst   = parseInt( $("#pager option:nth-child(2)").val() );
-        let pagerLast    = parseInt( $("#pager option").last().val() );
-        let newIndex;
-        let tableRefresh = false;
-        
+
+        pagerCurrent = parseInt( $("#pager").find(":selected").val() );
+        pagerFirst   = parseInt( $("#pager option:nth-child(2)").val() );
+        pagerLast    = parseInt( $("#pager option").last().val() );
+
         if ( $(this).attr("id") == "pager-forward" ) {
             // page up
             if ( pagerCurrent < pagerLast ) {
@@ -42,21 +47,21 @@ $(document).ready(function(){
                 newIndex = pagerCurrent;
             }
         }
-        
+
         if ( ($(this).attr("id") == "pager-forward") && (newIndex == pagerLast) ) {
             $(this).addClass("no-click");
         }
         else if ( ($(this).attr("id") == "pager-back") && (newIndex == pagerFirst) ) {
             $(this).addClass("no-click");
         }
-        
+
         $("#pager").prop("selectedIndex", newIndex);
-        
+
         if ( tableRefresh == true ) {
             updateHistoryTable(this);
         }
     });
-    
+
     updateHistoryTable(self);
 });
 
@@ -84,7 +89,7 @@ function updateHistoryTable(element)
     })
     .done(function(ajaxResult) {
         let ajaxData = $.parseJSON(ajaxResult);
-        
+
         if ( ajaxData.error == true ) {
             alert( ajaxData.message );
         }
@@ -96,12 +101,12 @@ function updateHistoryTable(element)
                 $.each( ajaxData.data.result, function(index, value){
                     newRowWithResultData(value);
                 });
-                
+
                 fillTablePager(ajaxData.data.total, $("#counter").find(":selected").val());
-                
+
                 $("#start-id").val( ajaxData.data.general.firstid );
                 $("#end-id").val( ajaxData.data.general.lastid );
-                
+
                 if ( ajaxData.data.total <= parseInt( $("#counter").find(":selected").val() ) ) {
                     $("#pager-forward, #pager-back").addClass("no-click");
                 }
@@ -127,7 +132,7 @@ function newRowForEmptyResult(message)
 function newRowWithResultData(lineData)
 {
     let newRow = $("<tr></tr>");
-    
+
     $.each(lineData, function(lineKey, lineValue) {
         newRow.append( createNewTableCell(lineValue) );
     });
@@ -144,19 +149,19 @@ function fillTablePager(maxCount, perPage)
 {
     if ( (maxCount != $("#max-count").val()) || (maxCount >= 1 && $("#pager option").length == 1) ) {
         $("#max-count").val( maxCount );
-        
+
         $("#pager").html("");
         addNewSelectOption($("#pager"), 0, strPleaseSelect);
-        
+
         let pages = Math.ceil(maxCount / perPage);
         for( let i = 1; i <= pages; i++ ) {
             addNewSelectOption($("#pager"), i, i);
         }
-        
-        $("#pager").prop("selectedIndex", 1);
+
+        $("#pager").prop("selectedIndex", newIndex);
     }
-    
-        
+
+
 }
 
 function addNewSelectOption(element, value, caption)
@@ -170,6 +175,7 @@ function addNewSelectOption(element, value, caption)
 
 function resetFilter()
 {
+    console.log("resetFilter");
     $("#user").prop("selectedIndex", 0);
     $("#language").prop("selectedIndex", 0);
     $("#method").prop("selectedIndex", 0);
@@ -180,9 +186,9 @@ function resetFilter()
     $("#new-string").val("");
     $("#start-id").val(1);
     $("#end-id").val(10);
-    
+
     $("#pager-forward, #pager-back").removeClass("no-click");
     $("#pager-forward").addClass("no-click");
-    
+
     updateHistoryTable(this);
 }
