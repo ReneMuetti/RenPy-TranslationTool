@@ -527,6 +527,11 @@ class Translation
 
             $value['translatet'] = $this -> _replaceQuoteInTranslationString($value['translatet']);
             $translatet_html = $this -> _transformStringToHtmlOutput($value['translatet']);
+            $translatet_text = str_replace(
+                                   array('\\'),
+                                   array(''),
+                                   $value['translatet']
+                               );
 
             $this -> renderer -> loadTemplate('details' . DS . 'line_from_file.htm');
                 $this -> renderer -> setVariable('translate_id'  , $value['translate_id']);
@@ -535,7 +540,7 @@ class Translation
                 $this -> renderer -> setVariable('file_name'     , $value['org_filename'] . ':' . $value['linenumber']);
                 $this -> renderer -> setVariable('source_text'   , $sourceString );
                 $this -> renderer -> setVariable('translate_html', $translatet_html );
-                $this -> renderer -> setVariable('translate_text', $value['translatet']);
+                $this -> renderer -> setVariable('translate_text', $translatet_text);
                 $this -> renderer -> setVariable('char_image'    , $imagename);
             $blocks[] = $this -> renderer -> renderTemplate();
         }

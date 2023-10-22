@@ -8,14 +8,29 @@ function bindEventForTextarea(senderID)
         let textarea = $(this);
 
         setTimeout(function() {
-            //let currentDivText = getCurrentSourceText("#source-string");
+            $.ajax({
+                "method": "POST",
+                "url"   : baseurl + "ajax_html_convert.php",
+                "data"  : {
+                              "action": "convert",
+                              "string": textarea.val()
+                          },
+                "beforeSend": function() {}
+            })
+            .done(function(ajaxResult) {
+                let ajaxData = $.parseJSON(ajaxResult);
 
-            //if ( currentDivText.includes("«") ) {
-                let orgTranslation = textarea.val();
-                let newTranslation = replaceQuotes(orgTranslation);
-
-                textarea.val(newTranslation);
-            //}
+                if ( ajaxData.error == true ) {
+                    alert(ajaxData.message);
+                }
+                else {
+                    $("#input-" + senderID).val(ajaxData.data.text);
+                    $("#translate-" + senderID).val(ajaxData.data.html);
+                }
+            })
+            .fail(function(jqXHR, textStatus){
+                alert( "Request failed: " + textStatus );
+            });
         }, 100);
     });
 }

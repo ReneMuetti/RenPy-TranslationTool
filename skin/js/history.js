@@ -175,7 +175,6 @@ function addNewSelectOption(element, value, caption)
 
 function resetFilter()
 {
-    console.log("resetFilter");
     $("#user").prop("selectedIndex", 0);
     $("#language").prop("selectedIndex", 0);
     $("#method").prop("selectedIndex", 0);
