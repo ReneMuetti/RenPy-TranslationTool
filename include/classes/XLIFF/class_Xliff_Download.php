@@ -182,6 +182,7 @@ class Xliff_Download
                             $translatet = $this -> _replaceTokenFromMultiSegmentStrings($sourceStr, $newString[$key], $originalData['ignorable']);
                         }
 
+                        $translatet = $this -> _convertHtmlEntitiesForPRY($translatet);
                         $translatet = $this -> _postProcessingForExport($translatet);
 
                         $output[] = $this -> spacer . $translatet;
@@ -228,6 +229,7 @@ class Xliff_Download
                             if ( (count($ignorable) == 2) AND ($checkSource == $ignorable[0]['source']) AND ($checkDest0 != $ignorable[0]['source']) AND ($checkDest1 != $ignorable[1]['source']) ) {
                                 // ignorable has 2 segments and it covers original string
                                 $translatet = $this -> _fixedStringForRPY($newString[$key], false, true);
+                                $translatet = $this -> _convertHtmlEntitiesForPRY($translatet);
                                 $translatet = $this -> _postProcessingForExport($translatet);
 
                                 $output[] = $this -> spacer . 'new "' . $ignorable[0]['source'] . $translatet . $ignorable[1]['source'] . '"';
@@ -235,6 +237,7 @@ class Xliff_Download
                             else {
                                 // multible segments or ignorable mixed position
                                 $translatet = $this -> _replaceTokenFromMultiSegmentStrings($sourceStr, $newString[$key], $originalData['ignorable']);
+                                $translatet = $this -> _convertHtmlEntitiesForPRY($translatet);
                                 $translatet = $this -> _postProcessingForExport($translatet);
 
                                 $output[] = $this -> spacer . 'new "' . $translatet . '"';
@@ -243,6 +246,7 @@ class Xliff_Download
                         else {
                             // simple translation
                             $translatet = $this -> _fixedStringForRPY($newString[$key], false, true);
+                            $translatet = $this -> _convertHtmlEntitiesForPRY($translatet);
                             $translatet = $this -> _postProcessingForExport($translatet);
 
                             $output[] = $this -> spacer . 'new "' . $translatet . '"';
@@ -252,6 +256,7 @@ class Xliff_Download
                         // TODO :: better handling for common.rpy
                         if ( ($originalFileName == 'common.rpy') AND is_string($newString[$key]) ) {
                             $translatet = $this -> _fixedStringForRPY($newString[$key], false, true);
+                            $translatet = $this -> _convertHtmlEntitiesForPRY($translatet);
                             $translatet = $this -> _postProcessingForExport($translatet);
 
                             $output[] = $this -> spacer . 'new "' . $translatet . '"';
@@ -440,8 +445,8 @@ class Xliff_Download
     private function _postProcessingForExport($translation)
     {
         $translation = str_replace(
-                           array('{b}{b}', '{/b}:{/b}', '"Lisa:r{/b}'),
-                           array('{b}'   , '{/b}:'    , 'Lisa:{/b}'),
+                           array('{b}{b}', '{/b}:{/b}', '"Lisa:r{/b}', '{/b}: {/b}'),
+                           array('{b}'   , '{/b}:'    , 'Lisa:{/b}'  , ': {/b}'),
                            $translation
                        );
         $translation = str_replace(
@@ -663,6 +668,23 @@ class Xliff_Download
         }
 
         return $string;
+    }
+
+    /**
+     * Example: converting <b> to {b}
+     *
+     * @access private
+     * @param  string
+     * @return string
+     */
+    private function _convertHtmlEntitiesForPRY($string)
+    {
+        $sourceArray     = array('&lt;b&gt;', '&lt;/b&gt;', '&lt;i&gt;', '&lt;/i&gt;', '&lt;u&gt;', '&lt;/u&gt;');
+        $detinationArray = array('{b}'      , '{/b}'      , '{i}'      , '{/i}'      , '{u}'      , '{/u}');
+
+        $processed = str_replace($sourceArray, $detinationArray, $string);
+
+        return $processed;
     }
 
     /**

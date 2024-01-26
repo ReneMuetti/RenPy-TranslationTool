@@ -29,6 +29,7 @@ if ( $website -> GPC['action'] == 'download' ) {
                                                       'filepath' => TYPE_NOHTML,
                                                       'filetype' => TYPE_NOHTML,
                                                       'language' => TYPE_UINT,
+                                                      'debug'    => TYPE_BOOL,
                                                   )
                                         );
 
@@ -38,13 +39,18 @@ if ( $website -> GPC['action'] == 'download' ) {
         if ( $website -> GPC['filetype'] == 'xliff' ) {
             $file_content = $downloader -> downloadTranslationFromFileAsXLIFF($website -> GPC['filepath'], $website -> GPC['language']);
 
-            $dlFile = str_replace('.rpy', '.xliff', $website -> GPC['filename']);
+            if ( $website -> GPC['debug'] == true ) {
+                echo $file_content;
+            }
+            else {
+                $dlFile = str_replace('.rpy', '.xliff', $website -> GPC['filename']);
 
-            header( 'Content-Type: application/x-xliff+xml; charset=utf-8' );
-            header( 'Content-Length: ' . strlen($file_content) );
-            header( 'Content-Disposition: attachment; filename="' . $dlFile . '"' );
+                header( 'Content-Type: application/x-xliff+xml; charset=utf-8' );
+                header( 'Content-Length: ' . strlen($file_content) );
+                header( 'Content-Disposition: attachment; filename="' . $dlFile . '"' );
 
-            echo $file_content;
+                echo $file_content;
+            }
         }
         elseif ( $website -> GPC['filetype'] == 'rpy' ) {
             if ( $website -> GPC['language'] == 0 ) {
@@ -53,11 +59,17 @@ if ( $website -> GPC['action'] == 'download' ) {
             else {
                 $file_content = $downloader -> downloadTranslationFromFileAsRPY($website -> GPC['filepath'], $website -> GPC['language']);
 
-                header( 'Content-Type: text/rpy; charset=utf-8' );
-                header( 'Content-Length: ' . strlen($file_content) );
-                header( 'Content-Disposition: attachment; filename="' . $website -> GPC['filename'] . '"' );
+                if ( $website -> GPC['debug'] == true ) {
+                    echo $file_content;
+                }
+                else {
 
-                echo $file_content;
+                    header( 'Content-Type: text/rpy; charset=utf-8' );
+                    header( 'Content-Length: ' . strlen($file_content) );
+                    header( 'Content-Disposition: attachment; filename="' . $website -> GPC['filename'] . '"' );
+
+                    echo $file_content;
+                }
             }
         }
         else {
