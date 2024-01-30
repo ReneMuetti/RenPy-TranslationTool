@@ -37,7 +37,7 @@ class FileDir
         $this -> count_dir = 0;
     }
 
-    public function getFileList($filter = '*')
+    public function getFileList($filter = '*', $fullInformation = false)
     {
         if ( $filter == '*' ) {
             return $this -> file_list;
@@ -47,7 +47,16 @@ class FileDir
 
             foreach( $this -> file_list AS $file ) {
                 if ( strpos($file, $filter) ) {
-                    $f_array[] = $file;
+                    if ( $fullInformation === false ) {
+                        $f_array[] = $file;
+                    }
+                    else {
+                        $f_array[] = array(
+                                         'name'  => substr($file, 1),
+                                         'size'  => makeSize(filesize($this -> file_path . $file)),
+                                         'added' => date( 'Y-m-d H:i:s', filemtime($this -> file_path . $file) ),
+                                     );
+                    }
                 }
             }
 
@@ -122,7 +131,7 @@ class FileDir
                 $files[$file] = array(
                                'type' => 'file',
                                'name' => $file,
-                               'size' => int_to_byte(filesize($path . $file))
+                               'size' => makeSize(filesize($path . $file))
                            );
             }
         }
@@ -175,8 +184,6 @@ class FileDir
         @ closedir( $handle );
 
         natcasesort($this -> file_list);
-
-        //return $this -> file_list;
     }
 
     public function dir_size($path = '')
@@ -220,6 +227,6 @@ class FileDir
 
         @ closedir( $handle );
 
-        return array(int_to_byte($this -> size_dir), $this -> count_dir);
+        return array(makeSize($this -> size_dir), $this -> count_dir);
     }
 }

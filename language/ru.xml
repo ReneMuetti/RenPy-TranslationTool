@@ -10,6 +10,7 @@
         <admin_language>Управление языками</admin_language>
         <admin_translation>Управление переводами</admin_translation>
         <admin_download>Скачать переводы</admin_download>
+        <admin_backup>Datenbank-Sicherung</admin_backup>
     </page_titles>
     <global>
         <option_actions_select>- Пожалуйста, выберите -</option_actions_select>
@@ -53,7 +54,22 @@
         <admin_language>Управление языками</admin_language>
         <admin_translation>Управление переводами</admin_translation>
 	    <admin_download>Скачать переводы</admin_download>
+	    <admin_backup>Datenbank-Sicherung</admin_backup>
     </navigation>
+    <backup>
+	    <process_start>Prozess gestartet ...</process_start>
+	    <process_end>Prozess beendet ...</process_end>
+	    <create>neues Backup</create>
+	    <create_new>neues Backup erstellen</create_new>
+	    <db_dump_0>Backup erfolgreich abgeschlossen</db_dump_0>
+	    <db_dump_1>EX_USAGE :: Problem mit der Befehlssyntax</db_dump_1>
+	    <db_dump_2>EX_MYSQLERR :: Rechteproblem oder anderes Problem beim Abschließen des Befehls</db_dump_2>
+	    <db_dump_3>EX_CONSCHECK :: Problem bei der Konsistenzprüfung</db_dump_3>
+	    <db_dump_4>EX_EOM :: Speicherfehler</db_dump_4>
+	    <db_dump_5>EX_EOF :: Problem beim Schreiben von Ergebnisdateien in eine Datei, Platzproblem?</db_dump_5>
+	    <db_dump_6>EX_ILLEGAL_TABLE :: Ungültiges Tabellformat</db_dump_6>
+	    <db_dump_default>Backup vermutlich fehlgeschlagen :: unbekannter Exit-Code</db_dump_default>
+	</backup>
     <admin>
         <confirmed>Подтвержден</confirmed>
         <pending>Ожидаемый</pending>
@@ -69,6 +85,12 @@
         <table_account_enabled>Включен</table_account_enabled>
         <table_account_action>Действие</table_account_action>
         <table_account_empty>учетная запись пользователя недоступна или список не удалось загрузить</table_account_empty>
+
+	    <table_backup_name>Name</table_backup_name>
+	    <table_backup_added>Datum</table_backup_added>
+	    <table_backup_size>Größe</table_backup_size>
+	    <table_backup_action>Aktion</table_backup_action>
+	    <table_backup_empty>keine Backups vorhanden oder die Liste konnte nicht geladen werden</table_backup_empty>
     </admin>
     <language>
         <new_language>добавить новый язык</new_language>

@@ -43,6 +43,10 @@ class Website_Pdo
 	 */
 	private $options = null;
 
+	private $backup_path    = '';
+	private $backup_prefix  = '';
+	private $backup_postfix = '';
+
 	/**
 	 * DB-Host
 	 */
@@ -174,6 +178,10 @@ class Website_Pdo
             $this -> dbPassword = $registry -> config['Database']['password'];
             $this -> dbDatabase = $registry -> config['Database']['dbname'];
             $this -> dbCharset  = $registry -> config['Database']['charset'];
+
+            $this -> backup_path    = $registry -> config['Database']['backup_path'];
+            $this -> backup_prefix  = $registry -> config['Database']['backup_prefix'];
+            $this -> backup_postfix = $registry -> config['Database']['backup_postfix'];
 		}
 
 		// Error-Printer
@@ -413,6 +421,34 @@ class Website_Pdo
         return (floatval($usec) + floatval($sec));
     }
 
+
+
+    /**
+     * Backup der Datenbank anlegen
+     *
+     * @access    public
+     * @return    Command-Result
+     */
+    public function doFullBackup()
+    {
+        $currentTimeStamp = date('Y-m-d_H-i-s') . '_';
+        $backupFullName   = $this -> backup_path . '/' . $currentTimeStamp . $this -> backup_prefix .
+                            $this -> dbDatabase . $this -> backup_postfix . '.gz';
+
+        system(
+            sprintf(
+                'mysqldump --add-drop-table --opt --host=%s --port=%s --user=%s --password=%s %s | gzip -9c > %s',
+                $this -> dbHost,
+                $this -> dbPort,
+                $this -> dbUser,
+                $this -> dbPassword,
+                $this -> dbDatabase,
+                $backupFullName),
+            $result);
+
+        return $result;
+    }
+
     /**
      * Anzeige der Laufzeitinformationen
      *
@@ -423,7 +459,7 @@ class Website_Pdo
     {
         $totalTime = $this -> microtime_float() - $this -> starttime;
 
-        return "<b>" . $this -> rowcount    . " Zeile"   . ( ($this -> rowcount > 1) ? 'n' : '' ) . " / " .
+        return "<b>" . $this -> rowcount    . " Zeile"   . ( ($this -> rowcount > 1)   ? 'n' : '' ) . " / " .
                        $this -> sqlcounter  . " Abfrage" . ( ($this -> sqlcounter > 1) ? 'n' : '' ) . " - " .
                        round($totalTime, 4) . " Sekunden (" . round(($totalTime - $this -> dbtime), 4) .
                        " Sekunden PHP / "   . round($this -> dbtime, 4) . " Sekunden SQL)" .

@@ -25,7 +25,7 @@ $website -> input -> clean_array_gpc($method, array('action' => TYPE_NOHTML));
 
 if ( $website -> GPC['action'] == 'load_file_blocks' ) {
     $website -> input -> clean_array_gpc($method, array('language' => TYPE_UINT));
-    
+
     if ( $website -> GPC['language'] >= 1 ) {
         $info = new Xliff_Information();
         $result['data']  = $info -> getAllGameFilesFormGeneralAsBlock();
@@ -56,10 +56,10 @@ elseif ( $website -> GPC['action'] == 'load_file_translations' ) {
                                                       'filename' => TYPE_NOHTML,
                                                   )
                                         );
-    
+
     if ( $website -> GPC['language'] >= 1 ) {
         $translation = new Translation();
-        
+
         $result['error'] = false;
         $result['data']  = $translation -> getTranslationFromFileByLanguage($website -> GPC['filename'], $website -> GPC['language']);
     }
@@ -78,7 +78,7 @@ elseif ( $website -> GPC['action'] == 'update_translation_inline' ) {
     if ( strlen($website -> GPC['uuid']) AND ($website -> GPC['original'] >= 1) AND ($website -> GPC['data-id'] >= 1) ) {
         $translator = new Translation();
         $return = $translator -> updateSingleTranslation($website -> GPC['translation'], $website -> GPC['uuid'], $website -> GPC['original'], $website -> GPC['data-id']);
-        
+
         $result['error']   = $return['error'];
         $result['data']    = $return['data'];
         $result['message'] = $return['message'];

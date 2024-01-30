@@ -507,3 +507,66 @@ function deleteDoublicateTranslations()
         alert( "Request failed: " + textStatus );
     });
 }
+
+function createNewDatabaseBackup()
+{
+    $.ajax({
+        "method": "POST",
+        "url"   : baseurl + "ajax_db_backup.php",
+        "beforeSend" : function() {
+                           $("#protocol").append( "<div>" + str_backup_start + "</div>" );
+                       }
+    })
+    .done(function(result){
+        let ajaxData = $.parseJSON(result);
+
+        $("#protocol").append( "<div>" + ajaxData.message + "</div>" )
+                      .append( "<div>" + str_backup_end + "</div>" );
+
+        updateBackupTableLines();
+    })
+    .fail(function(jqXHR, textStatus){
+        alert( "Request failed: " + textStatus );
+    });
+}
+
+function deleteBackupFile(deleteFileName)
+{
+    $.ajax({
+        "method": "POST",
+        "url"   : baseurl + "ajax_db_backup.php",
+        "data"  : {
+                      "action": "delete",
+                      "filename": deleteFileName
+                  }
+    })
+    .done(function(result){
+        updateBackupTableLines();
+    })
+    .fail(function(jqXHR, textStatus){
+        alert( "Request failed: " + textStatus );
+    });
+}
+
+function updateBackupTableLines()
+{
+    $.ajax({
+        "method": "POST",
+        "url"   : baseurl + "ajax_db_backup.php",
+        "data"  : {
+                      "action": "update"
+                  },
+        "beforeSend" : function() {
+                           $("#backup-table tbody").html( "" );
+                       }
+    })
+    .done(function(result){
+        let ajaxData = $.parseJSON(result);
+
+        $("#backup-table tbody").html( ajaxData.message );
+    })
+    .fail(function(jqXHR, textStatus){
+        alert( "Request failed: " + textStatus );
+    });
+    // #backup-table
+}

@@ -10,6 +10,7 @@
         <admin_language>Manage languages</admin_language>
         <admin_translation>Manage translations</admin_translation>
         <admin_download>Download translations</admin_download>
+        <admin_backup>Database backup</admin_backup>
     </page_titles>
 	<global>
 		<option_actions_select>- Please select -</option_actions_select>
@@ -53,7 +54,22 @@
 	    <admin_language>Manage languages</admin_language>
 	    <admin_translation>Manage translations</admin_translation>
 	    <admin_download>Download translations</admin_download>
+	    <admin_backup>Database backup</admin_backup>
 	</navigation>
+	<backup>
+	    <process_start>Process started ...</process_start>
+	    <process_end>Process finished ...</process_end>
+	    <create>New backup</create>
+	    <create_new>Create new backup</create_new>
+	    <db_dump_0>Backup successfully completed</db_dump_0>
+	    <db_dump_1>EX_USAGE :: Problem with the command syntax</db_dump_1>
+	    <db_dump_2>EX_MYSQLERR :: Rights problem or other problem when completing the command</db_dump_2>
+	    <db_dump_3>EX_CONSCHECK :: Problem with the consistency check</db_dump_3>
+	    <db_dump_4>EX_EOM :: Memory error</db_dump_4>
+	    <db_dump_5>EX_EOF :: Problem writing result files to a file, space problem?</db_dump_5>
+	    <db_dump_6>EX_ILLEGAL_TABLE :: Invalid table format</db_dump_6>
+	    <db_dump_default>Backup probably failed :: unknown exit code</db_dump_default>
+	</backup>
 	<admin>
 	    <confirmed>Confirmed</confirmed>
 	    <pending>Pending</pending>
@@ -69,6 +85,12 @@
 	    <table_account_enabled>Enabled</table_account_enabled>
 	    <table_account_action>Action</table_account_action>
 	    <table_account_empty>no user account available or the list could not be loaded</table_account_empty>
+
+	    <table_backup_name>Name</table_backup_name>
+	    <table_backup_added>Date</table_backup_added>
+	    <table_backup_size>Size</table_backup_size>
+	    <table_backup_action>Action</table_backup_action>
+	    <table_backup_empty>No backups available or the list could not be loaded</table_backup_empty>
 	</admin>
 	<language>
 	    <new_language>add new language</new_language>

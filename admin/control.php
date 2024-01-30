@@ -54,7 +54,7 @@ if ( $website -> GPC['action'] == 'accounts' ) {
 elseif ( $website -> GPC['action'] == 'language' ) {
     // Laguages
     $language = new Languages();
-    
+
     // show current Language-List
     $pageContent = $language -> getLanguageListForAdmin();
 }
@@ -67,6 +67,12 @@ elseif ( $website -> GPC['action'] == 'download' ) {
     // File-Tree
     $download = new Xliff_Download();
     $pageContent = $download -> getGameFilesAsTree();
+}
+elseif ( $website -> GPC['action'] == 'backup' ) {
+    // Backup-System
+    $backups = new BackupLister();
+
+    $pageContent = $backups -> showIndex();
 }
 else {
     $pageContent = $website -> user_lang['global']['unkonwn_action'];

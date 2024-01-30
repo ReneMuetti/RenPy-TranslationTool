@@ -1,0 +1,42 @@
+<div class="flex-2">
+    <div class="glass-block-border glass-border">
+        <div class="glass-block">
+            <div id="protocol-container" style="height:200px;">
+                <div id="protocol"></div>
+            </div>
+        </div>
+    </div>
+    <div class="glass-block-border glass-border">
+        <div class="glass-block">
+            <h2><lang backup_create /></h2>
+            <div class="elment-block">
+                <button class="button" onclick="createNewDatabaseBackup()"><lang backup_create_new /></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var str_backup_start = "<lang backup_process_start />";
+    var str_backup_end = "<lang backup_process_end />";
+</script>
+
+<table id="backup-table" class="glass-border">
+    <colgroup>
+        <col />
+        <col class="col-backup-added" />
+        <col class="col-backup-size" />
+        <col class="col-backup-action" />
+    </colgroup>
+    <thead>
+        <tr>
+            <th class="align-left"><lang admin_table_backup_name /></th>
+            <th><lang admin_table_backup_added /></th>
+            <th><lang admin_table_backup_size /></th>
+            <th><lang admin_table_backup_action /></th>
+        </tr>
+    </thead>
+    <tbody>
+<var admin_table_backup_list />
+    </tbody>
+</table>
