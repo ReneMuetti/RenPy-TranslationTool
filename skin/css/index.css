@@ -238,7 +238,16 @@ section#index {
     position: relative;
 }
 .details-header label {
-    color: var(--font-color-dark);
+    color: var(--font-color-light);
+    background-color: var(--glow-checbox-bg1);
+    padding: 4px 8px 5px 25px;
+    border-radius: 3px;
+    position: relative;
+    left: -24px;
+}
+.details-header input[type='checkbox'] {
+    position: relative;
+    z-index: 1;
 }
 .details-header button {
     background: var(--rgba-color-dark-07);
