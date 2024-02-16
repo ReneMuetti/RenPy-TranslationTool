@@ -5,29 +5,29 @@
 final class Autoloader
 {
 	/**
-	 * Array mit allen Lade-Pfaden
+	 * Array with all loading paths
 	 */
 	static private $loadingDirs;
-	
+
 	/**
-	 * Prefix VOR jeder Klassen-Datei
+	 * Prefix BEFORE each class file
 	 */
 	static private $classFilePrefix  = 'class_';
-	
+
 	/**
-	 * Datei-Endung, welche zum finden der Klassen-Datei benötigt wird
+	 * File extension required to find the class file
 	 */
 	static private $classFilePostfix = '.php';
-	
+
 	/**
-	 * Per Default sind alle (neuen) Klassen in diesem Pfad abngelegt
+	 * By default, all (new) classes are stored in this path
 	 */
 	static private $defaultClassPath = './include/classes';
-	
+
 
 
 	/**
-	 * Array mit den Loading-Pfaden zurückgeben
+	 * Return array with the loading paths
 	 * für DEBUG-Zwecke
 	 *
 	 * @access      public
@@ -36,9 +36,9 @@ final class Autoloader
 	{
 		return self :: $loadingDirs;
 	}
-	
+
 	/**
-	 * einen weiteren Eintrag in die Pfadliste für Klassen einfügen
+	 * Insert an additional entry in the path list for classes
 	 *
 	 * @access      public
 	 * @param       string     $dirPath
@@ -47,31 +47,31 @@ final class Autoloader
 	{
 		$dirPath = trim($dirPath);
 		if ( strlen($dirPath) ) {
-			$newPath = self :: $defaultClassPath . '/' . realpath($dirPath);
+			$newPath = self :: $defaultClassPath . DIRECTORY_SEPARATOR . realpath($dirPath);
 			if ( !in_array($newPath, self :: $loadingDirs) ) {
 				self :: $loadingDirs[] = $newPath;
 			}
 		}
 	}
-	
+
 	/**
      * Klasse starten
      */
 	public static function start()
 	{
-		// Default-Pfade setzen
+		// Set default paths
 		self :: $loadingDirs = array(
-		                           //realpath( './include/' ),
-		                           realpath( self :: $defaultClassPath . '/' ),
-		                           realpath( self :: $defaultClassPath . '/Core/' ),
-		                           realpath( self :: $defaultClassPath . '/Database/' ),
-		                           realpath( self :: $defaultClassPath . '/Filesystem/' ),
-		                           realpath( self :: $defaultClassPath . '/Translation/' ),
-		                           realpath( self :: $defaultClassPath . '/Xml/' ),
-		                           realpath( self :: $defaultClassPath . '/XLIFF/' ),
+		                           realpath( self :: $defaultClassPath . DIRECTORY_SEPARATOR ),
+		                           realpath( self :: $defaultClassPath . DIRECTORY_SEPARATOR . 'Core' ),
+		                           realpath( self :: $defaultClassPath . DIRECTORY_SEPARATOR . 'Database' ),
+		                           realpath( self :: $defaultClassPath . DIRECTORY_SEPARATOR . 'Filesystem' ),
+		                           realpath( self :: $defaultClassPath . DIRECTORY_SEPARATOR . 'Translation' ),
+		                           realpath( self :: $defaultClassPath . DIRECTORY_SEPARATOR . 'Xml' ),
+		                           realpath( self :: $defaultClassPath . DIRECTORY_SEPARATOR . 'XLIFF' ),
+		                           realpath( self :: $defaultClassPath . DIRECTORY_SEPARATOR . 'PHPMailer' ),
 		                       );
 	}
-	
+
 	/**
 	 * Default Class-Loader
 	 *
@@ -83,35 +83,49 @@ final class Autoloader
 		$className   = trim($className);
 		$classLoaded = false;
 
-        //self::getDebugOutput( implode( "\n", self::getLoadingDirs() ) );
-		
-		// Klassenname enthällt "_" im Namen => Umgewandlung in Pfadangaben
+		// Class name contains "_" in the name => conversion to path information
 		if ( strpos($className, '_') ) {
 			$newPath = self :: replaceUnderscore($className);
 			self :: addLoadingDir($newPath);
 		}
 
 		foreach( self :: $loadingDirs AS $loadPath ) {
-			$fullClassPath = $loadPath .
-			                 DIRECTORY_SEPARATOR .
-			                 self :: $classFilePrefix .
-			                 $className .
-			                 self :: $classFilePostfix;
-            
-            //self::getDebugOutput( $fullClassPath );
+		    if ( !strpos($className, '\\') ) {
+    			$fullClassPath = $loadPath .
+    			                 DIRECTORY_SEPARATOR .
+    			                 self :: $classFilePrefix .
+    			                 $className .
+    			                 self :: $classFilePostfix;
+		    }
+		    else {
+		        $fullClassPath = $loadPath .
+    			                 DIRECTORY_SEPARATOR .
+    			                 str_replace('\\', DIRECTORY_SEPARATOR, $className) .
+    			                 self :: $classFilePostfix;
+		    }
+
             if ( is_file($fullClassPath) ) {
 				$classLoaded = true;
 				require_once($fullClassPath);
-				break;
+    			break;
 			}
 		}
-		
+
 		if ( $classLoaded == false ) {
-			echo __CLASS__ . '::' . __FUNCTION__ . ': Fail to load Class-File <' . $className .'>';
+		    $removePath = realpath( self :: $defaultClassPath . DIRECTORY_SEPARATOR );
+		    ob_start();
+		    debug_print_backtrace();
+		    $trace = ob_get_contents();
+		    ob_end_clean();
+
+		    $trace = str_replace($removePath, '..', $trace);
+
+			echo __CLASS__ . '::' . __FUNCTION__ . ': Fail to load Class-File {' . $className .'}';
+			echo '<pre>' . $trace . '</pre>';
         	exit;
 		}
 	}
-	
+
 	/**
 	 * Debug-Output als HIDDEN-DIV
 	 *
@@ -130,9 +144,9 @@ final class Autoloader
 	private static function replaceUnderscore($className)
 	{
 		$pices = explode('_', $className);
-		// den letzten Teil des Array entfernen
+		// Remove the last part of the array
 		$pices = array_pop($pices);
-		
+
 		if ( is_array($pices) ) {
 			return implode(DIRECTORY_SEPARATOR, $pices);
 		}
