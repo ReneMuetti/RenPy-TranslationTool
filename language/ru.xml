@@ -10,7 +10,7 @@
         <admin_language>Управление языками</admin_language>
         <admin_translation>Управление переводами</admin_translation>
         <admin_download>Скачать переводы</admin_download>
-        <admin_backup>Datenbank-Sicherung</admin_backup>
+        <admin_backup>Резервное копирование БД</admin_backup>
     </page_titles>
     <global>
         <option_actions_select>- Пожалуйста, выберите -</option_actions_select>
@@ -31,16 +31,16 @@
         <upload_error_8>Расширение PHP остановило загрузку файла</upload_error_8>
     </global>
 	<mail>
-	    <test_html_demo><![CDATA[This is the HTML message text <b>in bold!</b>]]></test_html_demo>
-	    <test_string>The e-mail dispatch has been configured correctly.</test_string>
-	    <hello_string>Hello, </hello_string>
-	    <error_loading_userdata>Error loading user data</error_loading_userdata>
-	    <error_mail_not_send>Message could not be sent. See LOG file for more information.</error_mail_not_send>
-	    <send_mail_success>Message successfully sent to %s {%s}</send_mail_success>
-	    <new_translation_start>You will receive this message as new texts are available for translation.</new_translation_start>
-	    <new_translation_sec>You have signed up for the following translations:</new_translation_sec>
-	    <table_th_language>Language</table_th_language>
-	    <table_th_counter>Status</table_th_counter>
+	    <test_html_demo><![CDATA[Это текст сообщения в формате HTML <b>жирным шрифтом!</b>]]></test_html_demo>
+	    <test_string>Рассылка электронной почты настроена правильно.</test_string>
+	    <hello_string>Здравствуйте, </hello_string>
+	    <error_loading_userdata>Ошибка при загрузке пользовательских данных</error_loading_userdata>
+	    <error_mail_not_send>Сообщение не удалось отправить. Дополнительные сведения см. в LOG файле.</error_mail_not_send>
+	    <send_mail_success>Сообщение успешно отправлено на %s {%s}</send_mail_success>
+	    <new_translation_start>Вы будете получать сообщение, когда новые тексты будут доступны для перевода.</new_translation_start>
+	    <new_translation_sec>Вы подписались на следующие переводы:</new_translation_sec>
+	    <table_th_language>Язык</table_th_language>
+	    <table_th_counter>Статус</table_th_counter>
 	</mail>
     <languages>
         <us>Английский</us>
@@ -66,21 +66,21 @@
         <admin_language>Управление языками</admin_language>
         <admin_translation>Управление переводами</admin_translation>
 	    <admin_download>Скачать переводы</admin_download>
-	    <admin_backup>Datenbank-Sicherung</admin_backup>
+	    <admin_backup>Резервное копирование БД</admin_backup>
     </navigation>
     <backup>
-	    <process_start>Prozess gestartet ...</process_start>
-	    <process_end>Prozess beendet ...</process_end>
-	    <create>neues Backup</create>
-	    <create_new>neues Backup erstellen</create_new>
-	    <db_dump_0>Backup erfolgreich abgeschlossen</db_dump_0>
-	    <db_dump_1>EX_USAGE :: Problem mit der Befehlssyntax</db_dump_1>
-	    <db_dump_2>EX_MYSQLERR :: Rechteproblem oder anderes Problem beim Abschließen des Befehls</db_dump_2>
-	    <db_dump_3>EX_CONSCHECK :: Problem bei der Konsistenzprüfung</db_dump_3>
-	    <db_dump_4>EX_EOM :: Speicherfehler</db_dump_4>
-	    <db_dump_5>EX_EOF :: Problem beim Schreiben von Ergebnisdateien in eine Datei, Platzproblem?</db_dump_5>
-	    <db_dump_6>EX_ILLEGAL_TABLE :: Ungültiges Tabellformat</db_dump_6>
-	    <db_dump_default>Backup vermutlich fehlgeschlagen :: unbekannter Exit-Code</db_dump_default>
+	    <process_start>Процесс начался ...</process_start>
+	    <process_end>Процесс завершён ...</process_end>
+	    <create>Новая резервная копия</create>
+	    <create_new>Создать новую резервную копию</create_new>
+	    <db_dump_0>Резервное копирование успешно завершено</db_dump_0>
+	    <db_dump_1>EX_USAGE :: Проблема с синтаксисом команды</db_dump_1>
+	    <db_dump_2>EX_MYSQLERR :: Проблема с правами или другая проблема при выполнении команды</db_dump_2>
+	    <db_dump_3>EX_CONSCHECK :: Проблема с проверкой согласованности</db_dump_3>
+	    <db_dump_4>EX_EOM :: Ошибка памяти</db_dump_4>
+	    <db_dump_5>EX_EOF :: Проблема с записью файлов результатов в файл, проблема с пространством?</db_dump_5>
+	    <db_dump_6>EX_ILLEGAL_TABLE :: Недопустимый формат таблицы</db_dump_6>
+	    <db_dump_default>Вероятно, резервное копирование не удалось :: Неизвестный код ошибки</db_dump_default>
 	</backup>
     <admin>
         <confirmed>Подтвержден</confirmed>
@@ -98,11 +98,11 @@
         <table_account_action>Действие</table_account_action>
         <table_account_empty>учетная запись пользователя недоступна или список не удалось загрузить</table_account_empty>
 
-	    <table_backup_name>Name</table_backup_name>
-	    <table_backup_added>Datum</table_backup_added>
-	    <table_backup_size>Größe</table_backup_size>
-	    <table_backup_action>Aktion</table_backup_action>
-	    <table_backup_empty>keine Backups vorhanden oder die Liste konnte nicht geladen werden</table_backup_empty>
+	    <table_backup_name>Наименование</table_backup_name>
+	    <table_backup_added>Дата</table_backup_added>
+	    <table_backup_size>Размер</table_backup_size>
+	    <table_backup_action>Действие</table_backup_action>
+	    <table_backup_empty>Резервные копии отсутствуют или список не удалось загрузить</table_backup_empty>
     </admin>
     <language>
         <new_language>добавить новый язык</new_language>
