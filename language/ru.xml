@@ -30,6 +30,18 @@
         <upload_error_7>Не удалось записать файл на диск</upload_error_7>
         <upload_error_8>Расширение PHP остановило загрузку файла</upload_error_8>
     </global>
+	<mail>
+	    <test_html_demo><![CDATA[This is the HTML message text <b>in bold!</b>]]></test_html_demo>
+	    <test_string>The e-mail dispatch has been configured correctly.</test_string>
+	    <hello_string>Hello, </hello_string>
+	    <error_loading_userdata>Error loading user data</error_loading_userdata>
+	    <error_mail_not_send>Message could not be sent. See LOG file for more information.</error_mail_not_send>
+	    <send_mail_success>Message successfully sent to %s {%s}</send_mail_success>
+	    <new_translation_start>You will receive this message as new texts are available for translation.</new_translation_start>
+	    <new_translation_sec>You have signed up for the following translations:</new_translation_sec>
+	    <table_th_language>Language</table_th_language>
+	    <table_th_counter>Status</table_th_counter>
+	</mail>
     <languages>
         <us>Английский</us>
         <de>Немецкий</de>

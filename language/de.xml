@@ -30,6 +30,18 @@
 		<upload_error_7>Die Datei konnte nicht auf die Festplatte geschrieben werden</upload_error_7>
 		<upload_error_8>Eine PHP-Erweiterung stoppte den Datei-Upload</upload_error_8>
 	</global>
+	<mail>
+	    <test_html_demo><![CDATA[Dies ist der HTML-Nachrichtentext <b>fettgedruckt!</b>]]></test_html_demo>
+	    <test_string>Der E-Mail-Versand wurde korrekt konfiguriert.</test_string>
+	    <hello_string>Hallo, </hello_string>
+	    <error_loading_userdata>Fehler beim Laden der Nutzer-Daten</error_loading_userdata>
+	    <error_mail_not_send>Nachricht konnte nicht gesendet werden. Siehe LOG-Datei für weitere Informationen.</error_mail_not_send>
+	    <send_mail_success>Nachricht an %s {%s} erfolgreich versendet</send_mail_success>
+	    <new_translation_start>Du erhällst dies Nachricht, da neue Texte für eine Übersetzung vorhanden sind.</new_translation_start>
+	    <new_translation_sec>Du hast dich für die folgenden Übersetzungen eingetragen:</new_translation_sec>
+	    <table_th_language>Sprache</table_th_language>
+	    <table_th_counter>Status</table_th_counter>
+	</mail>
 	<languages>
 	    <us>English</us>
 	    <de>Deutsch</de>
