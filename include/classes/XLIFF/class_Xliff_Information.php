@@ -23,6 +23,19 @@ class Xliff_Information
     }
 
     /**
+     * convert translation-selection into array (edit-only)
+     *
+     * @access public
+     * @param  string       user-selection
+     * @return string
+     */
+    public function getTranslationInformationFromUserData($userData)
+    {
+        $userLangs = $this -> _extractLanguageData($userData, false);
+        return $this -> _getCurrentTranslationStatusByCode($userLangs);
+    }
+
+    /**
      * generate searchform for full-text-search
      *
      * @access public
@@ -539,21 +552,42 @@ class Xliff_Information
      */
     private function _getLanguagesFromCurrentUser()
     {
-        $data = unserialize( stripslashes($this -> registry -> userinfo['translation']) );
+        return $this -> _extractLanguageData($this -> registry -> userinfo['translation'], true);
+    }
+
+    /**
+     * convert language-selection from serialize to array
+     *
+     * @access private
+     * @param  array         user-selection
+     * @param  bool          result include view-languages
+     * @return array
+     */
+    private function _extractLanguageData($data, $incView = false)
+    {
+        $data = unserialize( stripslashes($data) );
 
         $return = array();
+
         if ( is_array($data) AND count($data) ) {
             foreach( $data AS $code => $settings ) {
-                if (
-                     ( isset($settings['view']) AND ($settings['view'] == 1) ) OR
-                     ( isset($settings['edit']) AND ($settings['edit'] == 1) )
-                   ) {
-                    $return[] = $code;
+                if ( $incView == true ) {
+                    if (
+                         ( isset($settings['view']) AND ($settings['view'] == 1) ) OR
+                         ( isset($settings['edit']) AND ($settings['edit'] == 1) )
+                       ) {
+                        $return[] = $code;
+                    }
+                }
+                else {
+                    if ( isset($settings['edit']) AND ($settings['edit'] == 1) ) {
+                        $return[] = $code;
+                    }
                 }
             }
-
-            return $return;
         }
+
+        return $return;
     }
 
     /**

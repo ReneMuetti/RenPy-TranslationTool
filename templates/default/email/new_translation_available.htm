@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="<var language />">
+    <head>
+        <title><var mail_title /></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <style media="all" type="text/css">
+            body {width:800px; margin:10px auto;}
+            table {width:100%; border:1px solid #000; border-collapse:collapse; background:rgba(0, 0, 0, 0.5); color:#fff;}
+            th, td {padding:8px;}
+            th {text-align:left;}
+            thead tr {border-bottom:3px solid #000;}
+            tbody tr {border:1px solid #000;}
+            img.flags, .flag-row {width:150px; height:auto;}
+        </style>
+    </head>
+    <body>
+        <h2><lang mail_hello_string /><var username /></h2>
+        <div style="margin:10px 0"><lang mail_new_translation_start /></div>
+        <div><lang mail_new_translation_sec /></div>
+        <table>
+            <colgroup>
+                <col class="flag-row" />
+                <col />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th><lang mail_table_th_language /></th>
+                    <th><lang mail_table_th_counter /></th>
+                </tr>
+            </thead>
+            <tbody>
+                <var table_body />
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -3,38 +3,49 @@ class UserProfile
 {
     private $registry;
     private $renderer;
-    
+
     public function __construct()
     {
         global $website, $renderer;
-        
+
         $this -> registry = $website;
         $this -> renderer = $renderer;
     }
-    
+
     public function __destruct()
     {
         unset($this -> registry);
         unset($this -> renderer);
     }
-    
+
     public function getUserListForAdmin()
     {
         $currentUserList = $this -> _getCurrentUserListFroAdmin();
-        
+
         $this -> renderer -> loadTemplate('admin' . DS . 'account_list.htm');
             $this -> renderer -> setVariable('admin_table_user_list', $currentUserList);
         return $this -> renderer -> renderTemplate();
     }
-    
+
     public function getUsernameFromUserID($userid)
     {
         return $this -> registry -> db -> querySingleItem("SELECT `username` FROM `users` WHERE `id` = " . intval($userid));
     }
-    
+
     public function getCurrentProfile()
     {
         return $this -> getProfileFromUser($this -> registry -> userinfo, false);
+    }
+
+    public function getInformationByUsername($userName)
+    {
+        if ( strlen($userName) ) {
+            $_username = $this -> registry -> db -> escapeString($userName);
+            return $this -> registry -> db -> querySingleArray('SELECT `email`, `language`, `translation` FROM `users` WHERE `username` = \'' . $_username . '\';');
+        }
+        else {
+            return null;
+        }
     }
 
     public function getProfileFromUser($userProfile, $loadFromAdmin)
@@ -42,14 +53,14 @@ class UserProfile
         if ( is_int($userProfile) ) {
              $userProfile = $this -> registry -> db -> querySingleArray('SELECT * FROM `users` WHERE `id` = ' . intval($userProfile));
         }
-        
+
         if ( is_array($userProfile) AND count($userProfile) ) {
             $admin_block       = '';     // Admin :: Enabled, Active, Confirmed
             $currStatusBlock   = '';     // HidenVar with Admin-Options
             $currLanguageBlock = '';     // Ajax :: Translation-Language in Profile (only for user))
             $currFormAction    = 'updateprofile';
             $currFormScript    = 'account.php';
-            
+
             $langBlocks = $this -> _getAllLaguageAsBlocks($userProfile);
 
             if ( $loadFromAdmin === true ) {
@@ -64,7 +75,7 @@ class UserProfile
 
                 $this -> renderer -> addCustonStyle(array('script' => 'skin/css/account.css'), THIS_SCRIPT);
                 $this -> renderer -> addJavascriptToHeader('skin/js/account.js', THIS_SCRIPT);
-                
+
                 $this -> renderer -> loadTemplate('account' . DS . 'form_admin.htm');
                     $this -> renderer -> setVariable('checbox_state_enabled', ($userProfile['enabled'] == 'yes'       ? 'checked' : '' ) );
                     $this -> renderer -> setVariable('checbox_state_admin'  , ($userProfile['admin']   == 'yes'       ? 'checked' : '' ) );
@@ -78,15 +89,15 @@ class UserProfile
                     $this -> renderer -> setVariable('curr_enabled', $userProfile['enabled']);
                     $this -> renderer -> setVariable('curr_status' , $userProfile['status']);
                 $currStatusBlock = $this -> renderer -> renderTemplate();
-                
+
                 // Ajax-Language-Modifier
                 $translationList = $this -> _getTranslationBlock();
-                
+
                 $this -> renderer -> loadTemplate('account' . DS . 'ajax_language.htm');
                     $this -> renderer -> setVariable('translation_list', $translationList);
                 $currLanguageBlock = $this -> renderer -> renderTemplate();
             }
-            
+
             $this -> renderer -> loadTemplate('account' . DS . 'form.htm');
                 $this -> renderer -> setVariable('curr_form_script'    , $currFormScript);
                 $this -> renderer -> setVariable('curr_form_action'    , $currFormAction);
@@ -105,13 +116,13 @@ class UserProfile
             // TODO
         }
     }
-    
-    
+
+
     public function updateCurrentProfile()
     {
         return $this -> _updateUserProfileByID($this -> registry -> userinfo['id']);
     }
-    
+
     public function updateProfileByID($profileID = 0)
     {
         if ( $profileID > 0 ) {
@@ -121,31 +132,31 @@ class UserProfile
             // TODO
         }
     }
-    
+
     public function deleteProfileById($profileID = 0)
     {
         if ( ($profileID > 0) AND ($profileID != $this -> registry -> userinfo['id']) ) {
             $query = "DELETE FROM `users` WHERE `id` = " . $profileID;
             $this -> registry -> db -> execute($query);
-            
+
             return $this -> _addSuccessMessage( $this -> registry -> user_lang['profile']['success_profile_deleted'], 'admin_control.php?action=accounts' );
         }
         else {
             return $this -> _addNewChangeErrorMessage( $this -> registry -> user_lang['profile']['error_profile_cannot_deleted'] );
         }
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     private function _getCurrentUserListFroAdmin()
     {
         $query = 'SELECT `id`, `username`, `added`, `status`, `enabled` from `users` ORDER BY `id` ASC';
         $data  = $this -> registry -> db -> queryObjectArray($query);
         if ( is_array($data) AND count($data[0]) ) {
             $account = array();
-            
+
             foreach( $data AS $userAccount ) {
                 $this -> renderer -> loadTemplate('admin' . DS . 'account_list_line.htm');
                     $this -> renderer -> setVariable('user_id'         , $userAccount['id']);
@@ -157,7 +168,7 @@ class UserProfile
                     $this -> renderer -> setVariable('user_enabled'    , $this -> registry -> user_lang['global']['status_' . $userAccount['enabled']]);
                 $account[] = $this -> renderer -> renderTemplate();
             }
-            
+
             return implode("\n", $account);
         }
         else {
@@ -165,7 +176,7 @@ class UserProfile
             return $this -> renderer -> renderTemplate();
         }
     }
-    
+
     private function _updateUserProfileByID($profileID = 0, $script = 'account.php')
     {
         if ( $profileID > 0 ) {
@@ -177,12 +188,12 @@ class UserProfile
                                                                    'select-lang'      => TYPE_NOHTML,
                                                                )
                                                          );
-            
+
             $currentProfile = $this -> registry -> db -> querySingleArray('SELECT * FROM `users` WHERE `id` = ' . $profileID);
 
             $changeData = array();
             $update = array();
-            
+
             if ( strlen($this -> registry -> GPC['username']) AND ( $this -> registry -> GPC['username'] != $currentProfile['username'] ) ) {
                 $update['username'] = $this -> registry -> GPC['username'];
                 $changeData[] = $this -> _addNewChangeMessage('username');
@@ -195,19 +206,19 @@ class UserProfile
                 $update['language'] = $this -> registry -> GPC['select-lang'];
                 $changeData[] = $this -> _addNewChangeMessage('language');
             }
-            
+
             if ( strlen($this -> registry -> GPC['password']) OR strlen($this -> registry -> GPC['password_confirm']) ) {
                 if ( strlen($this -> registry -> GPC['password']) AND strlen($this -> registry -> GPC['password_confirm']) ) {
                     $hasher = new PasswordHash(8, FALSE);
                     $pass   = $hasher -> HashPassword( $this -> registry -> GPC['password'] );
-                    
+
                     $secret   = mksecret();
                     $passhash = md5($secret . $this -> registry -> GPC['password'] . $secret);
-                    
+
                     $update['passhash'] = $passhash;
                     $update['pass']     = $pass;
                     $update['secret']   = $secret;
-                    
+
                     $changeData[] = $this -> _addNewChangeMessage('password');
                 }
                 else {
@@ -238,7 +249,7 @@ class UserProfile
                     if ( isset($this -> registry -> GPC['status']) AND ( $this -> registry -> GPC['status'] != $currentProfile['status'] ) ) {
                         $update['status'] = $this -> registry -> GPC['status'];
                         $changeData[] = $this -> _addNewChangeMessage('status');
-                    }                
+                    }
                 }
             }
 
@@ -254,14 +265,14 @@ class UserProfile
             else {
                 $changeData[] = $this -> _addNewChangeErrorMessage( $this -> registry -> user_lang['profile']['error_no_change_data'] );
             }
-            
+
             return implode("\n", $changeData);
         }
         else {
             // TODO :: no ID
         }
-    }    
-    
+    }
+
     private function _addSuccessMessage($message, $script)
     {
         $this -> renderer -> loadTemplate('account' . DS . 'success_message.htm');
@@ -269,21 +280,21 @@ class UserProfile
             $this -> renderer -> setVariable('curr_form_script' , $script);
         return $this -> renderer -> renderTemplate();
     }
-    
+
     private function _addNewChangeErrorMessage($message)
     {
         $this -> renderer -> loadTemplate('account' . DS . 'error_message.htm');
             $this -> renderer -> setVariable('error_messasage', $message);
         return $this -> renderer -> renderTemplate();
     }
-    
+
     private function _addNewChangeMessage($fieldName)
     {
         $this -> renderer -> loadTemplate('account' . DS . 'change_field.htm');
             $this -> renderer -> setVariable('change_fieldname', $this -> registry -> user_lang['profile'][$fieldName]);
         return $this -> renderer -> renderTemplate();
     }
-    
+
     private function _getTranslationBlock()
     {
         $query = 'SELECT * FROM `language`';
@@ -291,7 +302,7 @@ class UserProfile
 
         $selection = unserialize( stripslashes($this -> registry -> userinfo['translation']) );
         $blocks = array();
-        
+
         foreach( $data AS $lang ) {
             if ( $lang['lng_code'] != 'ru' ) {
                 if ( is_array($selection) AND array_key_exists($lang['lng_code'], $selection) ) {
@@ -301,7 +312,7 @@ class UserProfile
                     else {
                         $currLangView = '';
                     }
-                    
+
                     if ( isset($selection[$lang['lng_code']]['edit']) AND ($selection[$lang['lng_code']]['edit'] == '1') ) {
                         $currLangEdit = ' checked';
                     }
@@ -313,7 +324,7 @@ class UserProfile
                     $currLangView = '';
                     $currLangEdit = '';
                 }
-                
+
                 $this -> renderer -> loadTemplate('account' . DS . 'ajax_language_block.htm');
                     $this -> renderer -> setVariable('ajax_language_name', $this -> registry -> user_lang['languages'][$lang['lng_code']]);
                     $this -> renderer -> setVariable('ajax_language_code', $lang['lng_code']);
@@ -321,18 +332,18 @@ class UserProfile
                     $this -> renderer -> setVariable('edit_status', $currLangEdit);
                 $blocks[] = $this -> renderer -> renderTemplate();
             }
-        }        
-        
+        }
+
         return implode("\n", $blocks);
     }
-    
+
     private function _getAllLaguageForSelect()
     {
         $files = $this -> __getLanguageList();
-        
+
         $options = array();
         $options[] = '<option value="" class="">' . $this -> registry -> user_lang['global']['option_actions_select'] . '</option>';
-            
+
         foreach( $files AS $lang ) {
             if ( $lang == $this -> registry -> userinfo['language'] ) {
                 $selected = " selected";
@@ -340,18 +351,18 @@ class UserProfile
             else {
                 $selected = "";
             }
-            
+
             $options[] = '<option value="' . $lang . '" class="lang-' . $lang . '"' . $selected . '>' . $this -> registry -> user_lang['languages'][$lang] . '</option>';
         }
-        
+
         return implode("\n                        ", $options);
     }
-    
+
     private function _getAllLaguageAsBlocks($userData)
     {
         $files = $this -> __getLanguageList();
         $blocks = array();
-        
+
         foreach( $files AS $lang ) {
             if ( $lang == $userData['language'] ) {
                 $selected = " current-language";
@@ -359,14 +370,14 @@ class UserProfile
             else {
                 $selected = "";
             }
-            
+
             $this -> renderer -> loadTemplate('account' . DS . 'language_block.htm');
                 $this -> renderer -> setVariable('lang_code'      , $lang);
                 $this -> renderer -> setVariable('lang_name'      , $this -> registry -> user_lang['languages'][$lang]);
                 $this -> renderer -> setVariable('lang_is_current', $selected);
             $blocks[] = $this -> renderer -> renderTemplate();
         }
-        
+
         return implode("\n", $blocks);
     }
 
@@ -376,13 +387,13 @@ class UserProfile
         $xmls = new FileDir('language');
         $files = $xmls -> getFileList('xml');
         $result = array();
-        
+
         if ( is_array($files) AND count($files) ) {
             foreach( $files AS $key => $lang ) {
                 $result[] = substr($lang, 1, -4);
             }
         }
-        
+
         return $result;
     }
 }
