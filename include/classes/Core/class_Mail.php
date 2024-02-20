@@ -159,6 +159,10 @@ class Mail
             return $this -> registry -> user_lang['mail']['error_loading_userdata'] . ' :: (' . $userName . ')';
         }
 
+        // switch language from current user to selected language
+        $orgLanguage = $this -> registry -> user_config['language'];
+        $this -> registry -> loadLanguage($userData['language']);
+
         $content     = '';
         $attachments = array();
 
@@ -203,6 +207,9 @@ class Mail
         else {
             $content = $this -> renderer -> renderTemplate();
         }
+
+        // restore original language from current user
+        $this -> registry -> loadLanguage($orgLanguage);
 
         return array(
                    'content' => $content,

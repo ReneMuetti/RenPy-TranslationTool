@@ -5,7 +5,7 @@
 class Registry
 {
     var $db = null;
-    
+
 	// general objects
 	/**
 	* Input cleaner object.
@@ -29,7 +29,7 @@ class Registry
 	* @var	array
 	*/
 	var $website;
-	
+
 	// selected User-Language
 	/**
 	 * Array of data from lang.xml.
@@ -37,7 +37,7 @@ class Registry
 	 * @var	array
 	 */
 	var $user_lang;
-	
+
 	// User-Configuration
 	/**
 	 * Array of data from custom_config.xml.
@@ -45,9 +45,9 @@ class Registry
 	 * @var	array
 	 */
 	var $user_config;
-	
+
 	var $userinfo;
-	
+
 	var $baseurl;
 	var $reloadurl;
 
@@ -132,7 +132,7 @@ class Registry
 	var $shutdown;
 
     var $styleurl  = '';
-    
+
     var $defaultLanguage = 'us';
 
 	/**
@@ -157,13 +157,13 @@ class Registry
 	{
 		// parse the config file
 		$this -> config = array();
-		
+
 		$this -> _loadConfigFile('misc.php');
 		$this -> _loadConfigFile('database.php');
 		$this -> _loadConfigFile('template.php');
-		
+
 		$this -> baseurl = $this -> config['Misc']['baseurl'];
-		
+
 		if ( !defined('TIMENOW') ) {
 		    define('TIMENOW', time());
 		}
@@ -175,7 +175,7 @@ class Registry
 		if ( !defined('BASEDIR') ) {
 		    define('BASEDIR', $this -> config['Misc']['path'] . '/');
 		}
-		
+
 		if ( !isset($this -> user_config['language']) ) {
 			$this -> user_config['language'] = $this -> defaultLanguage;
 		}
@@ -188,11 +188,24 @@ class Registry
 
 		$this -> _loadLanguageXml();
 	}
-	
+
+	/**
+	* change Language by User
+	*/
 	public function change_language($newLang)
 	{
 	    $this -> user_config['language'] = $newLang;
 	    $this -> _loadLanguageXml();
+	}
+
+	/**
+	* load specific Language
+	*/
+	public function loadLanguage($newLang = null)
+	{
+	    if ( !is_null($newLang) AND strlen($newLang) ) {
+	        $this -> _loadLanguageXml();
+	    }
 	}
 
 	/**
@@ -226,7 +239,10 @@ class Registry
 			}
 		}
 	}
-	
+
+	/**
+	 * load configuration from file
+	 */
 	private function _loadConfigFile($filename)
 	{
 		$fullPathName = realpath('./include/configs/' . $filename);
@@ -239,15 +255,22 @@ class Registry
 			die('<br /><br /><strong>Konfigurationsfehler</strong>: Die Konfigurationsdatei ' . $filename . ' existiert, ist aber nicht in einem gültigen Format.');
 		}
 	}
-	
+
 	/**
-	 * Fetches XML-Informations
+	 * Fetches XML-Informations for language
      *
      * @access    private
 	 */
-	private function _loadLanguageXml()
+	private function _loadLanguageXml($newLang = null)
 	{
-		$_fulXmlPath = realpath( $this -> config['Misc']['path'] . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $this -> user_config['language'] . '.xml' );
+	    if ( !is_null($newLang) AND strlen($newLang) ) {
+	        $langCode = $newLang;
+	    }
+	    else {
+	        $langCode = $this -> user_config['language'];
+	    }
+
+		$_fulXmlPath = realpath( $this -> config['Misc']['path'] . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $langCode . '.xml' );
 	    $this -> user_lang = read_xml( $_fulXmlPath );
 	}
 }
