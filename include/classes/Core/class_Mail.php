@@ -201,9 +201,10 @@ class Mail
                                  );
 
                 $this -> renderer -> loadTemplate('email' . DS . 'new_translation_table_line.htm');
-                    $this -> renderer -> setVariable('image_cid_name', $cid );
-                    $this -> renderer -> setVariable('total_count'   , $status['orgStringCount']);
-                    $this -> renderer -> setVariable('current_open'  , $status['translatedCount']);
+                    $this -> renderer -> setVariable('image_cid_name'    , $cid );
+                    $this -> renderer -> setVariable('total_count'       , $status['orgStringCount']);
+                    $this -> renderer -> setVariable('current_translatet', $status['translatedCount']);
+                    $this -> renderer -> setVariable('current_open'      , $status['orgStringCount'] - $status['translatedCount']);
                 $lines[] = $this -> renderer -> renderTemplate();
             }
             $tableLines = implode("\n                ", $lines);
