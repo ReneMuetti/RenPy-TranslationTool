@@ -31,6 +31,11 @@
 		<upload_error_8>A PHP extension stopped the file upload</upload_error_8>
 	</global>
 	<mail>
+	    <sender_name>BBAS-Translator</sender_name>
+	    <test_mail>Test-Mail</test_mail>
+	    <new_translation>New translations available</new_translation>
+	    <reminder_translation>Reminder of pending translations</reminder_translation>
+
 	    <test_html_demo><![CDATA[This is the HTML message text <b>in bold!</b>]]></test_html_demo>
 	    <test_string>The e-mail dispatch has been configured correctly.</test_string>
 	    <hello_string>Hello, </hello_string>

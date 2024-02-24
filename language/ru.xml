@@ -31,6 +31,11 @@
         <upload_error_8>Расширение PHP остановило загрузку файла</upload_error_8>
     </global>
 	<mail>
+	    <sender_name>BBAS-Übersetzer</sender_name>
+	    <test_mail>Test-Mail</test_mail>
+	    <new_translation>Neue Übersetzungen vorhanden</new_translation>
+	    <reminder_translation>Erinnerung an offene Übersetzungen</reminder_translation>
+
 	    <test_html_demo><![CDATA[Это текст сообщения в формате HTML <b>жирным шрифтом!</b>]]></test_html_demo>
 	    <test_string>Рассылка электронной почты настроена правильно.</test_string>
 	    <hello_string>Здравствуйте, </hello_string>

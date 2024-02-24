@@ -7,6 +7,7 @@ $config_data['Mail']['charset']  = 'utf-8';
 $config_data['Mail']['host']     = '** current mailhost **';
 $config_data['Mail']['smtpauth'] = TRUE;
 $config_data['Mail']['username'] = '** username **';
+$config_data['Mail']['address']  = '** current sender address **';
 $config_data['Mail']['password'] = '** password **';
 $config_data['Mail']['port']     = '** port **';
 $config_data['Mail']['secure']   = FALSE;

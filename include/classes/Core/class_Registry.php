@@ -204,7 +204,7 @@ class Registry
 	public function loadLanguage($newLang = null)
 	{
 	    if ( !is_null($newLang) AND strlen($newLang) ) {
-	        $this -> _loadLanguageXml();
+	        $this -> _loadLanguageXml($newLang);
 	    }
 	}
 

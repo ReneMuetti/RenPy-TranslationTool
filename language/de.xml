@@ -31,6 +31,11 @@
 		<upload_error_8>Eine PHP-Erweiterung stoppte den Datei-Upload</upload_error_8>
 	</global>
 	<mail>
+	    <sender_name>BBAS-Übersetzer</sender_name>
+	    <test_mail>Test-Mail</test_mail>
+	    <new_translation>Neue Übersetzungen vorhanden</new_translation>
+	    <reminder_translation>Erinnerung an offene Übersetzungen</reminder_translation>
+
 	    <test_html_demo><![CDATA[Dies ist der HTML-Nachrichtentext <b>fettgedruckt!</b>]]></test_html_demo>
 	    <test_string>Der E-Mail-Versand wurde korrekt konfiguriert.</test_string>
 	    <hello_string>Hallo, </hello_string>

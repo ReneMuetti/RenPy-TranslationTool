@@ -4,6 +4,9 @@ class Mail
     private $registry;
     private $renderer;
 
+    private $changeLanguage = false;
+    private $userLanguage = null;
+
     public function __construct()
     {
         global $website, $renderer;
@@ -23,7 +26,7 @@ class Mail
      *
      * @access    public
      * @param     string         filename from mail-template
-     * @param     string         email-subject
+     * @param     string         email-subject-key from destination user language
      * @param     string         email-adress from user
      * @param     string         username
      * @param     string|null    cc-adress
@@ -42,12 +45,14 @@ class Mail
 
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
 
+        $this -> userLanguage = $this -> registry -> user_config['language'];
+
         if ( !strlen($templateFile) ) {
             $templateFile = 'test_message.htm';
         }
 
-        if ( !strlen($subject) ) {
-            $subject = 'Test-Mail';
+        if ( is_null($subject) OR !strlen($subject) ) {
+            $subject = 'test_mail';
         }
 
         try {
@@ -57,12 +62,12 @@ class Mail
             }
 
             $mail->isSMTP();
-            $mail->Host       = $this -> registry -> config['Mail']['host'];
-            $mail->SMTPAuth   = $this -> registry -> config['Mail']['smtpauth'];
-            $mail->Username   = $this -> registry -> config['Mail']['username'];
-            $mail->Password   = $this -> registry -> config['Mail']['password'];
-            $mail->Port       = $this -> registry -> config['Mail']['port'];
-            $mail->CharSet    = $this -> registry -> config['Mail']['charset'];
+            $mail->Host     = $this -> registry -> config['Mail']['host'];
+            $mail->SMTPAuth = $this -> registry -> config['Mail']['smtpauth'];
+            $mail->Username = $this -> registry -> config['Mail']['username'];
+            $mail->Password = $this -> registry -> config['Mail']['password'];
+            $mail->Port     = $this -> registry -> config['Mail']['port'];
+            $mail->CharSet  = $this -> registry -> config['Mail']['charset'];
 
             if ( $this -> registry -> config['Mail']['secure'] ) {
                 $mail->SMTPSecure = $this -> registry -> config['Mail']['protocol'];
@@ -77,15 +82,14 @@ class Mail
             //$mail->setLanguage('de', '/optional/path/to/language/directory/');
 
             // Recipients
-            $mail->setFrom('translator@info-panel.net', 'BBAS-Translator');
             $mail->addAddress($userMail, $userName);
 
-            // CC
+            // CC Recipient
             if ( !is_null($ccAdress) AND strlen($ccAdress) ) {
                 $mail->addCC($ccAdress);
             }
 
-            // BCC
+            // BCC Recipient
             if ( !is_null($bccAdress) AND strlen($bccAdress) ) {
                 $mail->addBCC($bccAdress);
             }
@@ -94,7 +98,8 @@ class Mail
             $content_data = $this -> _renderMailBody($templateFile, $subject, $userName);
 
             $mail->isHTML(true);
-            $mail->Subject = $subject;
+            $mail->setFrom($this -> registry -> config['Mail']['address'], $content_data['sender']);
+            $mail->Subject = $content_data['subject'];
             $mail->Body    = $content_data['content'];
 
             // add embedded Image
@@ -112,6 +117,14 @@ class Mail
         catch(Exception $e) {
             $logMessage = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             new Logging('php_mailer', $logMessage);
+
+            if ( $this -> changeLanguage == true ) {
+                // restore original language from current user
+                $this -> registry -> loadLanguage($this -> userLanguage);
+                $this -> renderer -> updateLanguage();
+
+                $this -> changeLanguage = false;
+            }
 
             return $this -> registry -> user_lang['mail']['error_mail_not_send'];
         }
@@ -144,7 +157,7 @@ class Mail
      *
      * @access    private
      * @param     string         filename from mail-template
-     * @param     string         title for email
+     * @param     string         title-key for email from desination-language
      * @param     bool           return valid HTML
      *
      * @return    array
@@ -162,9 +175,15 @@ class Mail
         // switch language from current user to selected language
         $orgLanguage = $this -> registry -> user_config['language'];
         $this -> registry -> loadLanguage($userData['language']);
+        $this -> renderer -> updateLanguage();
+
+        $this -> changeLanguage = true;
 
         $content     = '';
         $attachments = array();
+
+        $mailSubjectTranslatet = $this -> registry -> user_lang['mail'][$title];
+        $mailSenderTranslatet  = $this -> registry -> user_lang['mail']['sender_name'];
 
         $info = new Xliff_Information();
         $userTranslate = $info -> getTranslationInformationFromUserData($userData['translation']);
@@ -210,8 +229,13 @@ class Mail
 
         // restore original language from current user
         $this -> registry -> loadLanguage($orgLanguage);
+        $this -> renderer -> updateLanguage();
+
+        $this -> changeLanguage = false;
 
         return array(
+                   'sender'  => $mailSenderTranslatet,
+                   'subject' => $mailSubjectTranslatet,
                    'content' => $content,
                    'images'  => $attachments,
                );
