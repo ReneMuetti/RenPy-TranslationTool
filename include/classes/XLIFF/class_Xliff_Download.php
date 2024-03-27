@@ -254,7 +254,7 @@ class Xliff_Download
                     }
                     else {
                         // TODO :: better handling for common.rpy
-                        if ( ($originalFileName == 'common.rpy') AND is_string($newString[$key]) ) {
+                        if ( ($originalFileName == 'common.rpy') AND isset($newString) AND isset($key) AND is_string($newString[$key]) ) {
                             $translatet = $this -> _fixedStringForRPY($newString[$key], false, true);
                             $translatet = $this -> _convertHtmlEntitiesForPRY($translatet);
                             $translatet = $this -> _postProcessingForExport($translatet);
