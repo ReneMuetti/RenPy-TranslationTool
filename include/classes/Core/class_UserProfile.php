@@ -18,6 +18,12 @@ class UserProfile
         unset($this -> renderer);
     }
 
+    /**
+     * get all users from database
+     *
+     * @access    public
+     * @return    string
+     */
     public function getUserListForAdmin()
     {
         $currentUserList = $this -> _getCurrentUserListFroAdmin();
@@ -27,16 +33,34 @@ class UserProfile
         return $this -> renderer -> renderTemplate();
     }
 
+    /**
+     * get all username from user by id
+     *
+     * @access    public
+     * @return    array
+     */
     public function getUsernameFromUserID($userid)
     {
         return $this -> registry -> db -> querySingleItem("SELECT `username` FROM `users` WHERE `id` = " . intval($userid));
     }
 
+    /**
+     * get all userinformation for current user from database
+     *
+     * @access    public
+     * @return    string
+     */
     public function getCurrentProfile()
     {
         return $this -> getProfileFromUser($this -> registry -> userinfo, false);
     }
 
+    /**
+     * get all specific user information from user by username
+     *
+     * @access    public
+     * @return    array|null
+     */
     public function getInformationByUsername($userName)
     {
         if ( strlen($userName) ) {
@@ -48,6 +72,14 @@ class UserProfile
         }
     }
 
+    /**
+     * get form with all user-data
+     *
+     * @access    public
+     * @param     array            User information from database
+     * @param     bool             show information for Admin-users
+     * @return    string
+     */
     public function getProfileFromUser($userProfile, $loadFromAdmin)
     {
         if ( is_int($userProfile) ) {
@@ -117,12 +149,24 @@ class UserProfile
         }
     }
 
-
+    /**
+     * Update user-information for current user
+     *
+     * @access    public
+     * @return    array
+     */
     public function updateCurrentProfile()
     {
         return $this -> _updateUserProfileByID($this -> registry -> userinfo['id']);
     }
 
+    /**
+     * Update user-information for specific user
+     *
+     * @access    public
+     * @param     int       user id
+     * @return    array
+     */
     public function updateProfileByID($profileID = 0)
     {
         if ( $profileID > 0 ) {
@@ -133,6 +177,13 @@ class UserProfile
         }
     }
 
+    /**
+     * delete user by id
+     *
+     * @access    public
+     * @param     int       user id
+     * @return    array
+     */
     public function deleteProfileById($profileID = 0)
     {
         if ( ($profileID > 0) AND ($profileID != $this -> registry -> userinfo['id']) ) {
@@ -149,7 +200,12 @@ class UserProfile
 
 
 
-
+    /**
+     * generate all users for Admin
+     *
+     * @access    private
+     * @return    string
+     */
     private function _getCurrentUserListFroAdmin()
     {
         $query = 'SELECT `id`, `username`, `added`, `status`, `enabled` from `users` ORDER BY `id` ASC';
