@@ -104,6 +104,8 @@ final class Autoloader
     			                 self :: $classFilePostfix;
 		    }
 
+		    $fullClassPath = realpath( $fullClassPath );
+
             if ( is_file($fullClassPath) ) {
 				$classLoaded = true;
 				require_once($fullClassPath);

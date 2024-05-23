@@ -340,25 +340,37 @@ class Website_Pdo
     {
         $default = array();
 
-        if ($full) {
+        if ( !is_null($this -> connection) ) {
+            if ($full) {
+                $default = array(
+                               'Error: '       . $this -> lastError,
+                               'Code: '        . $exception -> getCode(),
+                               'File: '        . $exception -> getFile(),
+                               'Line: '        . $exception -> getLine(),
+                               "Stack \n"      . $exception -> getTraceAsString(),
+                               'Data: '        . print_r($this -> connection -> errorInfo(), true),
+                               "\nPDO-Daten: " . $this -> _getPdoDump(),
+                           );
+            }
+            else {
+                $default = array(
+                               'Query: '       . $this -> lastQuery,
+                               'Result: '      . var_export($result, true),
+                               'Data: '        . print_r($this -> connection -> errorInfo(), true),
+                               "\nPDO-Daten: " . $this -> _getPdoDump(),
+                           );
+            }
+        }
+        else {
             $default = array(
                            'Error: '       . $this -> lastError,
                            'Code: '        . $exception -> getCode(),
                            'File: '        . $exception -> getFile(),
                            'Line: '        . $exception -> getLine(),
                            "Stack \n"      . $exception -> getTraceAsString(),
-                           'Data: '        . print_r($this -> stmt -> errorInfo(), true),
-                           "\nPDO-Daten: " . $this -> _getPdoDump(),
                        );
         }
-        else {
-            $default = array(
-                           'Query: '       . $this -> lastQuery,
-                           'Result: '      . var_export($result, true),
-                           'Data: '        . print_r($this -> stmt -> errorInfo(), true),
-                           "\nPDO-Daten: " . $this -> _getPdoDump(),
-                       );
-        }
+
 
         return implode("\n", $default);
     }

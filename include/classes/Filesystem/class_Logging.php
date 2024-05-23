@@ -22,7 +22,7 @@ class Logging
     {
         global $website;
 
-        $this -> basePath    = $website -> config['Misc']['log_path'] . DS;
+        $this -> basePath    = $website -> config['Misc']['log_path'] . DIRECTORY_SEPARATOR;
         $this -> logFile     = trim($logType) . '.log';
         $this -> logFileFull = $this -> basePath . $this -> logFile;
 
