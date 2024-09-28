@@ -495,16 +495,22 @@ class Xliff_Process
         $query = "SELECT `translate_id`, `translatet` FROM `xliff_translate` " .
                  "WHERE `general` = " . $generalID . " AND `original` = " . $originalID . " " .
                    "AND `uuid` = '" . $uuid . "' AND `language` = " . $languageID;
-        $data = $this -> registry -> db -> querySingleArray($query);
 
-        if ( is_array($data) AND count($data) ) {
-            return array(
-                       'translate_id' => $data['translate_id'],
-                       'translatet'   => $data['translatet'],
-                   );
+        try {
+            $data = $this -> registry -> db -> querySingleArray($query);
+
+            if ( is_array($data) AND count($data) ) {
+                return array(
+                           'translate_id' => $data['translate_id'],
+                           'translatet'   => $data['translatet'],
+                       );
+            }
+            else {
+                return false;
+            }
         }
-        else {
-            return false;
+        catch (Throwable $t) {
+            new Logging('sql_error', __FUNCTION__ . ' :: ' . $query);
         }
     }
 
@@ -707,19 +713,24 @@ class Xliff_Process
      */
     private function _getAllTranslationsByFilter($uuid, $generalId, $originalId)
     {
-        $query = "SELECT `translate_id`, `language` FROM `xliff_translate` WHERE `uuid` = '" . $uuid .
-                 "' AND `general` = " . $generalId . " AND `original` = " . $originalId;
-        $data  = $this -> registry -> db -> queryObjectArray($query);
-        $return = array();
+        $query = "SELECT `translate_id`, `language` FROM `xliff_translate` WHERE `uuid` = '" . $uuid . "' " .
+                   "AND `general` = " . $generalId . " AND `original` = " . $originalId;
+        try {
+            $data  = $this -> registry -> db -> queryObjectArray($query);
+            $return = array();
 
-        if ( is_array($data) AND count($data) ) {
-            foreach( $data AS $key => $value ) {
-                $newKey = $uuid . ':' . $value['language'];
-                $return[$newKey] = $value['translate_id'];
+            if ( is_array($data) AND count($data) ) {
+                foreach( $data AS $key => $value ) {
+                    $newKey = $uuid . ':' . $value['language'];
+                    $return[$newKey] = $value['translate_id'];
+                }
             }
-        }
 
-        return $return;
+            return $return;
+        }
+        catch (Throwable $t) {
+            new Logging('sql_error', __FUNCTION__ . ' :: ' . $query);
+        }
     }
 
     /**
