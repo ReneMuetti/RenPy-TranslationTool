@@ -72,6 +72,7 @@
 	    <admin_translation>Übersetzungen verwalten</admin_translation>
 	    <admin_download>Übersetzungen herunterladen</admin_download>
 	    <admin_backup>Datenbank-Sicherung</admin_backup>
+	    <admin_crontab>Crontab</admin_crontab>
 	</navigation>
 	<backup>
 	    <process_start>Prozess gestartet ...</process_start>
@@ -109,6 +110,24 @@
 	    <table_backup_action>Aktion</table_backup_action>
 	    <table_backup_empty>keine Backups vorhanden oder die Liste konnte nicht geladen werden</table_backup_empty>
 	</admin>
+	<crontab>
+	    <title>Übersicht über alle zeitgesteuerten Aufgaben</title>
+	    <new_cron>neuen CronJob anlegen</new_cron>
+	    <legend_disable>Kursiv angezeigte Einträge sind deaktiviert</legend_disable>
+	    <legend_bold>Fett angezeigte Einträge werden erst zum Ende ausgefürt</legend_bold>
+	    <legend_split>Rote Anzeigen deuten auf eine Aufteilung der Aufgabe hin (Ausführung in Teilschritten)</legend_split>
+	    <legend_settings>Erklärung zu den Einstellungen:</legend_settings>
+	    <legend_day>Tag in der Woche (0 - 6) (Sonntag = 0)</legend_day>
+	    <legend_month>Monat (1 - 12)</legend_month>
+	    <legend_dom>Tag des Monats (1 - 31)</legend_dom>
+	    <legend_hour>Stunde (0 - 23)</legend_hour>
+	    <legend_minute>Minute (0 - 59)</legend_minute>
+	    <legend_allways>* = immer</legend_allways>
+	    <legend_every>*/1 = Intervall gemäß der Zahl</legend_every>
+	    <legend_between>1-3 = Innerhalb der angegebenen Zahlen</legend_between>
+	    <legedn_specific>2,4,8 = Nur zu diesen Zahlen</legedn_specific>
+	    <legend_number>10 = Nur zu dieser Zahl</legend_number>
+	</crontab>
 	<language>
 	    <new_language>neue Sprache hinzufügen</new_language>
 	    <new_language_save_close>Speichern &amp; Schließen</new_language_save_close>
@@ -196,6 +215,7 @@
 	<xliff>
 	    <current_dir_is_empty>Das aktuelle Verzeichniss ist leer!</current_dir_is_empty>
 	    <xml_parser_error>XML-Fehler beim Parsen der XLIFF-Datei</xml_parser_error>
+	    <xml_uuid_error>Fehler beim erstellen der UUID-Liste eines vorhandenen Script</xml_uuid_error>
 	    <found_records>Gefundene Records</found_records>
 	    <import_done>Der Import ist abgeschlossen.</import_done>
 	    <import_count_error>Import-Fehler</import_count_error>

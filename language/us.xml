@@ -196,6 +196,7 @@
 	<xliff>
 	    <current_dir_is_empty>The current directory is empty!</current_dir_is_empty>
 	    <xml_parser_error>XML error while parsing the XLIFF file</xml_parser_error>
+	    <xml_uuid_error>Error when creating the UUID list of an existing script</xml_uuid_error>
 	    <found_records>Found Records</found_records>
 	    <import_done>The import is completed.</import_done>
 	    <import_count_error>Import-Errors</import_count_error>

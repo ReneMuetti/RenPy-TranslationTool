@@ -263,7 +263,7 @@ class Xliff_Process
                     $generalId = $this -> registry -> db -> insertID();
                     $igStrings++;
                 }
-                else {
+                elseif ( is_array($currentUuids) AND count($currentUuids) ) {
                     // Update current UUID (Changes?)
                     $this -> registry -> db -> updateRow($general, 'xliff_general', "`uuid` = '" . $general['uuid'] . "'");
                     $generalId = $currentUuids[$general['uuid']];
@@ -271,6 +271,10 @@ class Xliff_Process
 
                     // remove current UUID
                     unset($currentUuids[$general['uuid']]);
+                }
+                else {
+                    $this -> last_error = true;
+                    return $this -> registry -> user_lang['xliff']['xml_uuid_error'];
                 }
 
                 $currentOriginals = $this -> _getAllMd5HasFromGeneralByUuid($general['uuid']);

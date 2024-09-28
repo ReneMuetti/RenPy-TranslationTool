@@ -196,6 +196,7 @@
     <xliff>
         <current_dir_is_empty>Текущий каталог пуст!</current_dir_is_empty>
         <xml_parser_error>Ошибка XML при разборе файла XLIFF</xml_parser_error>
+        <xml_uuid_error>Ошибка при создании списка UUID существующего скрипта</xml_uuid_error>
         <found_records>Найденные записи</found_records>
         <import_done>Импорт завершен.</import_done>
         <import_count_error>Ошибка импорта</import_count_error>
