@@ -28,6 +28,9 @@ function nl2br (str, is_xhtml) {
 function replaceQuotes(str) {
     let count = 0;
 
+    str = str.replaceAll("„", "«");
+    str = str.replaceAll("“", "»");
+
     return str.replace(/"/g, () => {
         count++;
         return count % 2 === 1 ? "«" : "»";
