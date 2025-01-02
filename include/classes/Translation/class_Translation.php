@@ -785,7 +785,8 @@ class Translation
                                 "(SELECT `translatet` FROM `xliff_translate` WHERE `xliff_translate`.`uuid` = `xliff_original`.`uuid` AND `xliff_translate`.`language` = " . $langId . ") AS `translatet` " .
                          "FROM `xliff_original` " .
                              "LEFT JOIN `xliff_general` ON (`xliff_general`.`general_id` = `xliff_original`.`general`) " .
-                         "WHERE `original_id` NOT IN ( SELECT `original` FROM `xliff_translate` WHERE `language` = " . $langId . " ) " .
+                         "WHERE `xliff_general`.`active` = 1 " .
+                             "AND `original_id` NOT IN ( SELECT `original` FROM `xliff_translate` WHERE `language` = " . $langId . " ) " .
                              ( ($common == false) ? "AND `xliff_general`.`org_filename` <> 'common.rpy' " : "" ) .
                          "GROUP by `xliff_original`.`uuid` " .
                          "ORDER BY `xliff_general`.`org_filename` ASC, " .
@@ -817,7 +818,8 @@ class Translation
                          "FROM `xliff_translate` " .
                              "LEFT JOIN `xliff_original` ON (`xliff_original`.`uuid` = `xliff_translate`.`uuid`) " .
                              "LEFT JOIN `xliff_general` ON (`xliff_general`.`uuid` = `xliff_translate`.`uuid`) " .
-                         "WHERE `xliff_translate`.`translatet` = '' " .
+                         "WHERE `xliff_general`.`active` = 1 " .
+                           "AND`xliff_translate`.`translatet` = '' " .
                            "AND `xliff_translate`.`language` = " . $langId;
                 $data = $this -> registry -> db -> queryObjectArray($query);
 
