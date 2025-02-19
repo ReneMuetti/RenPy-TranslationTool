@@ -558,8 +558,14 @@ class Xliff_Download
         // modify original string for sepeerating to array
         if ( is_array($ignorable) AND count($ignorable) ) {
             foreach( $ignorable AS $key => $igno ) {
-                $segmenter = str_replace('\\\n', $this -> inlineLB, $igno['source']);
-                $temp      = str_replace($segmenter, $helpStringForSegmentation, $temp);
+                if ( is_array($igno) AND isset($igno['source']) and is_string($igno['source']) ) {
+                    $segmenter = str_replace('\\\n', $this -> inlineLB, $igno['source']);
+                }
+                else {
+                    $segmenter = $igno;
+                }
+
+                $temp = str_replace($segmenter, $helpStringForSegmentation, $temp);
             }
         }
 
