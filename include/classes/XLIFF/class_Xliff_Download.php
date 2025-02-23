@@ -462,6 +462,7 @@ class Xliff_Download
         }
 
         $translation = str_replace('\\" nointeract"', '" nointeract', $translation);
+        $translation = str_replace('.r'             , '.'           , $translation);
 
         return $translation;
     }
