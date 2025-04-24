@@ -245,16 +245,22 @@ class Xliff_Process
                 $general['org_filename'] = $currentGameFile;
 
                 // check if the UUID is already stored in the database for the current file
-                if ( !array_key_exists($general['uuid'], $currentUuids) ) {
-                    $_isNewTranslation = true;
-                }
-                if ( $_isNewTranslation === true ) {
-                    // check if the UUID is already stored in the database but for a different file
-                    $_searchUuidWhileMoving = $this -> _findGeneralByUUID($general['uuid']);
-
-                    if ( is_int($_searchUuidWhileMoving) AND ($_searchUuidWhileMoving > 0) ) {
-                        $_isNewTranslation = false;
+                if ( is_array($currentUuids) AND count($currentUuids) ) {
+                    if ( !array_key_exists($general['uuid'], $currentUuids) ) {
+                        $_isNewTranslation = true;
                     }
+                    if ( $_isNewTranslation === true ) {
+                        // check if the UUID is already stored in the database but for a different file
+                        $_searchUuidWhileMoving = $this -> _findGeneralByUUID($general['uuid']);
+
+                        if ( is_int($_searchUuidWhileMoving) AND ($_searchUuidWhileMoving > 0) ) {
+                            $_isNewTranslation = false;
+                        }
+                    }
+                }
+                else {
+                    // new File
+                    $_isNewTranslation = true;
                 }
 
                 // if the record is new, then save it in the database - otherwise just update it
