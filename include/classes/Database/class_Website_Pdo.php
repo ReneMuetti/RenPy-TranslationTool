@@ -371,7 +371,6 @@ class Website_Pdo
                        );
         }
 
-
         return implode("\n", $default);
     }
 
@@ -696,15 +695,23 @@ class Website_Pdo
     /**
      * Anzeige der Anzahl aller Datensätze in einer Tabelle
      *
-     * @access    public
-     * @param     string
-     *  $table      string   Name der Tabelle
-     * @return    mixed      Anzahl der Zeilen; bei Fehlern false
+     * @access         public
+     * @param          string
+     *  $table           string   Name der Tabelle
+     *  $cond            string   Filterstring, um die Ergebnismenge einzugrenzen
+     *  $distinctCol     string   Spaltentitel für eindeutige Filterung
+     * @return         mixed      Anzahl der Zeilen; bei Fehlern false
      */
-    public function tableCount($table = "", $cond = "")
+    public function tableCount($table = "", $cond = "", $distinctCol = null)
     {
         if (trim($table) != "") {
-            $this -> query( 'SELECT COUNT(*) AS `tableCount` FROM `' . $table . '` ' . ((strlen($cond)) ? " " . trim($cond) : "") . ';' );
+            if ( is_null($distinctCol) OR !strlen( trim($distinctCol) ) ) {
+                $this -> query( 'SELECT COUNT(*) AS `tableCount` FROM `' . $table . '` ' . ((strlen($cond)) ? " " . trim($cond) : "") . ';' );
+            }
+            else {
+                $this -> query( 'SELECT COUNT(DISTINCT `' . $distinctCol . '`) AS `tableCount` FROM `' . $table . '` ' . ((strlen($cond)) ? " " . trim($cond) : "") . ';' );
+            }
+
             if ( $this -> executeQuery() ) {
                 $result = $this -> stmt -> fetch($this -> fetchMode);
                 $this -> rowcount++;

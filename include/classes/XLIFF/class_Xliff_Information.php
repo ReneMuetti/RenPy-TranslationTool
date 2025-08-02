@@ -537,7 +537,7 @@ class Xliff_Information
         foreach( $currentSelectedLangs AS $language ) {
             $result[$language] = array(
                                      'orgStringCount'  => $this -> registry -> db -> tableCount('xliff_general'  , $filterGeneral),
-                                     'translatedCount' => $this -> registry -> db -> tableCount('xliff_translate', $filterTranslatet . $languages[$language]),
+                                     'translatedCount' => $this -> registry -> db -> tableCount('xliff_translate', $filterTranslatet . $languages[$language], 'uuid'),
                                  );
         }
 
