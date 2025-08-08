@@ -464,6 +464,9 @@ class Xliff_Download
         $translation = str_replace('\\" nointeract"', '" nointeract', $translation);
         $translation = str_replace('.r'             , '.'           , $translation);
 
+        // replace if internal variables are broken
+        $translation = str_replace('[item.est]', '[item.rest]', $translation);
+
         return $translation;
     }
 
