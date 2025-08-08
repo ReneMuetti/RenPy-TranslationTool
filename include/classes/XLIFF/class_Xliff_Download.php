@@ -628,6 +628,13 @@ class Xliff_Download
                       $string
                   );
 
+        // replace if internal variables are broken
+        $string = str_replace(
+                      array('[item.est]'),
+                      array('[item.rest]'),
+                      $string
+                  );
+
         // replace HTML-Char in translation string if need
         if ( mb_strpos($string, 'quot;') !== false ) {
             $string = str_replace( array('&quot;', '&amp;quot;'), '"', $string);
