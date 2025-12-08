@@ -290,6 +290,21 @@ class Translation
                                 $sourceString = $this -> _transformStringToHtmlOutput($data['source']);
                             }
 
+                            if ( !strlen($sourceString) OR ($sourceString == '') ) {
+                                // Source is empty => Save empty string to database
+                                $this -> saveNewTranslation(
+                                             array(
+                                                 'lastUUID'  => $data['uuid'],
+                                                 'languages' => $translationLangs,
+                                                 'allMD5'    => false,
+                                                 'destination-' . $translationLangs => ''
+                                             )
+                                         );
+
+                                // search new string :)
+                                $this -> getNewStringForTranslation($data['uuid'], $translationLangs, $showLangs, $common);
+                            }
+
                             $result['general_id']  = $data['general_id'];
                             $result['original_id'] = $data['original_id'];
                             $result['uuid']        = $data['uuid'];

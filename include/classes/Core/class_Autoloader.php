@@ -105,7 +105,6 @@ final class Autoloader
 		    }
 
 		    $fullClassPath = realpath( $fullClassPath );
-
             if ( is_file($fullClassPath) ) {
 				$classLoaded = true;
 				require_once($fullClassPath);
