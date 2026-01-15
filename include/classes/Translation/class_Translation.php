@@ -810,19 +810,21 @@ class Translation
 
                 if ( is_array($data) AND count($data) ) {
                     foreach( $data AS $key => $values ) {
-                        $this -> openTranslation[$langId][$values['uuid']] = array(
-                                                                                 'general_id'   => $values['general'],
-                                                                                 'original_id'  => $values['original_id'],
-                                                                                 'uuid'         => $values['uuid'],
-                                                                                 'source'       => $values['source'],
-                                                                                 'original_md5' => $values['md5hash'],
-                                                                                 'person'       => $values['person'],
-                                                                                 'emote'        => $values['emote'],
-                                                                                 'filename'     => $values['org_filename'],
-                                                                                 'translatet'   => $values['translatet'],
-                                                                                 'comment'      => $values['comment'],
-                                                                                 'ignorable'    => $values['ignorable'],
-                                                                             );
+                        if ( strlen($values['source']) ) {
+                            $this -> openTranslation[$langId][$values['uuid']] = array(
+                                                                                     'general_id'   => $values['general'],
+                                                                                     'original_id'  => $values['original_id'],
+                                                                                     'uuid'         => $values['uuid'],
+                                                                                     'source'       => $values['source'],
+                                                                                     'original_md5' => $values['md5hash'],
+                                                                                     'person'       => $values['person'],
+                                                                                     'emote'        => $values['emote'],
+                                                                                     'filename'     => $values['org_filename'],
+                                                                                     'translatet'   => $values['translatet'],
+                                                                                     'comment'      => $values['comment'],
+                                                                                     'ignorable'    => $values['ignorable'],
+                                                                                 );
+                        }
                     }
                 } // End if Result has Data
 
