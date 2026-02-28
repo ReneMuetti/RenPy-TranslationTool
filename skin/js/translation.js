@@ -14,20 +14,21 @@ function getCurrentDivText() {
 
 function bindEventForTextarea()
 {
-    $("textarea").on("input", function() {
-        let textarea = $(this);
-
-        setTimeout(function() {
-            //let currentDivText = getCurrentDivText();
-
-            //if ( currentDivText.includes("«") ) {
-                let orgTranslation = textarea.val();
-                let newTranslation = replaceQuotes(orgTranslation);
-
-                textarea.val(newTranslation);
-            //}
-        }, 100);
-    });
+    // 2026-02-28 :: Disabled
+    //$("textarea").on("input", function() {
+    //    let textarea = $(this);
+    //
+    //    setTimeout(function() {
+    //        //let currentDivText = getCurrentDivText();
+    //
+    //        //if ( currentDivText.includes("«") ) {
+    //            let orgTranslation = textarea.val();
+    //            let newTranslation = replaceQuotes(orgTranslation);
+    //
+    //            textarea.val(newTranslation);
+    //        //}
+    //    }, 100);
+    //});
 }
 
 function saveCurrentTranslation()
