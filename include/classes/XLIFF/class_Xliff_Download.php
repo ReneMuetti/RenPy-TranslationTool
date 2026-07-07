@@ -872,10 +872,17 @@ class Xliff_Download
             $this -> fileList = array();
 
             foreach( $data AS $value ) {
-                if ( strpos($value['org_filename'], $this -> seperator) !== false ) {
+                $fullPath = $value['org_filename'];
+
+                if ( strpos($fullPath, $this -> seperator) !== false ) {
                     $pathParts = explode($this -> seperator, $value['org_filename']);
-                    $path = [array_pop($pathParts)];
-                    $this -> fileList[$path[0]] = $value['org_filename'];
+                    $fileName  = array_pop($pathParts);
+
+                    // Unique key for the FileList: Full path instead of just the filename
+                    $this -> fileList[$fullPath] = $fullPath;
+
+                    // Filename becomes the key, and the FullPath becomes the value
+                    $path = [$fileName => $fullPath];
 
                     foreach( array_reverse($pathParts) AS $pathPart ) {
                         $path = [$pathPart => $path];
@@ -883,8 +890,9 @@ class Xliff_Download
                     $tree_array = array_merge_recursive($tree_array, $path);
                 }
                 else {
-                    $tree_array[] = $value['org_filename'];
-                    $this -> fileList[$value['org_filename']] = $value['org_filename'];
+                    // This also applies to files in the root
+                    $tree_array[$fullPath] = $fullPath;
+                    $this -> fileList[$fullPath] = $fullPath;
                 }
             }
             return $tree_array;
@@ -906,12 +914,12 @@ class Xliff_Download
     {
         if ( is_array($array) AND count($array) ) {
             foreach( $array AS $key => $value ) {
-                if ( is_int($key) ) {
+                if ( !is_array($value) ) {
                     // its single file
                     $output[] = str_repeat($this -> spacer, $level) .
                                 '<li><span class="file" data-filenpath="' . $this -> fileList[$value] .
                                 '" data-filename="' . $value . '">' .
-                                $value . '<span></span></span></li>';
+                                basename($value) . '<span></span></span></li>';
                 }
                 else {
                     $fill = str_repeat($this -> spacer, $level);
