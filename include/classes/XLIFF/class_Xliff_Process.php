@@ -321,7 +321,13 @@ class Xliff_Process
                                     $multiTarget = false;
                                 }
 
-                                $destLang = $this -> languages[ $currentTranslat['xml:lang'] ];
+                                $langCode = $currentTranslat['xml:lang'] ?? '';
+                                $destLang = $this->languages[$langCode] ?? null;
+
+                                if ($destLang === null) {
+                                    new Logging('xliff_process_error', 'Language-Code ERROR: |' . $langCode .'|');
+                                    continue;
+                                }
 
                                 $translation['general']    = $generalId;
                                 $translation['original']   = $originalId;
@@ -521,6 +527,7 @@ class Xliff_Process
         }
         catch (Throwable $t) {
             new Logging('sql_error', __FUNCTION__ . ' :: ' . $query);
+            return false;
         }
     }
 
@@ -529,14 +536,14 @@ class Xliff_Process
      *
      * @access private
      * @param  string      UUID
-     * @return boool|integer
+     * @return bool|integer
      */
     private function _findGeneralByUUID($uuid)
     {
         $query = "SELECT `general_id` FROM `xliff_general` WHERE `uuid` = '" . $uuid . "'";
         $data = $this -> registry -> db -> querySingleItem($query);
 
-        if ( is_null($data) OR ($data == NULL) OR !is_int($data) ) {
+        if ( empty($data) OR !is_numeric($data) ) {
             return false;
         }
         else {
@@ -837,6 +844,9 @@ class Xliff_Process
      */
     private function _cleanString($string)
     {
-        return str_replace(array('\\..', '\\.', '/..', '/.'), '', trim($string));
+        $string = trim($string);
+
+        // Verhindert Directory Traversal zuverlässig
+        return preg_replace('/(\.\.[\/\\\\])+/', '', $string);
     }
 }

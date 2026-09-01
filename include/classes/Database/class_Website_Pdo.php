@@ -217,6 +217,8 @@ class Website_Pdo
         $boolval = ( is_string($newMode) ? filter_var($newMode, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool)$newMode );
 
         $this -> errorMode =  $boolval;
+
+        $this->_setModes();
     }
 
     /**
@@ -449,11 +451,11 @@ class Website_Pdo
         system(
             sprintf(
                 'mysqldump --add-drop-table --opt --host=%s --port=%s --user=%s --password=%s %s | gzip -9c > %s',
-                $this -> dbHost,
-                $this -> dbPort,
-                $this -> dbUser,
-                $this -> dbPassword,
-                $this -> dbDatabase,
+                escapeshellarg($this -> dbHost),
+                escapeshellarg($this -> dbPort),
+                escapeshellarg($this -> dbUser),
+                escapeshellarg($this -> dbPassword),
+                escapeshellarg($this -> dbDatabase),
                 $backupFullName),
             $result);
 
@@ -622,16 +624,14 @@ class Website_Pdo
     {
         $this -> query($query);
         if ( $this -> executeQuery() ) {
-            $result = $this -> stmt -> fetchAll($this -> fetchMode);
+            $result = $this -> stmt -> fetch($this -> fetchMode);
 
-            if ( is_array($result) AND isset($result[0]) AND count($result[0]) ) {
-                $this -> rowcount += count($result[0]);
-                return $result[0];
+            if ( is_array($result) ) {
+                $this -> rowcount ++;
+                return $result;
             }
-            else {
-                // no Result
-                return null;
-            }
+            // no Result
+            return null;
         }
         else {
             // Error => show Logging
@@ -639,6 +639,7 @@ class Website_Pdo
                 echo $this -> errorPrint -> printErrorBlock('Abfrage-Fehler', 'Details befinden sich im LOG-File');
             }
         }
+        return false;
     }
 
     /**
@@ -653,12 +654,10 @@ class Website_Pdo
     {
         $result = $this -> querySingleArray($query);
 
-        if ( is_array($result) AND count($result) ) {
+        if ( is_array($result) AND count($result) > 0 ) {
             return reset($result);
         }
-        else {
-            return $result;
-        }
+        return $result;
     }
 
 	/**

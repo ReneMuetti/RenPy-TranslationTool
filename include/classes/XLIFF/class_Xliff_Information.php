@@ -406,6 +406,29 @@ class Xliff_Information
     {
         $this -> inventoryTranslation = array();
 
+        // Lädt alle Dubletten mit nur einer einzigen SQL-Abfrage
+        $query = "SELECT `language`, `uuid`, GROUP_CONCAT(`translate_id` ORDER BY `translate_id` ASC) as ids, COUNT(*) as cnt " .
+                 "FROM `xliff_translate` " .
+                 "WHERE (`translatet` IS NULL OR `translatet` = '') " .
+                 "GROUP BY `language`, `uuid`, `general`, `original` " .
+                 "HAVING cnt > 1";
+        $data = $this -> registry -> db -> queryObjectArray($query);
+
+        if (is_array($data) AND count($data)) {
+            foreach ($data as $row) {
+                $ids = explode(',', $row['ids']);
+
+                // Ersten Eintrag behalten, den Rest zum Löschen markieren
+                array_shift($ids);
+
+                $this -> inventoryTranslation[$row['language']][$row['uuid']] = array(
+                                                                                    'count' => count($ids),
+                                                                                    'ids'   => implode(',', $ids)
+                                                                                );
+            }
+        }
+
+/*
         $langs = new Languages();
         $liste = $langs -> getLanguagesByCode();
 
@@ -435,6 +458,7 @@ class Xliff_Information
 
             }
         }
+*/
     }
 
     /**
@@ -531,13 +555,26 @@ class Xliff_Information
 
         // select all strings, where not in common.rpy
         $filterGeneral    = "WHERE `org_filename` <> 'common.rpy' AND  `active` = 1";
-        $filterTranslatet = "WHERE `uuid` IN (SELECT `uuid` FROM `xliff_general` " . $filterGeneral . ") AND `translatet` <> '' AND `language` = ";
+
+        // save original-count
+        $orgStringCount = $this -> registry -> db -> tableCount('xliff_general'  , $filterGeneral);
+
+        $append = " AND `xliff_translate`.`uuid` IS NOT NULL";
 
         $result = array();
         foreach( $currentSelectedLangs AS $language ) {
+            // Link only those entries that actually have content for that language
+            $condition = "LEFT JOIN `xliff_translate` " .
+                         "ON (`xliff_general`.`uuid` = `xliff_translate`.`uuid` " .
+                              "AND `xliff_translate`.`language` = " . $languages[$language] . " " .
+                              "AND `xliff_translate`.`translatet` <> '') " .
+                         "WHERE `xliff_general`.`org_filename` <> 'common.rpy' " .
+                         "AND `xliff_general`.`active` = 1 " .
+                         "AND `xliff_translate`.`uuid` IS NOT NULL";
+
             $result[$language] = array(
-                                     'orgStringCount'  => $this -> registry -> db -> tableCount('xliff_general'  , $filterGeneral),
-                                     'translatedCount' => $this -> registry -> db -> tableCount('xliff_translate', $filterTranslatet . $languages[$language], 'uuid'),
+                                     'orgStringCount'  => $orgStringCount,
+                                     'translatedCount' => $this -> registry -> db -> tableCount('xliff_general', $condition),
                                  );
         }
 
